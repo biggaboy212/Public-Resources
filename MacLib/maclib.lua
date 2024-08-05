@@ -2325,6 +2325,7 @@ function MacLib:Window(Settings)
 				Scale = 1
 			})
 			intween:Play()
+			acrylicBlur = State
 			intween.Completed:Wait()
 		elseif not State then
 			windowState = false
@@ -2333,6 +2334,7 @@ function MacLib:Window(Settings)
 			})
 			outtween:Play()
 			outtween.Completed:Wait()
+			acrylicBlur = State
 		end
 	end
 	
@@ -2420,7 +2422,7 @@ function MacLib:Demo()
 
 	local Main = TabGroup:Tab({
 		Name = "Demo",
-		Image = "rbxassetid://18817196940"
+		Image = "rbxassetid://18821914323"
 	})
 
 	local MainSection = Main:Section({
