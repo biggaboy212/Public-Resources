@@ -64,6 +64,7 @@ MainSection:Button({
 ```lua
 :UpdateName(<string>)
 ```
+---
 ### Input
 ```lua
 MainSection:Input({
@@ -79,6 +80,7 @@ MainSection:Input({
 :UpdatePlaceholder(<string>)
 :UpdateText(<string>)
 ```
+---
 ### Slider
 ```lua
 MainSection:Slider({
@@ -95,6 +97,7 @@ MainSection:Slider({
 :UpdateName(<string>)
 :UpdateValue(<number>)
 ```
+---
 ### Toggle
 ```lua
 MainSection:Toggle({
@@ -108,6 +111,7 @@ MainSection:Toggle({
 :UpdateName(<string>)
 :UpdateState(<boolean>)
 ```
+---
 ### Keybind
 ```lua
 MainSection:Keybind({
