@@ -1,11 +1,11 @@
 local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/Public-Resources/main/MacLib/maclib.lua"))()
 
 local DemoWindow = MacLib:Window({
-		Title = "MacLib Demo",
-		Subtitle = "This is a subtitle.",
-		Keybind = Enum.KeyCode.RightControl,
-		AcrylicBlur = true
-	})
+	Title = "MacLib Demo",
+	Subtitle = "This is a subtitle.",
+	Keybind = Enum.KeyCode.RightControl,
+	AcrylicBlur = true
+})
 	
 local UIBlurToggle = DemoWindow:GlobalSetting({
 	Name = "UI Blur",
