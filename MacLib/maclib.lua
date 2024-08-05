@@ -70,7 +70,7 @@ function MacLib:Window(Settings)
 	base.Name = "Base"
 	base.AnchorPoint = Vector2.new(0.5, 0.5)
 	base.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-	base.BackgroundTransparency = 0.05
+	base.BackgroundTransparency = 0.1
 	base.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	base.BorderSizePixel = 0
 	base.Position = UDim2.fromScale(0.5, 0.5)
@@ -2357,12 +2357,12 @@ function MacLib:Window(Settings)
 		macLib:Destroy()
 	end)
 	
-	function WindowFunctions:SetKeybind(Keycode)
-		MenuKeybind = Keycode
-	end
-	
 	function WindowFunctions:GetState()
 		return windowState
+	end
+	
+	function WindowFunctions:SetKeybind(Keycode)
+		MenuKeybind = Keycode
 	end
 	
 	function WindowFunctions:SetAcrylicBlurState(State)
