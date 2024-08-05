@@ -70,7 +70,7 @@ function MacLib:Window(Settings)
 	base.Name = "Base"
 	base.AnchorPoint = Vector2.new(0.5, 0.5)
 	base.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-	base.BackgroundTransparency = 0.1
+	base.BackgroundTransparency = 0.05
 	base.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	base.BorderSizePixel = 0
 	base.Position = UDim2.fromScale(0.5, 0.5)
@@ -962,10 +962,11 @@ function MacLib:Window(Settings)
 		if not IsVisible(frame) or not acrylicBlur then
 			for _, pt in pairs(parts) do
 				pt.Parent = nil
+				DepthOfField.Enabled = false
 			end
 			return
 		end
-
+		DepthOfField.Enabled = true
 		local properties = {
 			Transparency = 0.98;
 			BrickColor = BrickColor.new('Institutional white');
