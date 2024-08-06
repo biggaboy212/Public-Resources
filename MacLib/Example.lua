@@ -31,6 +31,18 @@ local NotificationToggler = DemoWindow:GlobalSetting({
 		})
 	end,
 })
+local ShowUserInfo = DemoWindow:GlobalSetting({
+	Name = "Show User Info",
+	Default = DemoWindow:GetUserInfoState(),
+	Callback = function(bool)
+		DemoWindow:SetUserInfoState(bool)
+		DemoWindow:Notify({
+			Title = "MacLib Demo",
+			Description = (bool and "Showing" or "Redacted") .. " User Info",
+			Lifetime = 5
+		})
+	end,
+})
 
 local TabGroup = DemoWindow:TabGroup()
 
