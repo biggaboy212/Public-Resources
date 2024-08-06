@@ -116,6 +116,7 @@ MainSection:Toggle({
 ```lua
 MainSection:Keybind({
   Name <string>
+  Default <enum>
   Callback <function, input>
 })
 ```
