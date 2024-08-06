@@ -77,6 +77,7 @@ MainSection:Input({
 #### Functions
 ```lua
 :UpdateName(<string>)
+:GetInput()
 :UpdatePlaceholder(<string>)
 :UpdateText(<string>)
 ```
@@ -96,6 +97,7 @@ MainSection:Slider({
 ```lua
 :UpdateName(<string>)
 :UpdateValue(<number>)
+:GetValue()
 ```
 ---
 ### Toggle
@@ -110,6 +112,7 @@ MainSection:Toggle({
 ```lua
 :UpdateName(<string>)
 :UpdateState(<boolean>)
+:GetState()
 ```
 ---
 ### Keybind
@@ -125,6 +128,7 @@ MainSection:Keybind({
 :UpdateName(<string>)
 :Unbind()
 :Bind(<enum>)
+:GetBind()
 ```
 
 ---
