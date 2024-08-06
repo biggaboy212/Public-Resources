@@ -68,7 +68,7 @@ MainSection:Button({
 MainSection:Input({
 	Name = "Input",
 	Placeholder = "Input",
-	AcceptedCharacters = "Alll",
+	AcceptedCharacters = "All",
 	Callback = function(input)
 		DemoWindow:Notify({
 			Title = "MacLib Demo",
