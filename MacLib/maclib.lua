@@ -1881,8 +1881,6 @@ function MacLib:Window(Settings)
 					updateSliderBarSize()
 
 					sliderName:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateSliderBarSize)
-					sliderElements:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateSliderBarSize)
-					sliderValue:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateSliderBarSize)
 					
 					function SliderFunctions:UpdateName(Name)
 						sliderName = Name
@@ -2334,23 +2332,9 @@ function MacLib:Window(Settings)
 	end
 	
 	function WindowFunctions:SetState(State)
-		if State then
-			windowState = true
-			local intween = Tween(baseUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
-				Scale = 1
-			})
-			intween:Play()
-			acrylicBlur = State
-			intween.Completed:Wait()
-		elseif not State then
-			windowState = false
-			local outtween = Tween(baseUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
-				Scale = 0
-			})
-			outtween:Play()
-			outtween.Completed:Wait()
-			acrylicBlur = State
-		end
+		windowState = State
+		base.Visible = State
+		acrylicBlur = State
 	end
 	
 	local MenuKeybind = Settings.Keybind or Enum.KeyCode.RightControl
@@ -2371,7 +2355,6 @@ function MacLib:Window(Settings)
 	end)
 	minimize.MouseButton1Click:Connect(ToggleMenu)
 	exit.MouseButton1Click:Connect(function()
-		WindowFunctions:SetState(false)
 		macLib:Destroy()
 	end)
 	
@@ -2420,7 +2403,6 @@ function MacLib:Window(Settings)
 	function WindowFunctions:GetUserInfoState(State)
 		return showUserInfo
 	end
-
 
 	windowState = true
 	
@@ -2501,7 +2483,7 @@ function MacLib:Demo()
 	MainSection:Input({
 		Name = "Input",
 		Placeholder = "Input",
-		AcceptedCharacters = "Alll",
+		AcceptedCharacters = "All",
 		Callback = function(input)
 			DemoWindow:Notify({
 				Title = "MacLib Demo",
