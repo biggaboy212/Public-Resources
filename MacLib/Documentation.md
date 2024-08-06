@@ -141,7 +141,7 @@ MainSection:Keybind({
 :GetNotificationState() -- Get notification visibility
 :SetAcrylicBlurState(<boolean>) -- Set UI Blur enabled
 :GetAcrylicBlurState() -- Get UI Blur enabled
-:SetUserInfoState(<boolen>) -- Show or redact user info
+:SetUserInfoState(<boolean>) -- Show or redact user info
 :GetUserInfoState() -- Get User Info Visibility
 :SetKeybind(<enum>) -- Set window visibility keybind
 ```
