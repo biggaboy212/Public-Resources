@@ -2144,13 +2144,15 @@ function MacLib:Window(Settings)
 					end)
 					
 					UserInputService.InputEnded:Connect(function(inp)
-						if focused and inp.KeyCode.Name ~= "Unknown" then
-							binded = inp.KeyCode
-							binderBox.Text = inp.KeyCode.Name
-							binderBox:ReleaseFocus()
-						elseif inp.KeyCode == binded then
-							if Settings.Callback then
-								Settings.Callback(binded)
+						if macLib ~= nil then
+							if focused and inp.KeyCode.Name ~= "Unknown" then
+								binded = inp.KeyCode
+								binderBox.Text = inp.KeyCode.Name
+								binderBox:ReleaseFocus()
+							elseif inp.KeyCode == binded then
+								if Settings.Callback then
+									Settings.Callback(binded)
+								end
 							end
 						end
 					end)
