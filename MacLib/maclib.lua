@@ -1459,6 +1459,7 @@ function MacLib:Window(Settings)
 					buttonImage.Position = UDim2.fromScale(1, 0.5)
 					buttonImage.Size = UDim2.fromOffset(15, 15)
 					buttonImage.Parent = button
+					print(buttonInteract)
 
 					local TweenSettings = {
 						DefaultTransparency = 0.5,
@@ -1639,6 +1640,9 @@ function MacLib:Window(Settings)
 							Settings.Callback(togglebool)
 						end
 					end
+					function ToggleFunctions:GetState()
+						return togglebool
+					end
 					function ToggleFunctions:UpdateName(Name)
 						toggleName.Text = Name
 					end
@@ -1796,6 +1800,7 @@ function MacLib:Window(Settings)
 					}
 
 					local ValueDisplayMethod = DisplayMethods[Settings.DisplayMethod]
+					local finalValue
 
 					local function SetValue(val, ignorecallback)
 						local posXScale
@@ -1811,7 +1816,7 @@ function MacLib:Window(Settings)
 						local pos = UDim2.new(posXScale, 0, 0.5, 0)
 						sliderHead.Position = pos
 
-						local finalValue = posXScale * (Settings.Maximum - Settings.Minimum) + Settings.Minimum
+						finalValue = posXScale * (Settings.Maximum - Settings.Minimum) + Settings.Minimum
 						sliderValue.Text = ValueDisplayMethod(finalValue)
 
 						if not ignorecallback then
@@ -1884,6 +1889,9 @@ function MacLib:Window(Settings)
 					end
 					function SliderFunctions:UpdateValue(Value)
 						SetValue(Value)
+					end
+					function SliderFunctions:GetState()
+						return finalValue
 					end
 					return SliderFunctions
 				end
@@ -2027,6 +2035,9 @@ function MacLib:Window(Settings)
 					function InputFunctions:UpdateName(Name)
 						inputName.Text = Name
 					end
+					function InputFunctions:GetInput()
+						return InputBox.Text
+					end
 					function InputFunctions:UpdatePlaceholder(Placeholder)
 						inputBox.PlaceholderText = Placeholder
 					end
@@ -2150,6 +2161,9 @@ function MacLib:Window(Settings)
 					function KeybindFunctions:Unbind()
 						binded = nil
 						binderBox.Text = ""
+					end
+					function KeybindFunctions:GetBind()
+						return binded
 					end
 					function KeybindFunctions:UpdateName(Name)
 						keybindName = Name
@@ -2448,7 +2462,7 @@ function MacLib:Demo()
 			})
 		end,
 	})
-	local RedactUserInfo = DemoWindow:GlobalSetting({
+	local ShowUserInfo = DemoWindow:GlobalSetting({
 		Name = "Show User Info",
 		Default = DemoWindow:GetUserInfoState(),
 		Callback = function(bool)
