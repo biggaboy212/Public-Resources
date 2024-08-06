@@ -402,7 +402,7 @@ function MacLib:Window(Settings)
 	local userId = LocalPlayer.UserId
 	local thumbType = Enum.ThumbnailType.AvatarBust
 	local thumbSize = Enum.ThumbnailSize.Size48x48
-	local content, isReady = Players:GetUserThumbnailAsync(userId, thumbType, thumbSize)
+	local headshotImage, isReady = Players:GetUserThumbnailAsync(userId, thumbType, thumbSize)
 	
 	local headshot = Instance.new("ImageLabel")
 	headshot.Name = "Headshot"
@@ -411,7 +411,7 @@ function MacLib:Window(Settings)
 	headshot.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	headshot.BorderSizePixel = 0
 	headshot.Size = UDim2.fromOffset(32, 32)
-	headshot.Image = (isReady and content) or "rbxassetid://0"
+	headshot.Image = (isReady and headshotImage) or "rbxassetid://0"
 
 	local uICorner3 = Instance.new("UICorner")
 	uICorner3.Name = "UICorner"
@@ -2376,6 +2376,37 @@ function MacLib:Window(Settings)
 		return acrylicBlur
 	end
 	
+	local function _SetUserInfoState(State)
+		if State then
+			headshot.Image = (isReady and headshotImage) or "rbxassetid://0"
+			username.Text = "@"..LocalPlayer.Name
+			displayName.Text = LocalPlayer.DisplayName
+		else
+			headshot.Image = "rbxassetid://18824089198"
+			local nameLength = #LocalPlayer.Name
+			local displayNameLength = #LocalPlayer.DisplayName
+			username.Text = "@"..string.rep(".", nameLength)
+			displayName.Text = string.rep(".", displayNameLength)
+		end
+	end
+	
+	local showUserInfo
+	if Settings.ShowUserInfo ~= nil then
+		showUserInfo = Settings.ShowUserInfo
+	else
+		showUserInfo = true
+	end
+	
+	_SetUserInfoState(showUserInfo)
+	
+	function WindowFunctions:SetUserInfoState(State)
+		_SetUserInfoState(State)
+	end
+	function WindowFunctions:GetUserInfoState(State)
+		return showUserInfo
+	end
+
+
 	windowState = true
 	
 	macLib.Enabled = false
@@ -2390,7 +2421,8 @@ function MacLib:Demo()
 		Title = "MacLib Demo",
 		Subtitle = "This is a subtitle.",
 		Keybind = Enum.KeyCode.RightControl,
-		AcrylicBlur = true
+		AcrylicBlur = true,
+		ShowUserInfo = true
 	})
 	
 	local UIBlurToggle = DemoWindow:GlobalSetting({
@@ -2413,6 +2445,18 @@ function MacLib:Demo()
 			DemoWindow:Notify({
 				Title = "MacLib Demo",
 				Description = (bool and "Enabled" or "Disabled") .. " Notifications",
+				Lifetime = 5
+			})
+		end,
+	})
+	local RedactUserInfo = DemoWindow:GlobalSetting({
+		Name = "Show User Info",
+		Default = DemoWindow:GetUserInfoState(),
+		Callback = function(bool)
+			DemoWindow:SetUserInfoState(bool)
+			DemoWindow:Notify({
+				Title = "MacLib Demo",
+				Description = (bool and "Showing" or "Redacted") .. " User Info",
 				Lifetime = 5
 			})
 		end,
