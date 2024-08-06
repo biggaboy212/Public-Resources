@@ -1459,7 +1459,6 @@ function MacLib:Window(Settings)
 					buttonImage.Position = UDim2.fromScale(1, 0.5)
 					buttonImage.Size = UDim2.fromOffset(15, 15)
 					buttonImage.Parent = button
-					print(buttonInteract)
 
 					local TweenSettings = {
 						DefaultTransparency = 0.5,
