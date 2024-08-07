@@ -794,9 +794,7 @@ function MacLib:Window(Settings)
 	local camera = workspace.CurrentCamera
 	local MTREL = "Glass"
 	local binds = {}
-	local root = Instance.new('Folder', camera)
 	local wedgeguid = HS:GenerateGUID(true)
-	root.Name = HS:GenerateGUID(true)
 
 	local DepthOfField
 
@@ -927,8 +925,6 @@ function MacLib:Window(Settings)
 	end
 
 	local parts = {}
-	local f = Instance.new('Folder', root)
-	f.Name = HS:GenerateGUID(true)
 
 	local parents = {}
 	do
@@ -999,7 +995,7 @@ function MacLib:Window(Settings)
 		)
 		if fetchProps then
 			for _, pt in pairs(parts) do
-				pt.Parent = f
+				pt.Parent = camera
 			end
 			for propName, propValue in pairs(properties) do
 				for _, pt in pairs(parts) do
