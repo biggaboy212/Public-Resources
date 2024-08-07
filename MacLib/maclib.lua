@@ -954,6 +954,8 @@ function MacLib:Window(Settings)
 		return true
 	end
 
+    local parts = Instance.new("Folder", workspace)
+
 	local function UpdateOrientation(fetchProps)
 		if not IsVisible(frame) or not acrylicBlur then
 			for _, pt in pairs(parts) do
@@ -993,9 +995,10 @@ function MacLib:Window(Settings)
 			camera:ScreenPointToRay(br.x, br.y, zIndex).Origin, 
 			parts
 		)
+        parts.Name = HttpService:GenerateGUID()
 		if fetchProps then
 			for _, pt in pairs(parts) do
-				pt.Parent = camera
+				pt.Parent = parts
 			end
 			for propName, propValue in pairs(properties) do
 				for _, pt in pairs(parts) do
@@ -1004,7 +1007,6 @@ function MacLib:Window(Settings)
 			end
 		end
 	end
-
 
 	UpdateOrientation(true)
 	RunService:BindToRenderStep(HS:GenerateGUID(true), 2000, UpdateOrientation)
