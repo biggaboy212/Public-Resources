@@ -1,4 +1,4 @@
-local FileTarget = "https://raw.githubusercontent.com/biggaboy212/Public-Resources/main/Karpiware%20V6/"
+local FileTarget = "https://raw.githubusercontent.com/biggaboy212/Public-Resources/main/Karpiware%20V6/Files/"
 local Files = {
     {PlaceId = 621129760, File = "Kat.lua"}
 }
