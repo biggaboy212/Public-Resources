@@ -899,8 +899,6 @@ function MacLib:Window(Settings)
 				p0.Material = MTREL
 				p0.Size = Vector3.new(sz, sz, sz)
 				p0.Name = HS:GenerateGUID(true)
-				p0.Transparency = 0.98
-				p0.BrickColor = BrickColor.new('Institutional white')
                 local mesh = cloneref(Instance.new('SpecialMesh', p0))
                 mesh.MeshType = 2
                 mesh.Name = wedgeguid
@@ -960,7 +958,7 @@ function MacLib:Window(Settings)
     local partFolder = Instance.new("Folder", camera)
     partFolder.Name = HS:GenerateGUID(true)
     
-    local function UpdateOrientation()
+    local function UpdateOrientation(fetchProps)
         if not IsVisible(frame) or not acrylicBlur then
             for _, pt in pairs(parts) do
                 pt.Parent = nil
@@ -1000,14 +998,20 @@ function MacLib:Window(Settings)
             if pt then
                 local ptclone = cloneref(pt)
                 ptclone.Parent = partFolder
+                if fetchProps then
+                    p0.Transparency = 0.98
+                    p0.BrickColor = BrickColor.new('Institutional white')
+                end
             end
         end
     end
+
+    UpdateOrientation(true)
     
     binds[frame] = {
         parts = parts;
         conn = RunService.RenderStepped:connect(function()
-            UpdateOrientation()
+            UpdateOrientation(false)
         end)
     }
 
