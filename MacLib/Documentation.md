@@ -142,8 +142,8 @@ MainSection:Keybind({
 ```lua
 :SetState(<boolean>) -- Set window visibility
 :GetState() -- Get window visibility
-:SetNotificationState(<boolean>) -- Set notification visibility
-:GetNotificationState() -- Get notification visibility
+:SetNotificationsState(<boolean>) -- Set notification visibility
+:GetNotificationsState() -- Get notification visibility
 :SetAcrylicBlurState(<boolean>) -- Set UI Blur enabled
 :GetAcrylicBlurState() -- Get UI Blur enabled
 :SetUserInfoState(<boolean>) -- Show or redact user info
