@@ -890,15 +890,17 @@ function MacLib:Window(Settings)
     
             if not p0 then
                 p0 = cloneref(Instance.new('Part'))
-                p0.FormFactor = 'Custom'
-                p0.TopSurface = 0
-                p0.BottomSurface = 0
-                p0.Anchored = true
-                p0.CanCollide = false
-                p0.CastShadow = false
-                p0.Material = MTREL
-                p0.Size = Vector3.new(sz, sz, sz)
-                p0.Name = HS:GenerateGUID(true)
+				p0.FormFactor = 'Custom'
+				p0.TopSurface = 0
+				p0.BottomSurface = 0
+				p0.Anchored = true
+				p0.CanCollide = false
+				p0.CastShadow = false
+				p0.Material = MTREL
+				p0.Size = Vector3.new(sz, sz, sz)
+				p0.Name = HS:GenerateGUID(true)
+				p0.Transparency = 0.98
+				p0.BrickColor = BrickColor.new('Institutional white')
                 local mesh = cloneref(Instance.new('SpecialMesh', p0))
                 mesh.MeshType = 2
                 mesh.Name = wedgeguid
@@ -958,7 +960,7 @@ function MacLib:Window(Settings)
     local partFolder = Instance.new("Folder", camera)
     partFolder.Name = HS:GenerateGUID(true)
     
-    local function UpdateOrientation(fetchProps)
+    local function UpdateOrientation()
         if not IsVisible(frame) or not acrylicBlur then
             for _, pt in pairs(parts) do
                 pt.Parent = nil
@@ -967,10 +969,6 @@ function MacLib:Window(Settings)
             return
         end
         DepthOfField.Enabled = true
-        local properties = {
-            Transparency = 0.98;
-            BrickColor = BrickColor.new('Institutional white');
-        }
         local zIndex = 1 - 0.05*frame.ZIndex
     
         local tl, br = frame.AbsolutePosition, frame.AbsolutePosition + frame.AbsoluteSize
@@ -1002,22 +1000,14 @@ function MacLib:Window(Settings)
             if pt then
                 local ptclone = cloneref(pt)
                 ptclone.Parent = partFolder
-                if fetchProps then
-                    for prop, val in pairs(properties) do
-                        ptclone[prop] = val
-                    end
-                    ptclone.Transparency = zIndex
-                end
             end
         end
     end
     
-    UpdateOrientation(true)
-    
     binds[frame] = {
         parts = parts;
         conn = RunService.RenderStepped:connect(function()
-            UpdateOrientation(false)
+            UpdateOrientation()
         end)
     }
 
