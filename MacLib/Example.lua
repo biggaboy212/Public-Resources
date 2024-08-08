@@ -21,7 +21,7 @@ local UIBlurToggle = DemoWindow:GlobalSetting({
 })
 local NotificationToggler = DemoWindow:GlobalSetting({
 	Name = "Notifications",
-	Default = DemoWindow:GetNotificationState(),
+	Default = DemoWindow:GetNotificationsState(),
 	Callback = function(bool)
 		DemoWindow:SetNotificationsState(bool)
 		DemoWindow:Notify({
