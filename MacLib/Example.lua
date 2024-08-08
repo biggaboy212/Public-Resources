@@ -898,8 +898,6 @@ function MacLib:Window(Settings)
 				p0.Material = MTREL
 				p0.Size = Vector3.new(sz, sz, sz)
 				p0.Name = HS:GenerateGUID(true)
-				p0.Transparency = 0.98
-				p0.BrickColor = BrickColor.new('Institutional white')
 				local mesh = Instance.new('SpecialMesh', p0)
 				mesh.MeshType = 2
 				mesh.Name = wedgeguid
@@ -994,6 +992,11 @@ function MacLib:Window(Settings)
 		if fetchProps then
 			for _, pt in pairs(parts) do
 				pt.Parent = camera
+			end
+			for propName, propValue in pairs(properties) do
+				for _, pt in pairs(parts) do
+					pt[propName] = propValue
+				end
 			end
 		end
 	end
