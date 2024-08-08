@@ -787,7 +787,7 @@ function MacLib:Window(Settings)
 		end
 	end)
 	
-    local BlurTarget = base
+    local BlurTarget  = base
 
     local RunService = game:GetService('RunService')
     local HS = game:GetService('HttpService')
@@ -795,12 +795,13 @@ function MacLib:Window(Settings)
     local MTREL = "Glass"
     local binds = {}
     local wedgeguid = HS:GenerateGUID(true)
+    local Lighting = cloneref(game:GetService('Lighting'))
     
     local DepthOfField
     
     for _,v in pairs(game:GetService("Lighting"):GetChildren()) do
         if not v:IsA("DepthOfFieldEffect") and v:HasTag(".") then
-            DepthOfField = Instance.new('DepthOfFieldEffect', game:GetService('Lighting'))
+            DepthOfField = Instance.new('DepthOfFieldEffect', Lighting)
             DepthOfField.FarIntensity = 0
             DepthOfField.FocusDistance = 51.6
             DepthOfField.InFocusRadius = 50
@@ -813,7 +814,7 @@ function MacLib:Window(Settings)
     end
     
     if not DepthOfField then
-        DepthOfField = Instance.new('DepthOfFieldEffect', game:GetService('Lighting'))
+        DepthOfField = Instance.new('DepthOfFieldEffect', Lighting)
         DepthOfField.FarIntensity = 0
         DepthOfField.FocusDistance = 51.6
         DepthOfField.InFocusRadius = 50
@@ -1019,7 +1020,7 @@ function MacLib:Window(Settings)
             UpdateOrientation(false)
         end)
     }
-	
+    
 	function WindowFunctions:GlobalSetting(Settings)
 		local GlobalSettingFunctions = {}
 		local globalSetting = Instance.new("TextButton")
