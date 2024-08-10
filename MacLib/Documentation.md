@@ -145,6 +145,7 @@ MainSection:Dropdown({
 #### Functions
 ```lua
 :UpdateName(<string>)
+```
 ---
 
 ## Miscellaneous Functions
