@@ -44,16 +44,16 @@ local Tab = TabGroup:Tab({
   Image <string> -- Image can be at maximum 16 pixels wide and 16 pixels tall.
 })
 ```
+#### Functions
+```lua
+:Select()
+```
 ---
 ## Adding Sections
 ```lua
 local Section = Main:Section({
   Side <string><"Left", "Right">
 })
-```
-#### Functions
-```lua
-:Select()
 ```
 ---
 ## Adding Elements & Element Functions
