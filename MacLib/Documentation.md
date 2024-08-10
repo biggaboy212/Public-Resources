@@ -51,6 +51,10 @@ local Section = Main:Section({
   Side <string><"Left", "Right">
 })
 ```
+#### Functions
+```lua
+:Select()
+```
 ---
 ## Adding Elements & Element Functions
 ### Button
