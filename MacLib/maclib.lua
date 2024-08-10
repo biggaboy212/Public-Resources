@@ -187,9 +187,9 @@ function MacLib:Window(Settings)
 	maximize.TextColor3 = Color3.fromRGB(0, 0, 0)
 	maximize.TextSize = 14
 	maximize.AutoButtonColor = false
+	maximize.BackgroundTransparency = 1
 	maximize.Active = false
 	maximize.BackgroundColor3 = Color3.fromRGB(119, 174, 94)
-	maximize.BackgroundTransparency = 1
 	maximize.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	maximize.BorderSizePixel = 0
 	maximize.LayoutOrder = 1
@@ -1876,6 +1876,7 @@ function MacLib:Window(Settings)
 					updateSliderBarSize()
 
 					sliderName:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateSliderBarSize)
+					section:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateSliderBarSize)
 
 					function SliderFunctions:UpdateName(Name)
 						sliderName = Name
@@ -2272,7 +2273,7 @@ function MacLib:Window(Settings)
 						option.BackgroundTransparency = 1
 						option.BorderColor3 = Color3.fromRGB(0, 0, 0)
 						option.BorderSizePixel = 0
-						option.Size = UDim2.fromOffset(200, 30)
+						option.Size = UDim2.new(1, 0, 0, 30)
 
 						local optionUIPadding = Instance.new("UIPadding")
 						optionUIPadding.Name = "OptionUIPadding"
@@ -2657,9 +2658,12 @@ function MacLib:Window(Settings)
 		}):Play()
 
 		task.wait(Settings.Lifetime or 3)
-		Tween(notificationUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
+		local out = Tween(notificationUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
 			Scale = 0
-		}):Play()
+		})
+		out:Play()
+		out.Completed:Wait()
+		notification:Destroy()
 	end
 
 	function WindowFunctions:SetNotificationsState(State)
