@@ -91,7 +91,7 @@ MainSection:Input({
 MainSection:Slider({
   Name <string>
   Default <number>
-  Minimum <number
+  Minimum <number>
   Maximum <number>
   DisplayMethod <string><"Hundredths", "Tenths", "Round", "Degrees", "Percent", "Value">
   Callback <function><number>
