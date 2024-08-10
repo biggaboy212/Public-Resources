@@ -107,4 +107,42 @@ MainSection:Keybind({
 	end,
 })
 
+MainSection:Dropdown({
+	Name = "Dropdown",
+	Multi = false,
+	Required = true,
+	Options = {
+		"Option 1",
+		"Option 2",
+		"Option 3",
+		"Option 4",
+		"Option 5",
+	},
+	Default = 1,
+	Callback = function(Value)
+		print("Dropdown changed: ".. Value)
+	end,
+})
+
+MainSection:Dropdown({
+	Name = "Multi Dropdown",
+	Multi = true,
+	Required = false,
+	Options = {
+		"Option 1",
+		"Option 2",
+		"Option 3",
+		"Option 4",
+		"Option 5",
+	},
+	Default = {"Option 1", "Option 3"},
+	Callback = function(Value)
+		local Values = {}
+		for Value, State in next, Value do
+			table.insert(Values, Value)
+		end
+		print("Mutlidropdown changed:", table.concat(Values, ", "))
+	end,
+})
+
 Main:Select()
