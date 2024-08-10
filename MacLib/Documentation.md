@@ -41,14 +41,14 @@ local TabGroup = Window:TabGroup()
 ```lua
 local Tab = TabGroup:Tab({
   Name <string>
-  Image <string> -- 16x16 Image
+  Image <string> -- Image can be at maximum 16 pixels wide and 16 pixels tall.
 })
 ```
 ---
 ## Adding Sections
 ```lua
 local Section = Main:Section({
-  Side <string> -- "Left", "Right"
+  Side <string><"Left", "Right">
 })
 ```
 ---
@@ -70,8 +70,8 @@ MainSection:Button({
 MainSection:Input({
   Name <string>
   Placeholder <string>
-  AcceptedCharacters <string> -- "All", "Numeric", "Alphabetic"
-  Callback <function, input>
+  AcceptedCharacters <string><"All", "Numeric", "Alphabetic">
+  Callback <function><string>
 })
 ```
 #### Functions
@@ -89,8 +89,8 @@ MainSection:Slider({
   Default <number>
   Minimum <number
   Maximum <number>
-  DisplayMethod <string> -- "Hundredths", "Tenths", "Round", "Degrees", "Percent", "Value"
-  Callback <function, value>
+  DisplayMethod <string><"Hundredths", "Tenths", "Round", "Degrees", "Percent", "Value">
+  Callback <function><number>
 })
 ```
 #### Functions
@@ -105,7 +105,7 @@ MainSection:Slider({
 MainSection:Toggle({
   Name <string>
   Default <boolean>
-  Callback <function, state>
+  Callback <function><boolean>
 })
 ```
 #### Functions
@@ -120,7 +120,7 @@ MainSection:Toggle({
 MainSection:Keybind({
   Name <string>
   Default <enum>
-  Callback <function, input>
+  Callback <function><enum>
 })
 ```
 #### Functions
@@ -130,7 +130,21 @@ MainSection:Keybind({
 :Bind(<enum>)
 :GetBind()
 ```
-
+---
+### Dropdown
+```lua
+MainSection:Dropdown({
+  Name <string>
+  Multi <boolean> -- Allow multiple choices?
+  Required <boolean> -- Force the user to select at minimum one choice?
+  Options <table>
+  Default <number or table> -- If Multi is enabled, you must input a table of every option name that you want enabled, if disabled you must input the order in which the default option is at.
+  Callback <function><string or table> -- If Multi is enabled it returns a table like such: {"Option 1" = true, "Option 2" = true}. If Multi is disabled it will return the name of the selected option.
+})
+```
+#### Functions
+```lua
+:UpdateName(<string>)
 ---
 
 ## Miscellaneous Functions
