@@ -234,7 +234,7 @@ local function IsAuthorized(self, index)
 	return true;
 end
 
-local LuaU = isluau()
+local LuaU = true
 
 local RemoteCallback = newcclosure(function(self, ...)
 	if typeof(self) ~= "Instance" then
