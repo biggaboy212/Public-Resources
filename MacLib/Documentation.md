@@ -17,8 +17,8 @@ local Window = MacLib:Window({
 ### Adding a Global Setting
 ```lua
 local Global_Setting = Window:GlobalSetting({
-  Name <string>,
-  Default <boolean>,
+  Name <string>
+  Default <boolean>
   Callback <function>
 })
 ```
