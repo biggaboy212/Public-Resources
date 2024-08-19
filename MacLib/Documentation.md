@@ -52,7 +52,7 @@ local Tab = TabGroup:Tab({
 ## Adding Sections
 ```lua
 local Section = Main:Section({
-  Side <string><"Left", "Right">
+  Side <string: "Left", "Right">
 })
 ```
 ---
@@ -74,8 +74,8 @@ MainSection:Button({
 MainSection:Input({
   Name <string>
   Placeholder <string>
-  AcceptedCharacters <string><"All", "Numeric", "Alphabetic">
-  Callback <function><string>
+  AcceptedCharacters <string: "All", "Numeric", "Alphabetic">
+  Callback <function(): string>
 })
 ```
 #### Functions
@@ -93,8 +93,8 @@ MainSection:Slider({
   Default <number>
   Minimum <number>
   Maximum <number>
-  DisplayMethod <string><"Hundredths", "Tenths", "Round", "Degrees", "Percent", "Value">
-  Callback <function><number>
+  DisplayMethod <string: "Hundredths", "Tenths", "Round", "Degrees", "Percent", "Value">
+  Callback <function(): number>
 })
 ```
 #### Functions
@@ -109,7 +109,7 @@ MainSection:Slider({
 MainSection:Toggle({
   Name <string>
   Default <boolean>
-  Callback <function><boolean>
+  Callback <function(): boolean>
 })
 ```
 #### Functions
@@ -124,7 +124,7 @@ MainSection:Toggle({
 MainSection:Keybind({
   Name <string>
   Default <enum>
-  Callback <function><enum>
+  Callback <function(): enum>
 })
 ```
 #### Functions
@@ -143,7 +143,7 @@ MainSection:Dropdown({
   Required <boolean> -- Force the user to select at minimum one choice?
   Options <table>
   Default <number or table> -- If Multi is enabled, you must input a table of every option name that you want enabled. If Multi is disabled you must input the order in which the default option is at.
-  Callback <function><string or table> -- If Multi is enabled it returns a table like such: {"Option 1" = true, "Option 2" = true}. If Multi is disabled it will return the name of the selected option.
+  Callback <function(): string or table>-- If Multi is enabled it returns a table like such: {"Option 1" = true, "Option 2" = true}. If Multi is disabled it will return the name of the selected option.
 })
 ```
 #### Functions
