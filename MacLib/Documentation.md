@@ -1,3 +1,11 @@
+# Terms
+```
+Acrylic Blur - UI Blur, this can be detected in some games.
+Global Setting - An option that can be accessed from the 'Globe' icon in the title bar.
+Tab Group - A group of tabs, the 'Tab Group' seperates different sections of tabs.
+Section - A group of elements, this can be on either the left or right side of the window.
+Callback - A function that is called upon interaction with an element. Usually this returns a new value.
+```
 # Use
 ## Getting the loadstring
 ```lua
