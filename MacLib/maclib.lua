@@ -74,7 +74,7 @@ function MacLib:Window(Settings)
 	base.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	base.BorderSizePixel = 0
 	base.Position = UDim2.fromScale(0.5, 0.5)
-	base.Size = UDim2.fromOffset(868, 651)
+	base.Size = Settings.Size or UDim2.fromOffset(868, 650)
 
 	local baseUIScale = Instance.new("UIScale")
 	baseUIScale.Name = "BaseUIScale"
@@ -2166,12 +2166,12 @@ function MacLib:Window(Settings)
 					end
 					return KeybindFunctions
 				end
-				
+
 				function SectionFunctions:Dropdown(Settings)
 					local DropdownFunctions = {}
 					local Selected = {}
 					local OptionObjs = {}
-					
+
 					local dropdown = Instance.new("Frame")
 					dropdown.Name = "Dropdown"
 					dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2180,7 +2180,7 @@ function MacLib:Window(Settings)
 					dropdown.BorderSizePixel = 0
 					dropdown.Size = UDim2.new(1, 0, 0, 38)
 					dropdown.Parent = section
-					
+
 					local interact = Instance.new("TextButton")
 					interact.Name = "Interact"
 					interact.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
@@ -2261,7 +2261,7 @@ function MacLib:Window(Settings)
 					dropdownFrameUIListLayout.Padding = UDim.new(0, 5)
 					dropdownFrameUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 					dropdownFrameUIListLayout.Parent = dropdownFrame
-					
+
 					for i, v in pairs(Settings.Options) do
 						local option = Instance.new("TextButton")
 						option.Name = "Option"
@@ -2467,7 +2467,7 @@ function MacLib:Window(Settings)
 						end)
 					end
 
-					
+
 					local function CalculateDropdownSize()
 						local count = 0
 						for _,v in pairs(dropdownFrame:GetChildren()) do
@@ -2746,6 +2746,12 @@ function MacLib:Window(Settings)
 	function WindowFunctions:GetUserInfoState(State)
 		return showUserInfo
 	end
+	function WindowFunctions:SetSize(Size)
+		base.Size = Size
+	end
+	function WindowFunctions:GetSize(Size)
+		return base.Size
+	end
 
 	windowState = true
 
@@ -2760,9 +2766,10 @@ function MacLib:Demo()
 	local DemoWindow = MacLib:Window({
 		Title = "MacLib Demo",
 		Subtitle = "This is a subtitle.",
+		Size = UDim2.fromOffset(868, 650),
+		ShowUserInfo = true,
 		Keybind = Enum.KeyCode.RightControl,
 		AcrylicBlur = true,
-		ShowUserInfo = true
 	})
 
 	local UIBlurToggle = DemoWindow:GlobalSetting({
@@ -2867,7 +2874,7 @@ function MacLib:Demo()
 			})
 		end,
 	})
-	
+
 	MainSection:Dropdown({
 		Name = "Dropdown",
 		Multi = false,
@@ -2884,7 +2891,7 @@ function MacLib:Demo()
 			print("Dropdown changed: ".. Value)
 		end,
 	})
-	
+
 	MainSection:Dropdown({
 		Name = "Multi Dropdown",
 		Multi = true,
