@@ -171,13 +171,18 @@ MainSection:Dropdown({
 ```lua
 :SetState(<boolean>) -- Set window visibility
 :GetState(: boolean) -- Get window visibility
+
 :SetNotificationsState(<boolean>) -- Set notification visibility
 :GetNotificationsState(: boolean) -- Get notification visibility
+
 :SetAcrylicBlurState(<boolean>) -- Set UI Blur enabled
 :GetAcrylicBlurState(: boolean) -- Get UI Blur enabled
+
 :SetUserInfoState(<boolean>) -- Show or redact user info
 :GetUserInfoState(: boolean) -- Get User Info Visibility
+
 :SetKeybind(<enum>) -- Set window visibility keybind
+
 :SetSize(<UDim2>) -- Sets the UI size
 :GetSize(: UDim2) -- Returns the current UI Size
 ```
