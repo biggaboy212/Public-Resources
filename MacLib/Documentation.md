@@ -17,6 +17,8 @@ local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/biggab
 local Window = MacLib:Window({
   Title <string>
   Subtitle <string>
+  Size <UDim2>
+  ShowUserInfo <boolean>
   Keybind <enum>
   AcrylicBlur <boolean>
 })
@@ -168,12 +170,14 @@ MainSection:Dropdown({
 ### Window
 ```lua
 :SetState(<boolean>) -- Set window visibility
-:GetState() -- Get window visibility
+:GetState(: boolean) -- Get window visibility
 :SetNotificationsState(<boolean>) -- Set notification visibility
-:GetNotificationsState() -- Get notification visibility
+:GetNotificationsState(: boolean) -- Get notification visibility
 :SetAcrylicBlurState(<boolean>) -- Set UI Blur enabled
-:GetAcrylicBlurState() -- Get UI Blur enabled
+:GetAcrylicBlurState(: boolean) -- Get UI Blur enabled
 :SetUserInfoState(<boolean>) -- Show or redact user info
-:GetUserInfoState() -- Get User Info Visibility
+:GetUserInfoState(: boolean) -- Get User Info Visibility
 :SetKeybind(<enum>) -- Set window visibility keybind
+:SetSize(<UDim2>) -- Sets the UI size
+:GetSize(: UDim2) -- Returns the current UI Size
 ```
