@@ -3,8 +3,10 @@ local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/biggab
 local DemoWindow = MacLib:Window({
 	Title = "MacLib Demo",
 	Subtitle = "This is a subtitle.",
+	Size = UDim2.fromOffset(868, 650),
+	ShowUserInfo = true,
 	Keybind = Enum.KeyCode.RightControl,
-	AcrylicBlur = true
+	AcrylicBlur = true,
 })
 	
 local UIBlurToggle = DemoWindow:GlobalSetting({
