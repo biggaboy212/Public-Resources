@@ -8,7 +8,7 @@ local DemoWindow = MacLib:Window({
 	Keybind = Enum.KeyCode.RightControl,
 	AcrylicBlur = true,
 })
-	
+
 local UIBlurToggle = DemoWindow:GlobalSetting({
 	Name = "UI Blur",
 	Default = DemoWindow:GetAcrylicBlurState(),
@@ -23,7 +23,7 @@ local UIBlurToggle = DemoWindow:GlobalSetting({
 })
 local NotificationToggler = DemoWindow:GlobalSetting({
 	Name = "Notifications",
-	Default = DemoWindow:GetAcrylicBlurState(),
+	Default = DemoWindow:GetNotificationsState(),
 	Callback = function(bool)
 		DemoWindow:SetNotificationsState(bool)
 		DemoWindow:Notify({
@@ -50,7 +50,7 @@ local TabGroup = DemoWindow:TabGroup()
 
 local Main = TabGroup:Tab({
 	Name = "Demo",
-	Image = "rbxassetid://18817196940"
+	Image = "rbxassetid://18821914323"
 })
 
 local MainSection = Main:Section({
@@ -84,7 +84,10 @@ MainSection:Slider({
 	Default = 50,
 	Minimum = 0,
 	Maximum = 100,
-	DisplayMethod = "Percent"
+	DisplayMethod = "Percent",
+	Callback = function(Value)
+		print("Changed to ".. Value)
+	end,
 })
 
 MainSection:Toggle({
