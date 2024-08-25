@@ -13,6 +13,7 @@ local LocalPlayer = Players.LocalPlayer
 
 local windowState
 local acrylicBlur
+local hasGlobalSetting
 
 local tabs = {}
 local currentTabInstance = nil
@@ -773,6 +774,7 @@ function MacLib:Window(Settings)
 		end
 	end
 	globalSettingsButton.MouseButton1Click:Connect(function()
+		if not hasGlobalSetting then return end
 		toggle()
 	end)
 	globalSettings.MouseEnter:Connect(function()
@@ -1010,6 +1012,7 @@ function MacLib:Window(Settings)
 	RunService.RenderStepped:connect(UpdateOrientation)
 
 	function WindowFunctions:GlobalSetting(Settings)
+		hasGlobalSetting = true
 		local GlobalSettingFunctions = {}
 		local globalSetting = Instance.new("TextButton")
 		globalSetting.Name = "GlobalSetting"
