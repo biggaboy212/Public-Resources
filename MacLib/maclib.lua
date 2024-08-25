@@ -1773,7 +1773,7 @@ function MacLib:Window(Settings)
 
 					sliderElements.Parent = slider
 
-					local dragging
+					local dragging = false
 
 					local DisplayMethods = {
 						Hundredths = function(sliderValue)
@@ -1829,14 +1829,14 @@ function MacLib:Window(Settings)
 					SetValue(Settings.Default, true)
 
 					sliderHead.InputBegan:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 							dragging = true
 							SetValue(input)
 						end
 					end)
 
 					sliderHead.InputEnded:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 							dragging = false
 						end
 					end)
@@ -1861,7 +1861,7 @@ function MacLib:Window(Settings)
 					end)
 
 					game:GetService("UserInputService").InputChanged:Connect(function(input)
-						if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+						if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
 							SetValue(input)
 						end
 					end)
