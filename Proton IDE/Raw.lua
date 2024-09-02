@@ -12,7 +12,7 @@ local G2L = {};
 -- StarterGui.Proton_IDE
 G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
 G2L["1"]["IgnoreGuiInset"] = true;
-G2L["1"]["DisplayOrder"] = 100;
+G2L["1"]["DisplayOrder"] = 2147483647;
 G2L["1"]["ScreenInsets"] = Enum.ScreenInsets.None;
 G2L["1"]["Name"] = [[Proton_IDE]];
 G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
