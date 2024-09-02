@@ -1,7 +1,7 @@
 --[[
 	-> Proton IDE Raw <-
 
-	@ version Module 1.0
+	@ version Module 1.01
 	@ author biggaboy212
 	@ description IDE replacement with advanced syntax
 ]]
@@ -2405,6 +2405,9 @@ function PresetScripts:GetScript(Name: string)
 		
 	elseif Name == 'DarkHub' then
 		Content = [==[loadstring(game:HttpGet("https://raw.githubusercontent.com/RandomAdamYT/DarkHub/master/Init", true))()]==]
+
+	elseif Name == "hidentity" then
+		Content = [[loadstring(game:HttpGet("https://raw.githubusercontent.com/vvult/HIdentity/main/HIdentity"))()]]
 		
 	elseif Name == "Hydroxide" then
 		Content = [==[local owner = "Upbolt"
@@ -5221,7 +5224,8 @@ local function C_8()
 	ScriptModule.CreateNewScript(ConsoleLines, NewIDE, Tabs, ScriptHubScrolling, "rbxassetid://101286374906688", "Hydroxide", "Lua runtime introspection and network capturing tool for games on the Roblox engine.", PresetModule:GetScript("Hydroxide"))
 	ScriptModule.CreateNewScript(ConsoleLines, NewIDE, Tabs, ScriptHubScrolling, "rbxassetid://116870583444314", "sUNC", "sUNC unveals the true functionality of your executor, this script is preferred rather than the original UNC test.", PresetModule:GetScript("sUNC"))
 	ScriptModule.CreateNewScript(ConsoleLines, NewIDE, Tabs, ScriptHubScrolling, nil, "AdonisCries", "Bypass for the adonis anticheat module, you can place this in your auto-execute folder, or execute it before using a script.", PresetModule:GetScript("AdonisCries"))
-
+	ScriptModule.CreateNewScript(ConsoleLines, NewIDE, Tabs, ScriptHubScrolling, "rbxassetid://70506148033746", "HIdenity", "A tool used to find out if your executor is faking it's identity.", PresetModule:GetScript("hidentity"))
+		
 	for _,v in pairs(Tabs:GetChildren()) do
 		if v:IsA("TextButton") and v:FindFirstChild("ToggledIndicator") then
 			v:FindFirstChild("ToggledIndicator").BackgroundColor3 = script:GetAttribute("IDEAccent")
