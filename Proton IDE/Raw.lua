@@ -5196,8 +5196,6 @@ local function C_8()
 		TotalAssets += 1
 	end)
 
-	Gui.Enabled = true
-
 	WriteModule:WriteLine(ConsoleLines, string.format("[SYSTEM] PRELOADED %d ASSET(s)", TotalAssets))
 
 	WriteModule:WriteLine(ConsoleLines, "[SYSTEM] Initializing IDE.")
