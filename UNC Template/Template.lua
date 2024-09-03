@@ -11,7 +11,7 @@ local states = { -- State emojis.
 
 local standards = { -- Every global you want to check.
     {
-        name = "crypt.generatekey",  -- The unified name of the global, this will be used in the actual test.
+        name = "crypt.generatekey",  -- The common name of the global, this will be used to define what global is being checked.
         aliases = {global.crypt and global.crypt.generatekey} -- all aliases of the standard, you can have multiple.
     },
     {
