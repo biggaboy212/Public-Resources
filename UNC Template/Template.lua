@@ -2,7 +2,7 @@
 local global = getgenv()
 
 --// Variables
-local fakingUNC = false -- This will be triggered if a global is named, but does not function as it should.
+local validityTrigger = false -- This will be triggered if a global is named, but does not function as it should.
 
 local states = { -- State emojis.
     success = "✅",
@@ -12,11 +12,16 @@ local states = { -- State emojis.
 local standards = { -- Every global you want to check.
     {
         name = "crypt.generatekey",  -- The common name of the global, this will be used to define what global is being checked.
-        aliases = {global.crypt and global.crypt.generatekey} -- all aliases of the standard, you can have multiple.
+        aliases = {
+            {name = "crypt.generatekey", value = (global.crypt and global.crypt.generatekey)},
+        } -- All aliases of the standard, you can have multiple.
     },
     {
         name = "Test",
-        aliases = {global.Test}
+        aliases = {
+            {name = "Test", value = global.Test},
+            {name = "library.Test", value = (global.library and global.library.test)}
+        }
     }
 }
 
@@ -33,47 +38,48 @@ local function checkAliases(aliases) -- This will go through the aliases to make
     local results = {}
     local found = false
     for _, alias in ipairs(aliases) do
-        if alias then
-            table.insert(results, states.success) -- If the alias is not nil, add a success checkmark.
+        local result = alias.name .. ": "
+        if alias.value then
+            result = result .. states.success -- If the alias is not nil, add a success checkmark.
             found = true
         else
-            table.insert(results, states.fail) -- If the alias is nil, add a fail checkmark.
+            result = result .. states.fail -- If the alias is nil, add a fail checkmark.
         end
+        table.insert(results, result)
     end
-    return found, results -- Return whether any alias was found and the list of checkmarks.
+    return found, results -- Return whether any alias was found and the list of results.
 end
 
 local function initialize() -- This starts the test.
     local total = #standards
     local passedCount = 0
     
-    print("Test Results:")
+    print("Test Results: \n")
     for _, standard in pairs(standards) do
         local found, results = checkAliases(standard.aliases)
         local references = table.concat(results, ", ")
         
         if found then
             if checkStandard(standard.name) then
-                print(states.success .. " " .. standard.name .. " (Aliases: " .. references .. ") passed") -- Passed this check, print result.
+                print(states.success .. " " .. standard.name .. " (Aliases - " .. references .. ") passed") -- Passed this check, print result.
                 passedCount += 1 -- Increase pass count.
             else
-                print(states.fail .. " " .. standard.name .. " (Aliases: " .. references .. ") failed (Failed function validity check.)") -- Failed function check, print result.
-                fakingUNC = true -- Set fakingUNC to true since the function check failed.
+                print(states.fail .. " " .. standard.name .. " (Aliases - " .. references .. ") failed (Failed function validity check)") -- Failed function check, print result.
+                    validityTrigger = true -- Set validityTrigger to true since the function check failed.
             end
         else
-            print(states.fail .. " " .. standard.name .. " (Aliases: " .. references .. ") failed (No global found.)") -- Failed this check, print result.
+            print(states.fail .. " " .. standard.name .. " (Aliases - " .. references .. ") failed (No global found)") -- Failed this check, print result.
         end
     end
 
     -- Print summary details.
-    print("")
-    print("Summary:")
+    print("\n")
+    print("Test Summary:")
     print("Tested | " .. total) -- Amount of tested globals.
-    print("Passed | " .. passedCount .. "/" .. total) -- Amount of passed tests.
-    print("Percent Passed | " .. string.format("%.2f", (passedCount / total) * 100) .. "%") -- Percent of passed tests.
+    print("Passed | " .. passedCount .. "/" .. total.. " ("..string.format("%.2f", (passedCount / total) * 100) .. "%"..")") -- Amount of passed tests.
 
-    -- If fakingUNC was triggered, print a special warning.
-    if fakingUNC then
+    -- If validityTrigger was triggered, print a special warning.
+    if validityTrigger then
         print("\nWarning: One or more globals were found but did not function as expected.")
     end
 end
