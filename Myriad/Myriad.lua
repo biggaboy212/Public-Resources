@@ -1,6 +1,6 @@
 --[[
     Myriad Raw Source
-    Alpha 1.1.2
+    Alpha 1.1.3
 ]]
 
 --// References
@@ -184,6 +184,42 @@ local standards = {
             {name = "loadstring", value = (global.loadstring)},
         }
     },
+    {
+        name = "getrawmetatable",
+        aliases = {
+            {name = "getrawmetatable", value = (global.getrawmetatable)}
+        }
+    },
+    {
+        name = "setrawmetatable",
+        aliases = {
+            {name = "setrawmetatable", value = (global.setrawmetatable)}
+        }
+    },
+    {
+        name = "hookmetamethod",
+        aliases = {
+            {name = "hookmetamethod", value = (global.hookmetamethod)}
+        }
+    },
+    {
+        name = "getloadedmodules",
+        aliases = {
+            {name = "getloadedmodules", value = (global.getloadedmodules)}
+        }
+    },
+    {
+        name = "getrunningscripts",
+        aliases = {
+            {name = "getrunningscripts", value = (global.getrunningscripts)}
+        }
+    },
+    {
+        name = "getgc",
+        aliases = {
+            {name = "getgc", value = (global.getgc)}
+        }
+    },
 
     -- crypt
     {
@@ -340,6 +376,17 @@ local function calculateAverage(tests)
     return count > 0 and (sum / count) or 0
 end
 
+local function checkIdentity()
+    local assumedIdentity = getidentity()
+    local testedIdentity = 0
+
+    --[[
+        TODO ; add identity validation
+    ]]
+
+    return testedIdentity 
+end
+
 local function checkStandard(standard)
     if standard == "crypt.generatekey" then
         return #crypt.base64decode(crypt.generatekey()) == 32
@@ -394,6 +441,161 @@ local function checkStandard(standard)
         end
 
         return failed == 3 and false or true
+
+        -- senS additions start
+    elseif standard == "getrawmetatable" then
+        local failed = 0
+        local metatable = { __metatable = "Locked!" }
+        setmetatable({}, metatable)
+        local mt = getrawmetatable(workspace.CurrentCamera)
+
+        if mt == nil or mt == "nil" then
+            failed += 1 --//No access to game's rawmetatable
+        else
+            if mt.__mod or mt.__sub or mt.__idiv or mt.__sub or mt.__lt or mt.__le or mt.__pow or mt.__concat then
+                failed += 1 --// Faked getrawmetatable
+            end
+        end
+        return failed == 2 and false or true
+
+    elseif standard == "setrawmetatable" then
+        local failed = 0
+        local b = game
+        local currentmetatable = getrawmetatable(b) --//You're gonna need getrawmetatable to test setrawmetatable
+        local newmetatable = {}
+
+        for key, value in pairs(currentmetatable) do newmetatable[key] = value end
+        newmetatable.__metatable = "gaga"
+
+        setrawmetatable(b, newmetatable)
+
+        if getrawmetatable(game).__metatable ~= "gaga" then
+            failed += 1
+        end
+        return failed == 1 and false or true
+
+    elseif standard == "hookmetamethod" then
+        local failed = 0
+        local kuur = false
+        local ogcall
+
+        ogcall = hookmetamethod(game, "__namecall", function(self, ...)
+            kuur = true
+            return ogcall(self, ...)
+        end)
+
+        game:GetService("Lighting")
+        task.wait(.25) --//Some executors like celery need a bit of wait, remove it if you want
+
+        if kuur == false then
+            failed += 1
+        end
+        return failed == 1 and false or true
+
+    elseif standard == "getloadedmodules" then
+        local failed = 0
+        local fake = Instance.new("ModuleScript")
+        local modules = getloadedmodules()
+        local some = false
+        for i, v in pairs(modules) do
+            if v == fake then
+                some = true --//Our just made module was loaded!? 😱
+            end
+        end
+
+        if some then
+            failed += 1
+        end
+
+        if #modules == 0 then
+            failed += 1 --//Empty table goes hard
+        end
+        fake:Destroy()
+
+        local damn = false
+        for i,v in pairs(modules) do
+            if v.Name == "Invisicam" then
+                damn = true
+            end
+        end
+
+        if damn == false then
+            failed += 1 --//Useless if it can't retrieve a script
+        end
+        return failed == 3 and false or true
+
+    elseif standard == "getrunningscripts" then
+        local failed = 0
+        local scripts = getrunningscripts()
+        if type(scripts) ~= "table" then
+            failed += 1
+        end
+
+        local fake = Instance.new("LocalScript", game:GetService("Players").LocalPlayer)
+        local scripts = getrunningscripts()
+        local val = false
+        if table.find(scripts, fake) then
+            val = true
+        end
+
+        if val then
+            failed += 1--//Shouldn't return the dummy script
+        end
+
+        if #scripts == 0 then
+            failed += 1 --//Empty table goes hard
+        end
+        fake:Destroy()
+
+
+        local found = false
+        for _,b in pairs(scripts) do
+            if b.Name == "CameraModule" or b.Name == "Animate" then
+                found = true
+            end
+        end
+
+        if found == false then
+            failed += 1 --//Useless if it can't retrieve a script
+        end
+        return failed == 3 and false or true
+
+    elseif standard == "getgc" then
+        local failed = 0
+        local gc = getgc()
+        if type(gc) ~= "table" then
+            failed += 1
+        end
+        if #gc == 0 then
+            failed += 1--//Empty table goes hard
+        end
+
+        local t = {}
+        local function CUR() end
+
+        task.wait()
+        task.wait() --//Needs to step at least once
+
+        local _1 = false
+        local _2 = false
+        for i, v in pairs(getgc(true)) do
+            if v == CUR then
+                _1 = true
+            end
+            if v == t then
+                _2 = true
+            end
+        end
+
+        if _1 == false then
+            failed += _1
+        end
+
+        if _2 == false then
+            failed += 1
+        end
+        return failed == 4 and false or true
+        -- end senS additions
     end
     return true
 end
@@ -477,6 +679,9 @@ local function initialize()
     print(uni.bullet .. " Blocked " .. passedVulns .. "/" .. totalVulns.. " ("..string.format("%.2f", testRates.vulnerabilityCheck) .. "%"..")" .. " Vulnerabilities")
     print(uni.bullet .. " Failed to Block " .. (totalVulns - passedVulns) .. "/" .. totalVulns.. " ("..string.format("%.2f", ((totalVulns - passedVulns) / totalVulns) * 100) .. "%"..")" .. " Vulnerabilities")
     print(uni.section2)
+
+    --[[ IDENTITY CHECK ]]
+   -- print("Identity Validity Test Results: \n")
 
     --[[ MYRIAD SUMMARY ]]
     local avg = calculateAverage(testRates)
