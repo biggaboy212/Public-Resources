@@ -1,6 +1,6 @@
 --[[
     Myriad Raw Source
-    Alpha 1.1.0
+    Alpha 1.1.1
 ]]
 
 --// References
@@ -40,7 +40,9 @@ local testRates = {
 local uni = {
     success = "✅",
     fail = "❌",
-    bullet = "•"
+    bullet = "•",
+    section1 = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    section2 = "----------------------------"
 }
 
 local vulnerableFunctions = {
@@ -413,10 +415,10 @@ local function checkAliases(aliases)
 end
 
 local function initialize()
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(uni.section1)
     print("Myriad General Validity Test")
     print("Agent: "..agent)
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(uni.section1)
 
     --[[ STANDARDS CHECK ]]--
     local totalStandards = #standards
@@ -451,7 +453,7 @@ local function initialize()
     if validityTrigger then
         print("\nWarning: One or more globals were found but did not function as expected.")
     end
-    print("----------------------------")
+    print(uni.section2)
 
     --[[ SAFETY CHECK ]]
     print("User Safety Test Results: \n")
@@ -474,7 +476,7 @@ local function initialize()
     print(uni.bullet .. " Tested " .. totalVulns.." Vulnerabilities")
     print(uni.bullet .. " Blocked " .. passedVulns .. "/" .. totalVulns.. " ("..string.format("%.2f", testRates.vulnerabilityCheck) .. "%"..")" .. " Vulnerabilities")
     print(uni.bullet .. " Failed to Block " .. (totalVulns - passedVulns) .. "/" .. totalVulns.. " ("..string.format("%.2f", ((totalVulns - passedVulns) / totalVulns) * 100) .. "%"..")" .. " Vulnerabilities")
-    print("----------------------------")
+    print(uni.section2)
 
     --[[ MYRIAD SUMMARY ]]
     local avg = calculateAverage(testRates)
