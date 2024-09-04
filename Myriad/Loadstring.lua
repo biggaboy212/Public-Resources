@@ -17,7 +17,6 @@
     [#] TODO
         • Add Identity Validity Test
         • Complete Standards
-        • Rework User Safety & Vulnerability Mitigation Test
 ]]
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/Public-Resources/main/Myriad/Myriad.lua"))()
