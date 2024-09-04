@@ -1,6 +1,6 @@
 --[[
     Myriad Raw Source
-    Alpha 1.1.45
+    Alpha 1.1.5
 ]]
 
 --// References
@@ -42,7 +42,7 @@ local uni = {
     fail = "❌",
     bullet = "•",
     section1 = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
-    section2 = "----------------------------"
+    section2 = "---------------------------------------------",
 }
 
 local vulnerableFunctions = {
@@ -681,13 +681,14 @@ local function initialize()
     print(uni.section2)
 
     --[[ IDENTITY CHECK ]]
-   -- print("Identity Validity Test Results: \n")
 
     --[[ MYRIAD SUMMARY ]]
     local avg = calculateAverage(testRates)
     print("Myriad Test Summary: \n")
-    print(uni.bullet .. " Agent: " .. agent)
-    print(uni.bullet .. " Average Test Percentage: " .. avg .. "%")
+    print(uni.bullet .. " Agent: " .. agent .. "\n")
+    print(uni.bullet .. " Standards Validity Test: " .. testRates.standardsCheck .. "%")
+    print(uni.bullet .. " Vulnerability Mitigation Test: " .. testRates.vulnerabilityCheck .. "%")
+    print(uni.bullet .. " Average: " .. avg .. "% \n")
     print(uni.bullet .. " Executor Grade: " .. gradePercent(avg) .. "\n")
 end
 
