@@ -31,6 +31,11 @@ local OmniRecommendationsService = game:GetService("OmniRecommendationsService")
 --// Variables
 local validityTrigger = false
 
+local testRates = {
+    standardsCheck,
+    vulnerabilityCheck
+}
+
 local uni = {
     success = "✅",
     fail = "❌",
@@ -292,12 +297,44 @@ local standards = {
 }
 
 --// Functions
-local function isFunctionHooked(func)
-    local success, _ = pcall(function()
+local function isMitigated(func)
+   --[[ local success, _ = pcall(function()
         local original = debug.getinfo(func).func
         return func == original
     end)
-    return not success
+    return not success]]
+
+    local success, _ = pcall(func)
+    return success
+end
+
+local function gradePercent(percent)
+    local rates = {
+        {grade = "A+", minPercent = 100},
+        {grade = "A", minPercent = 90},
+        {grade = "B", minPercent = 80},
+        {grade = "C", minPercent = 70},
+        {grade = "D", minPercent = 60},
+        {grade = "F", minPercent = 59}
+    }
+
+    for _, rate in ipairs(rates) do
+        if percent >= rate.minPercent then
+            return rate.grade
+        end
+    end
+end
+
+local function calculateAverage(tests)
+    local sum = 0
+    local count = 0
+
+    for _, percent in pairs(tests) do
+        sum = sum + percent
+        count = count + 1
+    end
+
+    return count > 0 and (sum / count) or 0
 end
 
 local function checkStandard(standard)
@@ -380,7 +417,6 @@ local function initialize()
     print("Agent: "..agent)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
-
     --[[ STANDARDS CHECK ]]--
     local totalStandards = #standards
     local passedStandards = 0
@@ -404,16 +440,17 @@ local function initialize()
             print(uni.fail .. " " .. standard.name .. " (Aliases - " .. references .. ") failed (No global found)" .. (currentStandard == totalStandards and "\n" or ""))
         end
     end
+    testRates.standardsCheck = (passedStandards / totalStandards) * 100
+
     print("Standard Validity Test Summary:")
     print(uni.bullet .. " Tested " .. totalStandards..(totalStandards>1 and " Standards" or " Standard"))
-    print(uni.bullet .. " Passed " .. passedStandards .. "/" .. totalStandards.. " ("..string.format("%.2f", (passedStandards / totalStandards) * 100) .. "%"..")" .. " Standards")
+    print(uni.bullet .. " Passed " .. passedStandards .. "/" .. totalStandards.. " ("..string.format("%.2f", testRates.standardsCheck) .. "%"..")" .. " Standards")
     print(uni.bullet .. " Failed " .. totalStandards - passedStandards .. "/" .. totalStandards.. " ("..string.format("%.2f", ((totalStandards - passedStandards) / totalStandards) * 100) .. "%"..")" .. " Standards")
 
     if validityTrigger then
         print("\nWarning: One or more globals were found but did not function as expected.")
     end
     print("----------------------------")
-
 
     --[[ SAFETY CHECK ]]
     print("User Safety Test Results: \n")
@@ -423,18 +460,26 @@ local function initialize()
 
     for _, item in ipairs(vulnerableFunctions) do
         currentVuln += 1
-        if isFunctionHooked(item.func) then
+        if not isMitigated(item.func) then
             passedVulns += 1
             print(uni.success .. " " .. item.name .. " is protected (safe)" .. (currentVuln == totalVulns and "\n" or ""))
         else
             print(uni.fail .. " " .. item.name .. " is not protected (not safe)" .. (currentVuln == totalVulns and "\n" or ""))
         end
     end
+    testRates.vulnerabilityCheck = (passedVulns / totalVulns) * 100
+
     print("User Safety Test Summary:")
     print(uni.bullet .. " Tested " .. totalVulns.." Vulnerabilities")
-    print(uni.bullet .. " Blocked " .. passedVulns .. "/" .. totalVulns.. " ("..string.format("%.2f", (passedVulns / totalVulns) * 100) .. "%"..")" .. " Vulnerabilities")
-    print(uni.bullet .. " Failed to Bloock " .. (totalVulns - passedVulns) .. "/" .. totalVulns.. " ("..string.format("%.2f", ((totalVulns - passedVulns) / totalVulns) * 100) .. "%"..")" .. " Vulnerabilities")
+    print(uni.bullet .. " Blocked " .. passedVulns .. "/" .. totalVulns.. " ("..string.format("%.2f", testRates.vulnerabilityCheck) .. "%"..")" .. " Vulnerabilities")
+    print(uni.bullet .. " Failed to Block " .. (totalVulns - passedVulns) .. "/" .. totalVulns.. " ("..string.format("%.2f", ((totalVulns - passedVulns) / totalVulns) * 100) .. "%"..")" .. " Vulnerabilities")
     print("----------------------------")
+
+    --[[ MYRIAD SUMMARY ]]
+    local avg = calculateAverage(testRates)
+    print("Myriad Test Summary: \n")
+    print(uni.bullet .. " Average Test Percentage: " .. avg .. "%")
+    print(uni.bullet .. " Executor Grade: " .. gradePercent(avg))
 end
 
 --// Initialize
