@@ -1,6 +1,6 @@
 --[[
     Myriad Raw Source
-    Alpha 1.1.4
+    Alpha 1.1.45
 ]]
 
 --// References
@@ -686,6 +686,7 @@ local function initialize()
     --[[ MYRIAD SUMMARY ]]
     local avg = calculateAverage(testRates)
     print("Myriad Test Summary: \n")
+    print(uni.bullet .. " Agent: " .. agent)
     print(uni.bullet .. " Average Test Percentage: " .. avg .. "%")
     print(uni.bullet .. " Executor Grade: " .. gradePercent(avg) .. "\n")
 end
