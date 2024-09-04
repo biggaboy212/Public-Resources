@@ -1,6 +1,6 @@
 --[[
     Myriad Raw Source
-    Alpha 1.1.3
+    Alpha 1.1.4
 ]]
 
 --// References
@@ -381,7 +381,7 @@ local function checkIdentity()
     local testedIdentity = 0
 
     --[[
-        TODO ; add identity validation
+        TODO - add identity validation
     ]]
 
     return testedIdentity 
@@ -442,7 +442,6 @@ local function checkStandard(standard)
 
         return failed == 3 and false or true
 
-        -- senS additions start
     elseif standard == "getrawmetatable" then
         local failed = 0
         local metatable = { __metatable = "Locked!" }
@@ -450,10 +449,10 @@ local function checkStandard(standard)
         local mt = getrawmetatable(workspace.CurrentCamera)
 
         if mt == nil or mt == "nil" then
-            failed += 1 --//No access to game's rawmetatable
+            failed += 1
         else
             if mt.__mod or mt.__sub or mt.__idiv or mt.__sub or mt.__lt or mt.__le or mt.__pow or mt.__concat then
-                failed += 1 --// Faked getrawmetatable
+                failed += 1
             end
         end
         return failed == 2 and false or true
@@ -461,7 +460,7 @@ local function checkStandard(standard)
     elseif standard == "setrawmetatable" then
         local failed = 0
         local b = game
-        local currentmetatable = getrawmetatable(b) --//You're gonna need getrawmetatable to test setrawmetatable
+        local currentmetatable = getrawmetatable(b)
         local newmetatable = {}
 
         for key, value in pairs(currentmetatable) do newmetatable[key] = value end
@@ -483,9 +482,9 @@ local function checkStandard(standard)
             kuur = true
             return ogcall(self, ...)
         end)
+        -- should yield the thread until it is completed, if the executor does not do this, that's on them and it will auto-fail even the function works.
 
         game:GetService("Lighting")
-        task.wait(.25) --//Some executors like celery need a bit of wait, remove it if you want
 
         if kuur == false then
             failed += 1
@@ -499,7 +498,7 @@ local function checkStandard(standard)
         local some = false
         for i, v in pairs(modules) do
             if v == fake then
-                some = true --//Our just made module was loaded!? 😱
+                some = true
             end
         end
 
@@ -508,7 +507,7 @@ local function checkStandard(standard)
         end
 
         if #modules == 0 then
-            failed += 1 --//Empty table goes hard
+            failed += 1
         end
         fake:Destroy()
 
@@ -520,7 +519,7 @@ local function checkStandard(standard)
         end
 
         if damn == false then
-            failed += 1 --//Useless if it can't retrieve a script
+            failed += 1
         end
         return failed == 3 and false or true
 
@@ -539,11 +538,11 @@ local function checkStandard(standard)
         end
 
         if val then
-            failed += 1--//Shouldn't return the dummy script
+            failed += 1
         end
 
         if #scripts == 0 then
-            failed += 1 --//Empty table goes hard
+            failed += 1
         end
         fake:Destroy()
 
@@ -556,7 +555,7 @@ local function checkStandard(standard)
         end
 
         if found == false then
-            failed += 1 --//Useless if it can't retrieve a script
+            failed += 1
         end
         return failed == 3 and false or true
 
@@ -567,14 +566,14 @@ local function checkStandard(standard)
             failed += 1
         end
         if #gc == 0 then
-            failed += 1--//Empty table goes hard
+            failed += 1
         end
 
         local t = {}
         local function CUR() end
 
         task.wait()
-        task.wait() --//Needs to step at least once
+        task.wait()
 
         local _1 = false
         local _2 = false
@@ -595,7 +594,7 @@ local function checkStandard(standard)
             failed += 1
         end
         return failed == 4 and false or true
-        -- end senS additions
+
     end
     return true
 end
@@ -619,6 +618,7 @@ end
 local function initialize()
     print(uni.section1)
     print("Myriad General Validity Test")
+    print("(biggaboy212 & senS) \n")
     print("Agent: "..agent)
     print(uni.section1)
 
