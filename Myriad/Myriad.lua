@@ -1,6 +1,6 @@
 --[[
     ~~~~~~~~~~~~~~~~~~~~~~~
-    -| Myriad Beta 1.0.0 |-
+    -| Myriad Alpha 1.0.1 |-
     ~~~~~~~~~~~~~~~~~~~~~~~
 
     -----------------------------------------------------------
@@ -21,6 +21,7 @@
 
 --// References
 local global = getgenv()
+local agent = identifyexecutor() or "N/A"
 
 local AnimationFromVideoCreatorService = game:GetService('AnimationFromVideoCreatorService')
 local CaptureService = game:GetService('CaptureService')
@@ -393,7 +394,7 @@ end
 local function initialize()
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("Myriad General Validity Test")
-    print("Agent: "..identifyexecutor())
+    print("Agent: "..agent)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 
@@ -443,13 +444,13 @@ local function initialize()
             passedVulns += 1
             print(uni.success .. " " .. item.name .. " is protected (safe)" .. (currentVuln == totalVulns and "\n" or ""))
         else
-            print(uni.fail .. " " .. item.name .. " is not hooked (not safe)" .. (currentVuln == totalVulns and "\n" or ""))
+            print(uni.fail .. " " .. item.name .. " is not protected (not safe)" .. (currentVuln == totalVulns and "\n" or ""))
         end
     end
     print("User Safety Test Summary:")
     print(uni.bullet .. " Tested " .. totalVulns.." Vulnerabilities")
     print(uni.bullet .. " Blocked " .. passedVulns .. "/" .. totalVulns.. " ("..string.format("%.2f", (passedVulns / totalVulns) * 100) .. "%"..")" .. " Vulnerabilities")
-    print(uni.bullet .. " Failed to Protect " .. (totalVulns - passedVulns) .. "/" .. totalVulns.. " ("..string.format("%.2f", ((totalVulns - passedVulns) / totalVulns) * 100) .. "%"..")" .. " Vulnerabilities")
+    print(uni.bullet .. " Failed to Bloock " .. (totalVulns - passedVulns) .. "/" .. totalVulns.. " ("..string.format("%.2f", ((totalVulns - passedVulns) / totalVulns) * 100) .. "%"..")" .. " Vulnerabilities")
     print("----------------------------")
 end
 
