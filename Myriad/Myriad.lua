@@ -1,6 +1,6 @@
 --[[
     Myriad Raw Source
-    Alpha 1.1.1
+    Alpha 1.1.2
 ]]
 
 --// References
@@ -305,9 +305,9 @@ local function isMitigated(func)
         local original = debug.getinfo(func).func
         return func == original
     end)
-    return not success]]
+    return success]]
 
-    local success, _ = pcall(func)
+   local success, _ = pcall(func)
     return success
 end
 
@@ -436,11 +436,11 @@ local function initialize()
                 passedStandards += 1
                 print(uni.success .. " " .. standard.name .. " (Aliases - " .. references .. ") passed" .. (currentStandard == totalStandards and "\n" or ""))
             else
-                print(uni.fail .. " " .. standard.name .. " (Aliases - " .. references .. ") failed (Failed function validity check)" .. (currentStandard == totalStandards and "\n" or ""))
+                warn(uni.fail .. " " .. standard.name .. " (Aliases - " .. references .. ") failed (Failed function validity check)" .. (currentStandard == totalStandards and "\n" or ""))
                 validityTrigger = true
             end
         else
-            print(uni.fail .. " " .. standard.name .. " (Aliases - " .. references .. ") failed (No global found)" .. (currentStandard == totalStandards and "\n" or ""))
+            warn(uni.fail .. " " .. standard.name .. " (Aliases - " .. references .. ") failed (No global found)" .. (currentStandard == totalStandards and "\n" or ""))
         end
     end
     testRates.standardsCheck = (passedStandards / totalStandards) * 100
@@ -448,10 +448,10 @@ local function initialize()
     print("Standard Validity Test Summary:")
     print(uni.bullet .. " Tested " .. totalStandards..(totalStandards>1 and " Standards" or " Standard"))
     print(uni.bullet .. " Passed " .. passedStandards .. "/" .. totalStandards.. " ("..string.format("%.2f", testRates.standardsCheck) .. "%"..")" .. " Standards")
-    print(uni.bullet .. " Failed " .. totalStandards - passedStandards .. "/" .. totalStandards.. " ("..string.format("%.2f", ((totalStandards - passedStandards) / totalStandards) * 100) .. "%"..")" .. " Standards")
+    print(uni.bullet .. " Failed " .. totalStandards - passedStandards .. "/" .. totalStandards.. " ("..string.format("%.2f", ((totalStandards - passedStandards) / totalStandards) * 100) .. "%"..")" .. " Standards \n")
 
     if validityTrigger then
-        print("\nWarning: One or more globals were found but did not function as expected.")
+        warn("\nWarning: One or more globals were found but did not function as expected. \n")
     end
     print(uni.section2)
 
@@ -467,7 +467,7 @@ local function initialize()
             passedVulns += 1
             print(uni.success .. " " .. item.name .. " is protected (safe)" .. (currentVuln == totalVulns and "\n" or ""))
         else
-            print(uni.fail .. " " .. item.name .. " is not protected (not safe)" .. (currentVuln == totalVulns and "\n" or ""))
+            warn(uni.fail .. " " .. item.name .. " is not protected (not safe)" .. (currentVuln == totalVulns and "\n" or ""))
         end
     end
     testRates.vulnerabilityCheck = (passedVulns / totalVulns) * 100
@@ -482,7 +482,7 @@ local function initialize()
     local avg = calculateAverage(testRates)
     print("Myriad Test Summary: \n")
     print(uni.bullet .. " Average Test Percentage: " .. avg .. "%")
-    print(uni.bullet .. " Executor Grade: " .. gradePercent(avg))
+    print(uni.bullet .. " Executor Grade: " .. gradePercent(avg) .. "\n")
 end
 
 --// Initialize
