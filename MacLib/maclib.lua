@@ -2513,6 +2513,172 @@ function MacLib:Window(Settings)
 					end
 					return DropdownFunctions
 				end
+				
+				function SectionFunctions:Header(Settings)
+					local HeaderFunctions = {}
+					
+					local header = Instance.new("Frame")
+					header.Name = "Header"
+					header.AutomaticSize = Enum.AutomaticSize.XY
+					header.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+					header.BackgroundTransparency = 1
+					header.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					header.BorderSizePixel = 0
+					header.LayoutOrder = 0
+					header.Size = UDim2.fromScale(1, 0)
+					header.Parent = section
+					
+					local uIPadding = Instance.new("UIPadding")
+					uIPadding.Name = "UIPadding"
+					uIPadding.PaddingBottom = UDim.new(0, 5)
+					uIPadding.Parent = header
+
+					local headerText = Instance.new("TextLabel")
+					headerText.Name = "HeaderText"
+					headerText.FontFace = Font.new(
+						"rbxassetid://12187365364",
+						Enum.FontWeight.SemiBold,
+						Enum.FontStyle.Normal
+					)
+					headerText.RichText = true
+					headerText.Text = Settings.Name
+					headerText.TextColor3 = Color3.fromRGB(255, 255, 255)
+					headerText.TextSize = 16
+					headerText.TextTransparency = 0.4
+					headerText.TextWrapped = true
+					headerText.TextXAlignment = Enum.TextXAlignment.Left
+					headerText.AutomaticSize = Enum.AutomaticSize.Y
+					headerText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					headerText.BackgroundTransparency = 1
+					headerText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					headerText.BorderSizePixel = 0
+					headerText.Size = UDim2.fromScale(1, 0)
+					headerText.Parent = header
+					
+					function HeaderFunctions:UpdateName(New)
+						headerText.Text = New
+					end
+					
+					return HeaderFunctions
+				end
+				
+				function SectionFunctions:Label(Settings)
+					local LabelFunctions = {}
+					
+					local label = Instance.new("Frame")
+					label.Name = "Label"
+					label.AutomaticSize = Enum.AutomaticSize.XY
+					label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+					label.BackgroundTransparency = 1
+					label.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					label.BorderSizePixel = 0
+					label.Size = UDim2.new(1, 0, 0, 38)
+					label.Parent = section
+
+					local labelText = Instance.new("TextLabel")
+					labelText.Name = "LabelText"
+					labelText.FontFace = Font.new(
+						"rbxassetid://12187365364",
+						Enum.FontWeight.Medium,
+						Enum.FontStyle.Normal
+					)
+					labelText.RichText = true
+					labelText.Text = Settings.Name
+					labelText.TextColor3 = Color3.fromRGB(255, 255, 255)
+					labelText.TextSize = 13
+					labelText.TextTransparency = 0.5
+					labelText.TextWrapped = true
+					labelText.TextXAlignment = Enum.TextXAlignment.Left
+					labelText.AutomaticSize = Enum.AutomaticSize.Y
+					labelText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					labelText.BackgroundTransparency = 1
+					labelText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					labelText.BorderSizePixel = 0
+					labelText.Size = UDim2.fromScale(1, 1)
+					labelText.Parent = label
+					
+					function LabelFunctions:UpdateName(New)
+						labelText.Text = New
+					end
+					
+					return LabelFunctions
+				end
+				
+				function SectionFunctions:Paragraph(Settings)
+					local ParagraphFunctions = {}
+
+					local paragraph = Instance.new("Frame")
+					paragraph.Name = "Paragraph"
+					paragraph.AutomaticSize = Enum.AutomaticSize.XY
+					paragraph.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+					paragraph.BackgroundTransparency = 1
+					paragraph.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					paragraph.BorderSizePixel = 0
+					paragraph.Size = UDim2.new(1, 0, 0, 38)
+					paragraph.Parent = section
+					
+					local uIPadding = Instance.new("UIPadding")
+					uIPadding.Name = "UIPadding"
+					uIPadding.PaddingBottom = UDim.new(0, 8)
+					uIPadding.PaddingTop = UDim.new(0, 8)
+					uIPadding.Parent = paragraph
+
+					local paragraphHeader = Instance.new("TextLabel")
+					paragraphHeader.Name = "ParagraphHeader"
+					paragraphHeader.FontFace = Font.new(
+						"rbxassetid://12187365364",
+						Enum.FontWeight.Medium,
+						Enum.FontStyle.Normal
+					)
+					paragraphHeader.RichText = true
+					paragraphHeader.Text = Settings.Header
+					paragraphHeader.TextColor3 = Color3.fromRGB(255, 255, 255)
+					paragraphHeader.TextSize = 16
+					paragraphHeader.TextTransparency = 0.4
+					paragraphHeader.TextWrapped = true
+					paragraphHeader.TextXAlignment = Enum.TextXAlignment.Left
+					paragraphHeader.AutomaticSize = Enum.AutomaticSize.Y
+					paragraphHeader.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					paragraphHeader.BackgroundTransparency = 1
+					paragraphHeader.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					paragraphHeader.BorderSizePixel = 0
+					paragraphHeader.Size = UDim2.fromScale(1, 0)
+					paragraphHeader.Parent = paragraph
+
+					local uIListLayout = Instance.new("UIListLayout")
+					uIListLayout.Name = "UIListLayout"
+					uIListLayout.Padding = UDim.new(0, 5)
+					uIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+					uIListLayout.Parent = paragraph
+
+					local paragraphBody = Instance.new("TextLabel")
+					paragraphBody.Name = "ParagraphBody"
+					paragraphBody.FontFace = Font.new("rbxassetid://12187365364")
+					paragraphBody.RichText = true
+					paragraphBody.Text = Settings.Body
+					paragraphBody.TextColor3 = Color3.fromRGB(255, 255, 255)
+					paragraphBody.TextSize = 13
+					paragraphBody.TextTransparency = 0.5
+					paragraphBody.TextWrapped = true
+					paragraphBody.TextXAlignment = Enum.TextXAlignment.Left
+					paragraphBody.AutomaticSize = Enum.AutomaticSize.Y
+					paragraphBody.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					paragraphBody.BackgroundTransparency = 1
+					paragraphBody.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					paragraphBody.BorderSizePixel = 0
+					paragraphBody.LayoutOrder = 1
+					paragraphBody.Size = UDim2.fromScale(1, 0)
+					paragraphBody.Parent = paragraph
+
+					function ParagraphFunctions:UpdateHeader(New)
+						paragraphHeader.Text = New
+					end
+					function ParagraphFunctions:UpdateBody(New)
+						paragraphBody.Text = New
+					end
+
+					return ParagraphFunctions
+				end
 				return SectionFunctions
 			end
 
@@ -2823,6 +2989,10 @@ function MacLib:Demo()
 	local MainSection = Main:Section({
 		Side = "Left"
 	})
+	
+	MainSection:Header({
+		Name = "Header"
+	})
 
 	MainSection:Button({
 		Name = "Button",
@@ -2877,6 +3047,10 @@ function MacLib:Demo()
 				Lifetime = 5
 			})
 		end,
+	})	
+	
+	MainSection:Label({
+		Name = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 	})
 
 	MainSection:Dropdown({
@@ -2915,6 +3089,11 @@ function MacLib:Demo()
 			end
 			print("Mutlidropdown changed:", table.concat(Values, ", "))
 		end,
+	})
+	
+	MainSection:Paragraph({
+		Header = "Paragraph",
+		Body = "Paragraph body. Lorem ipsum odor amet, consectetuer adipiscing elit. Morbi tempus netus aliquet per velit est gravida."
 	})
 
 	Main:Select()
