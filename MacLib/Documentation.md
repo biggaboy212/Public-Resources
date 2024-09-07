@@ -69,7 +69,7 @@ local Section = Main:Section({
 ## Adding Elements & Element Functions
 ### Button
 ```lua
-MainSection:Button({
+Section:Button({
   Name <string>
   Callback <function>
 })
@@ -81,7 +81,7 @@ MainSection:Button({
 ---
 ### Input
 ```lua
-MainSection:Input({
+Section:Input({
   Name <string>
   Placeholder <string>
   AcceptedCharacters <string: "All", "Numeric", "Alphabetic">
@@ -98,7 +98,7 @@ MainSection:Input({
 ---
 ### Slider
 ```lua
-MainSection:Slider({
+Section:Slider({
   Name <string>
   Default <number>
   Minimum <number>
@@ -116,7 +116,7 @@ MainSection:Slider({
 ---
 ### Toggle
 ```lua
-MainSection:Toggle({
+Section:Toggle({
   Name <string>
   Default <boolean>
   Callback <function(): boolean>
@@ -131,7 +131,7 @@ MainSection:Toggle({
 ---
 ### Keybind
 ```lua
-MainSection:Keybind({
+Section:Keybind({
   Name <string>
   Default <enum>
   Callback <function(): enum>
@@ -147,7 +147,7 @@ MainSection:Keybind({
 ---
 ### Dropdown
 ```lua
-MainSection:Dropdown({
+Section:Dropdown({
   Name <string>
   Multi <boolean> -- Allow multiple choices?
   Required <boolean> -- Force the user to select at minimum one choice?
@@ -163,7 +163,7 @@ MainSection:Dropdown({
 ---
 ### Header
 ```lua
-MainSection:Header({
+Section:Header({
   Name <string>
 })
 ```
@@ -174,7 +174,7 @@ MainSection:Header({
 ---
 ### Paragraph
 ```lua
-MainSection:Paragraph({
+Section:Paragraph({
   Header <string>
   Body <string>
 })
@@ -187,7 +187,7 @@ MainSection:Paragraph({
 ---
 ### Label
 ```lua
-MainSection:Label({
+Section:Label({
   Name <string>
 })
 ```
