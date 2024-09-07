@@ -174,7 +174,7 @@ MainSection:Header({
 ---
 ### Paragraph
 ```lua
-MainSection:Header({
+MainSection:Paragraph({
   Header <string>
   Body <string>
 })
@@ -187,7 +187,7 @@ MainSection:Header({
 ---
 ### Label
 ```lua
-MainSection:Header({
+MainSection:Label({
   Name <string>
 })
 ```
