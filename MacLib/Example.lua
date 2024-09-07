@@ -57,6 +57,10 @@ local MainSection = Main:Section({
 	Side = "Left"
 })
 
+MainSection:Header({
+	Name = "Header"
+})
+
 MainSection:Button({
 	Name = "Button",
 	Callback = function()
@@ -112,6 +116,10 @@ MainSection:Keybind({
 	end,
 })
 
+MainSection:Label({
+	Name = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
+})
+
 MainSection:Dropdown({
 	Name = "Dropdown",
 	Multi = false,
@@ -148,6 +156,11 @@ MainSection:Dropdown({
 		end
 		print("Mutlidropdown changed:", table.concat(Values, ", "))
 	end,
+})
+
+MainSection:Paragraph({
+	Header = "Paragraph",
+	Body = "Paragraph body. Lorem ipsum odor amet, consectetuer adipiscing elit. Morbi tempus netus aliquet per velit est gravida."
 })
 
 Main:Select()
