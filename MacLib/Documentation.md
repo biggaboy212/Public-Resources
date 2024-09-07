@@ -161,6 +161,41 @@ MainSection:Dropdown({
 :UpdateName(<string>)
 ```
 ---
+### Header
+```lua
+MainSection:Header({
+  Name <string>
+})
+```
+#### Functions
+```lua
+:UpdateName(<string>)
+```
+---
+### Paragraph
+```lua
+MainSection:Header({
+  Header <string>
+  Body <string>
+})
+```
+#### Functions
+```lua
+:UpdateHeader(<string>)
+:UpdateBody(<string>)
+```
+---
+### Label
+```lua
+MainSection:Header({
+  Name <string>
+})
+```
+#### Functions
+```lua
+:UpdateName(<string>)
+```
+---
 
 ## Miscellaneous Functions
 ### Library
