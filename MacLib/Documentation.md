@@ -7,12 +7,12 @@ Section - A group of elements, this can be on either the left or right side of t
 Callback - A function that is called upon interaction with an element. Usually this returns a new value.
 ```
 # Use
-## Getting the loadstring
+## Loading MacLib
 ```lua
 local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/Public-Resources/main/MacLib/maclib.lua"))()
 ```
 ---
-## Loading a window
+## Creating a window
 ```lua
 local Window = MacLib:Window({
   Title <string>
@@ -33,7 +33,7 @@ local Global_Setting = Window:GlobalSetting({
 })
 ```
 ---
-## Creating a notification
+## Displaying a notification
 ```lua
 Window:Notify({
     Title <string>
@@ -42,12 +42,12 @@ Window:Notify({
 })
 ```
 ---
-## Making a tab group
+## Creating a tab group
 ```lua
 local TabGroup = Window:TabGroup()
 ```
 ---
-## Making tabs
+## Adding tabs
 ```lua
 local Tab = TabGroup:Tab({
   Name <string>
@@ -66,7 +66,7 @@ local Section = Main:Section({
 })
 ```
 ---
-## Adding Elements & Element Functions
+## Adding Elements
 ### Button
 ```lua
 Section:Button({
@@ -91,7 +91,7 @@ Section:Input({
 #### Functions
 ```lua
 :UpdateName(<string>)
-:GetInput()
+:GetInput(: string)
 :UpdatePlaceholder(<string>)
 :UpdateText(<string>)
 ```
@@ -111,7 +111,7 @@ Section:Slider({
 ```lua
 :UpdateName(<string>)
 :UpdateValue(<number>)
-:GetValue()
+:GetValue(: number)
 ```
 ---
 ### Toggle
@@ -126,7 +126,7 @@ Section:Toggle({
 ```lua
 :UpdateName(<string>)
 :UpdateState(<boolean>)
-:GetState()
+:GetState(: boolean)
 ```
 ---
 ### Keybind
@@ -142,7 +142,7 @@ Section:Keybind({
 :UpdateName(<string>)
 :Unbind()
 :Bind(<enum>)
-:GetBind()
+:GetBind(: enum)
 ```
 ---
 ### Dropdown
