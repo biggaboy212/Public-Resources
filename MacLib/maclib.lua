@@ -2264,6 +2264,80 @@ function MacLib:Window(Settings)
 					dropdownFrameUIListLayout.Padding = UDim.new(0, 5)
 					dropdownFrameUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 					dropdownFrameUIListLayout.Parent = dropdownFrame
+					
+					local tweensettings = {
+						duration = 0.2,
+						easingStyle = Enum.EasingStyle.Quint,
+						transparencyIn = 0.2,
+						transparencyOut = 0.5,
+						checkSizeIncrease = 12,
+						checkSizeDecrease = -13,
+						waitTime = 1
+					}
+
+					
+					local function Toggle(optionName, State)
+						local option = OptionObjs[optionName]
+
+						if not option then return end
+
+						local checkmark = option.Checkmark
+						local optionNameLabel = option.NameLabel
+
+						if State then
+							if Settings.Multi then
+								if not table.find(Selected, optionName) then
+									table.insert(Selected, optionName)
+								end
+							else
+								for name, opt in pairs(OptionObjs) do
+									if name ~= optionName then
+										Tween(opt.Checkmark, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle), {
+											Size = UDim2.new(opt.Checkmark.Size.X.Scale, tweensettings.checkSizeDecrease, opt.Checkmark.Size.Y.Scale, opt.Checkmark.Size.Y.Offset)
+										}):Play()
+										Tween(opt.NameLabel, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle), {
+											TextTransparency = tweensettings.transparencyOut
+										}):Play()
+										opt.Checkmark.TextTransparency = 1
+									end
+								end
+								Selected = {optionName}
+							end
+							Tween(checkmark, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle), {
+								Size = UDim2.new(checkmark.Size.X.Scale, tweensettings.checkSizeIncrease, checkmark.Size.Y.Scale, checkmark.Size.Y.Offset)
+							}):Play()
+							Tween(optionNameLabel, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle), {
+								TextTransparency = tweensettings.transparencyIn
+							}):Play()
+							checkmark.TextTransparency = 0
+						else
+							if Settings.Multi then
+								local idx = table.find(Selected, optionName)
+								if idx then
+									table.remove(Selected, idx)
+								end
+							else
+								Selected = {}
+							end
+							Tween(checkmark, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle), {
+								Size = UDim2.new(checkmark.Size.X.Scale, tweensettings.checkSizeDecrease, checkmark.Size.Y.Scale, checkmark.Size.Y.Offset)
+							}):Play()
+							Tween(optionNameLabel, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle), {
+								TextTransparency = tweensettings.transparencyOut
+							}):Play()
+							checkmark.TextTransparency = 1
+						end
+
+						if Settings.Required and #Selected == 0 and not State then
+							return
+						end
+
+						if #Selected > 0 then
+							dropdownName.Text = Settings.Name .. " • " .. table.concat(Selected, ", ")
+						else
+							dropdownName.Text = Settings.Name
+						end
+					end
 
 					for i, v in pairs(Settings.Options) do
 						local option = Instance.new("TextButton")
@@ -2342,6 +2416,7 @@ function MacLib:Window(Settings)
 
 						dropdownFrame.Parent = dropdown
 						OptionObjs[v] = {
+							Index = i,
 							Button = option,
 							NameLabel = optionName,
 							Checkmark = checkmark
@@ -2377,69 +2452,14 @@ function MacLib:Window(Settings)
 							})
 						}
 
-						local function Toggle(optionName, State)
-							local option = OptionObjs[optionName]
-
-							if not option then return end
-
-							local checkmark = option.Checkmark
-							local optionNameLabel = option.NameLabel
-
-							if State then
-								if Settings.Multi then
-									if not table.find(Selected, optionName) then
-										table.insert(Selected, optionName)
-									end
-								else
-									for name, opt in pairs(OptionObjs) do
-										if name ~= optionName then
-											Tween(opt.Checkmark, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle),{
-												Size = UDim2.new(checkmark.Size.X.Scale, tweensettings.checkSizeDecrease, checkmark.Size.Y.Scale, checkmark.Size.Y.Offset)
-											}):Play()
-											Tween(opt.NameLabel, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle),{
-												TextTransparency = tweensettings.transparencyOut
-											}):Play()
-											opt.Checkmark.TextTransparency = 1
-										end
-									end
-									Selected = {optionName}
-								end
-								tweens.checkIn:Play()
-								tweens.nameIn:Play()
-								checkmark.TextTransparency = 0
-							else
-								if Settings.Multi then
-									local idx = table.find(Selected, optionName)
-									if idx then
-										table.remove(Selected, idx)
-									end
-								else
-									Selected = {}
-								end
-								tweens.checkOut:Play()
-								tweens.nameOut:Play()
-								checkmark.TextTransparency = 1
-							end
-
-							if Settings.Required and #Selected == 0 and not State then
-								return
-							end
-
-							if #Selected > 0 then
-								dropdownName.Text = Settings.Name .. " • " .. table.concat(Selected, ", ")
-							else
-								dropdownName.Text = Settings.Name
-							end
-						end
-
-						-- Apply default values
 						local isSelected = false
-						if Settings.Multi then
-							isSelected = table.find(Settings.Default, v) and true or false
-						else
-							isSelected = (Settings.Default == i) and true or false
+						if Settings.Default then
+							if Settings.Multi then
+								isSelected = table.find(Settings.Default, v) and true or false
+							else
+								isSelected = (Settings.Default == i) and true or false
+							end
 						end
-
 						Toggle(v, isSelected)
 
 						local option = OptionObjs[v].Button
@@ -2511,6 +2531,7 @@ function MacLib:Window(Settings)
 					function DropdownFunctions:UpdateName(New)
 						dropdownName.Text = New
 					end
+
 					return DropdownFunctions
 				end
 				
@@ -2616,12 +2637,6 @@ function MacLib:Window(Settings)
 					paragraph.BorderSizePixel = 0
 					paragraph.Size = UDim2.new(1, 0, 0, 38)
 					paragraph.Parent = section
-					
-					local uIPadding = Instance.new("UIPadding")
-					uIPadding.Name = "UIPadding"
-					uIPadding.PaddingBottom = UDim.new(0, 8)
-					uIPadding.PaddingTop = UDim.new(0, 8)
-					uIPadding.Parent = paragraph
 
 					local paragraphHeader = Instance.new("TextLabel")
 					paragraphHeader.Name = "ParagraphHeader"
@@ -2678,6 +2693,68 @@ function MacLib:Window(Settings)
 					end
 
 					return ParagraphFunctions
+				end
+				
+				function SectionFunctions:Divider()
+					local DividerFunctions = {}
+					
+					local divider = Instance.new("Frame")
+					divider.Name = "Divider"
+					divider.AnchorPoint = Vector2.new(0, 1)
+					divider.AutomaticSize = Enum.AutomaticSize.Y
+					divider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					divider.BackgroundTransparency = 1
+					divider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					divider.BorderSizePixel = 0
+					divider.Position = UDim2.fromScale(0, 1)
+					divider.Size = UDim2.new(1, 0, 0, 1)
+					divider.Parent = section
+
+					local uIPadding = Instance.new("UIPadding")
+					uIPadding.Name = "UIPadding"
+					uIPadding.PaddingBottom = UDim.new(0, 8)
+					uIPadding.PaddingTop = UDim.new(0, 8)
+					uIPadding.Parent = divider
+
+					local uIListLayout = Instance.new("UIListLayout")
+					uIListLayout.Name = "UIListLayout"
+					uIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+					uIListLayout.Parent = divider
+
+					local line = Instance.new("Frame")
+					line.Name = "Line"
+					line.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					line.BackgroundTransparency = 0.9
+					line.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					line.BorderSizePixel = 0
+					line.Size = UDim2.new(1, 0, 0, 1)
+					line.Parent = divider
+					
+					function DividerFunctions:Remove()
+						divider:Destroy()
+					end
+					
+					return DividerFunctions
+				end
+				
+				function SectionFunctions:Spacer()
+					local SpacerFunctions = {}
+
+					local spacer = Instance.new("Frame")
+					spacer.Name = "Spacer"
+					spacer.AnchorPoint = Vector2.new(0, 1)
+					spacer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					spacer.BackgroundTransparency = 1
+					spacer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					spacer.BorderSizePixel = 0
+					spacer.Position = UDim2.fromScale(0, 1)
+					spacer.Parent = section
+
+					function SpacerFunctions:Remove()
+						spacer:Destroy()
+					end
+
+					return SpacerFunctions
 				end
 				return SectionFunctions
 			end
@@ -2991,7 +3068,7 @@ function MacLib:Demo()
 	})
 	
 	MainSection:Header({
-		Name = "Header"
+		Name = "Header #1"
 	})
 
 	MainSection:Button({
@@ -3047,10 +3124,6 @@ function MacLib:Demo()
 				Lifetime = 5
 			})
 		end,
-	})	
-	
-	MainSection:Label({
-		Name = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 	})
 
 	MainSection:Dropdown({
@@ -3089,6 +3162,16 @@ function MacLib:Demo()
 			end
 			print("Mutlidropdown changed:", table.concat(Values, ", "))
 		end,
+	})
+	
+	MainSection:Divider()
+	
+	MainSection:Header({
+		Name = "Header #2"
+	})
+	
+	MainSection:Label({
+		Name = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 	})
 	
 	MainSection:Paragraph({
