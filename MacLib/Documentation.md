@@ -52,7 +52,7 @@ local Tab = TabGroup:Tab({
   Image <string> -- Image can be at maximum 16 pixels wide and 16 pixels tall.
 })
 ```
-#### Functions
+
 ```lua
 :Select()
 ```
@@ -65,6 +65,7 @@ local Section = Main:Section({
 ```
 ---
 ## Adding Elements
+
 ### Button
 ```lua
 Section:Button({
@@ -72,11 +73,12 @@ Section:Button({
   Callback <function>
 })
 ```
-#### Functions
+
 ```lua
 :UpdateName(<string>)
 ```
 ---
+
 ### Input
 ```lua
 Section:Input({
@@ -86,7 +88,7 @@ Section:Input({
   Callback <function(): string>
 })
 ```
-#### Functions
+
 ```lua
 :UpdateName(<string>)
 :GetInput(: string)
@@ -94,6 +96,7 @@ Section:Input({
 :UpdateText(<string>)
 ```
 ---
+
 ### Slider
 ```lua
 Section:Slider({
@@ -105,13 +108,14 @@ Section:Slider({
   Callback <function(): number>
 })
 ```
-#### Functions
+
 ```lua
 :UpdateName(<string>)
 :UpdateValue(<number>)
 :GetValue(: number)
 ```
 ---
+
 ### Toggle
 ```lua
 Section:Toggle({
@@ -120,13 +124,14 @@ Section:Toggle({
   Callback <function(): boolean>
 })
 ```
-#### Functions
+
 ```lua
 :UpdateName(<string>)
 :UpdateState(<boolean>)
 :GetState(: boolean)
 ```
 ---
+
 ### Keybind
 ```lua
 Section:Keybind({
@@ -135,7 +140,7 @@ Section:Keybind({
   Callback <function(): enum>
 })
 ```
-#### Functions
+
 ```lua
 :UpdateName(<string>)
 :Unbind()
@@ -143,6 +148,7 @@ Section:Keybind({
 :GetBind(: enum)
 ```
 ---
+
 ### Dropdown
 ```lua
 Section:Dropdown({
@@ -154,22 +160,24 @@ Section:Dropdown({
   Callback <function(): string or table>-- If Multi is enabled it returns a table like such: {"Option 1" = true, "Option 2" = true}. If Multi is disabled it will return the name of the selected option.
 })
 ```
-#### Functions
+
 ```lua
 :UpdateName(<string>)
 ```
 ---
+
 ### Header
 ```lua
 Section:Header({
   Name <string>
 })
 ```
-#### Functions
+
 ```lua
 :UpdateName(<string>)
 ```
 ---
+
 ### Paragraph
 ```lua
 Section:Paragraph({
@@ -177,25 +185,46 @@ Section:Paragraph({
   Body <string>
 })
 ```
-#### Functions
+
 ```lua
 :UpdateHeader(<string>)
 :UpdateBody(<string>)
 ```
 ---
+
 ### Label
 ```lua
 Section:Label({
   Name <string>
 })
 ```
-#### Functions
+
 ```lua
 :UpdateName(<string>)
 ```
 ---
 
-## Miscellaneous Functions
+### Divider
+```lua
+Section:Divider()
+```
+
+```lua
+:Remove()
+```
+---
+
+### Spacer
+```lua
+Section:Spacer()
+```
+
+```lua
+:Remove()
+```
+---
+
+## Miscellaneous 
 ### Library
 ```lua
 :Demo() -- Brings up a demo window
