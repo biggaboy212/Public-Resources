@@ -66,7 +66,12 @@ MainSection:Button({
 	Callback = function()
 		DemoWindow:Notify({
 			Title = "MacLib Demo",
-			Description = "Success!"
+			Description = "Success!",
+			Lifetime = 6,
+			Style = "Confirm",
+			Callback = function()
+				print("Clicked Confirm!")
+			end,
 		})
 	end,
 })
