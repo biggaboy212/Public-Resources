@@ -37,7 +37,14 @@ Window:Notify({
     Title <string>
     Description <string>
     Lifetime <number>
+    Style <string: "None", "Confirm", "Cancel"> -- The type of button that the user interacts with, input "None" for no interactable (or leave nil), input "Confirm" for a checkmark, and input "Cancel" for a crossmark.
 })
+```
+
+```lua
+:UpdateTitle(<string>)
+:UpdateDescription(<string>)
+:Cancel()
 ```
 ---
 ## Creating a tab group
@@ -231,6 +238,8 @@ Section:Spacer()
 ```
 ### Window
 ```lua
+:Unload() -- Destroy the window
+
 :SetState(<boolean>) -- Set window visibility
 :GetState(: boolean) -- Get window visibility
 
