@@ -3046,6 +3046,8 @@ function MacLib:Window(Settings)
 	end)
 	
 	function WindowFunctions:Unload()
+		macLib:Destroy()
+	end
 
 	function WindowFunctions:GetState()
 		return windowState
@@ -3170,6 +3172,16 @@ function MacLib:Demo()
 	MainSection:Header({
 		Name = "Header #1"
 	})
+
+		local notif = DemoWindow:Notify({
+			Title = "MacLib Demo",
+			Description = "Success!",
+			Lifetime = 0,
+			Style = "Confirm",
+			Callback = function()
+				print("Clicked Confirm!")
+			end,
+		})
 
 	MainSection:Button({
 		Name = "Button",
