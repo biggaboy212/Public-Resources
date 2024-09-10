@@ -2805,15 +2805,18 @@ function MacLib:Window(Settings)
 	end
 
 	function WindowFunctions:Notify(Settings)
+		local NotificationFunctions = {}
+		
 		local notification = Instance.new("Frame")
 		notification.Name = "Notification"
-		notification.AnchorPoint = Vector2.new(1, 1)
+		notification.AnchorPoint = Vector2.new(0.5, 0.5)
 		notification.AutomaticSize = Enum.AutomaticSize.Y
 		notification.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 		notification.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		notification.BorderSizePixel = 0
-		notification.Position = UDim2.new(1, -10, 1, -10)
+		notification.Position = UDim2.fromScale(0.5, 0.5)
 		notification.Size = UDim2.fromOffset(250, 0)
+		
 		notification.Parent = notifications
 
 		local notificationUIStroke = Instance.new("UIStroke")
@@ -2827,6 +2830,20 @@ function MacLib:Window(Settings)
 		notificationUICorner.Name = "NotificationUICorner"
 		notificationUICorner.CornerRadius = UDim.new(0, 10)
 		notificationUICorner.Parent = notification
+
+		local notificationUIScale = Instance.new("UIScale")
+		notificationUIScale.Name = "NotificationUIScale"
+		notificationUIScale.Parent = notification
+		notificationUIScale.Scale = 0
+
+		local notificationInformation = Instance.new("Frame")
+		notificationInformation.Name = "NotificationInformation"
+		notificationInformation.AutomaticSize = Enum.AutomaticSize.Y
+		notificationInformation.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		notificationInformation.BackgroundTransparency = 1
+		notificationInformation.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		notificationInformation.BorderSizePixel = 0
+		notificationInformation.Size = UDim2.fromScale(1, 1)
 
 		local notificationTitle = Instance.new("TextLabel")
 		notificationTitle.Name = "NotificationTitle"
@@ -2851,18 +2868,10 @@ function MacLib:Window(Settings)
 
 		local notificationTitleUIPadding = Instance.new("UIPadding")
 		notificationTitleUIPadding.Name = "NotificationTitleUIPadding"
-		notificationTitleUIPadding.PaddingRight = UDim.new(0, 10)
+		notificationTitleUIPadding.PaddingRight = UDim.new(0, 25)
 		notificationTitleUIPadding.Parent = notificationTitle
 
-		notificationTitle.Parent = notification
-
-		local notificationUIPadding = Instance.new("UIPadding")
-		notificationUIPadding.Name = "NotificationUIPadding"
-		notificationUIPadding.PaddingBottom = UDim.new(0, 12)
-		notificationUIPadding.PaddingLeft = UDim.new(0, 10)
-		notificationUIPadding.PaddingRight = UDim.new(0, 10)
-		notificationUIPadding.PaddingTop = UDim.new(0, 10)
-		notificationUIPadding.Parent = notification
+		notificationTitle.Parent = notificationInformation
 
 		local notificationDescription = Instance.new("TextLabel")
 		notificationDescription.Name = "NotificationDescription"
@@ -2875,7 +2884,6 @@ function MacLib:Window(Settings)
 		notificationDescription.TextColor3 = Color3.fromRGB(255, 255, 255)
 		notificationDescription.TextSize = 11
 		notificationDescription.TextTransparency = 0.5
-		notificationDescription.TextTruncate = Enum.TextTruncate.SplitWord
 		notificationDescription.TextWrapped = true
 		notificationDescription.TextXAlignment = Enum.TextXAlignment.Left
 		notificationDescription.TextYAlignment = Enum.TextYAlignment.Top
@@ -2888,28 +2896,115 @@ function MacLib:Window(Settings)
 
 		local notificationDescriptionUIPadding = Instance.new("UIPadding")
 		notificationDescriptionUIPadding.Name = "NotificationDescriptionUIPadding"
-		notificationDescriptionUIPadding.PaddingRight = UDim.new(0, 10)
+		notificationDescriptionUIPadding.PaddingRight = UDim.new(0, 25)
 		notificationDescriptionUIPadding.PaddingTop = UDim.new(0, 17)
 		notificationDescriptionUIPadding.Parent = notificationDescription
 
-		notificationDescription.Parent = notification
+		notificationDescription.Parent = notificationInformation
 
-		local notificationUIScale = Instance.new("UIScale")
-		notificationUIScale.Name = "NotificationUIScale"
-		notificationUIScale.Parent = notification
-		notificationUIScale.Scale = 0
+		local notificationUIPadding = Instance.new("UIPadding")
+		notificationUIPadding.Name = "NotificationUIPadding"
+		notificationUIPadding.PaddingBottom = UDim.new(0, 12)
+		notificationUIPadding.PaddingLeft = UDim.new(0, 10)
+		notificationUIPadding.PaddingRight = UDim.new(0, 10)
+		notificationUIPadding.PaddingTop = UDim.new(0, 10)
+		notificationUIPadding.Parent = notificationInformation
 
-		Tween(notificationUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
-			Scale = 1
-		}):Play()
+		notificationInformation.Parent = notification
 
-		task.wait(Settings.Lifetime or 3)
-		local out = Tween(notificationUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
-			Scale = 0
-		})
-		out:Play()
-		out.Completed:Wait()
-		notification:Destroy()
+		local notificationControls = Instance.new("Frame")
+		notificationControls.Name = "NotificationControls"
+		notificationControls.AutomaticSize = Enum.AutomaticSize.Y
+		notificationControls.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		notificationControls.BackgroundTransparency = 1
+		notificationControls.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		notificationControls.BorderSizePixel = 0
+		notificationControls.Size = UDim2.fromScale(1, 1)
+
+		local interactable = Instance.new("TextButton")
+		interactable.Name = "Interactable"
+		interactable.FontFace = Font.new("rbxassetid://12187365364")
+		interactable.Text = "✓"
+		interactable.TextColor3 = Color3.fromRGB(255, 255, 255)
+		interactable.TextSize = 17
+		interactable.TextTransparency = 0.2
+		interactable.AnchorPoint = Vector2.new(1, 0.5)
+		interactable.AutomaticSize = Enum.AutomaticSize.XY
+		interactable.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		interactable.BackgroundTransparency = 1
+		interactable.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		interactable.BorderSizePixel = 0
+		interactable.LayoutOrder = 1
+		interactable.Position = UDim2.fromScale(1, 0.5)
+		interactable.Parent = notificationControls
+
+		local uIPadding = Instance.new("UIPadding")
+		uIPadding.Name = "UIPadding"
+		uIPadding.PaddingBottom = UDim.new(0, 6)
+		uIPadding.PaddingRight = UDim.new(0, 13)
+		uIPadding.PaddingTop = UDim.new(0, 6)
+		uIPadding.Parent = notificationControls
+
+		notificationControls.Parent = notification
+		
+		local tweens = {
+			In = Tween(notificationUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
+				Scale = 1
+			}),
+			Out = Tween(notificationUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
+				Scale = 0
+			}),
+		}
+		
+		local styles = {
+			None = function() interactable:Destroy() end,
+			Confirm = function() interactable.Text = "✓" end,
+			Close = function() interactable.Text = "✗" end
+		}
+
+		local style = styles[Settings.Style] or function() interactable:Destroy() end
+		style()
+
+		if interactable then
+			interactable.MouseButton1Click:Connect(function()
+				NotificationFunctions:Cancel()
+				task.spawn(Settings.Callback)
+			end)
+		end
+	
+		local AnimateNotification = task.spawn(function()
+			tweens.In:Play()
+			
+			Settings.Lifetime = Settings.Lifetime or 3
+
+			if Settings.Lifetime ~= 0 then
+				task.wait(Settings.Lifetime)
+
+				local out = tweens.Out
+				out:Play()
+				out.Completed:Wait()
+				notification:Destroy()
+			end
+		end)
+		
+		function NotificationFunctions:UpdateTitle(New)
+			notificationTitle.Text = New
+		end
+		
+		function NotificationFunctions:UpdateDescription(New)
+			notificationDescription.Text = New
+		end
+		
+		function NotificationFunctions:Cancel(New)
+			task.cancel(AnimateNotification)
+			
+			local out = tweens.Out
+			out:Play()
+			out.Completed:Wait()
+			notification:Destroy()
+		end
+		
+		return NotificationFunctions
 	end
 
 	function WindowFunctions:SetNotificationsState(State)
@@ -2927,6 +3022,7 @@ function MacLib:Window(Settings)
 	end
 
 	local MenuKeybind = Settings.Keybind or Enum.KeyCode.RightControl
+	
 	local function ToggleMenu()
 		local state = not WindowFunctions:GetState()
 		WindowFunctions:SetState(state)
@@ -2936,16 +3032,20 @@ function MacLib:Window(Settings)
 			Lifetime = 5
 		})
 	end
+	
 	UserInputService.InputEnded:Connect(function(inp, gpe)
 		if gpe then return end
 		if inp.KeyCode == MenuKeybind then
 			ToggleMenu()
 		end
 	end)
+	
 	minimize.MouseButton1Click:Connect(ToggleMenu)
 	exit.MouseButton1Click:Connect(function()
 		macLib:Destroy()
 	end)
+	
+	function WindowFunctions:Unload()
 
 	function WindowFunctions:GetState()
 		return windowState
@@ -3076,7 +3176,12 @@ function MacLib:Demo()
 		Callback = function()
 			DemoWindow:Notify({
 				Title = "MacLib Demo",
-				Description = "Success!"
+				Description = "Success!",
+				Lifetime = 6,
+				Style = "Confirm",
+				Callback = function()
+					print("Clicked Confirm!")
+				end,
 			})
 		end,
 	})
