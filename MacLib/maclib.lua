@@ -3173,16 +3173,6 @@ function MacLib:Demo()
 		Name = "Header #1"
 	})
 
-		local notif = DemoWindow:Notify({
-			Title = "MacLib Demo",
-			Description = "Success!",
-			Lifetime = 0,
-			Style = "Confirm",
-			Callback = function()
-				print("Clicked Confirm!")
-			end,
-		})
-
 	MainSection:Button({
 		Name = "Button",
 		Callback = function()
