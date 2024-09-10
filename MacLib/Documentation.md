@@ -38,6 +38,7 @@ Window:Notify({
     Description <string>
     Lifetime <number>
     Style <string: "None", "Confirm", "Cancel"> -- The type of button that the user interacts with, input "None" for no interactable (or leave nil), input "Confirm" for a checkmark, and input "Cancel" for a crossmark.
+    Callback <function>
 })
 ```
 
