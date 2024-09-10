@@ -2995,7 +2995,7 @@ function MacLib:Window(Settings)
 			notificationDescription.Text = New
 		end
 		
-		function NotificationFunctions:Cancel(New)
+		function NotificationFunctions:Cancel()
 			task.cancel(AnimateNotification)
 			
 			local out = tweens.Out
