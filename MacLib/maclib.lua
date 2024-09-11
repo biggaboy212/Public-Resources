@@ -141,6 +141,18 @@ function MacLib:Window(Settings)
 	uIPadding.Name = "UIPadding"
 	uIPadding.PaddingLeft = UDim.new(0, 11)
 	uIPadding.Parent = controls
+	
+	local windowControlSettings = {
+		sizes = { enabled = UDim2.fromOffset(8, 8), disabled = UDim2.fromOffset(7, 7) },
+		transparencies = { enabled = 0, disabled = 1 },
+		strokeTransparency = 0.9,
+	}
+
+	local stroke = Instance.new("UIStroke")
+	stroke.Name = "BaseUIStroke"
+	stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	stroke.Color = Color3.fromRGB(255, 255, 255)
+	stroke.Transparency = windowControlSettings.strokeTransparency
 
 	local exit = Instance.new("TextButton")
 	exit.Name = "Exit"
@@ -152,7 +164,6 @@ function MacLib:Window(Settings)
 	exit.BackgroundColor3 = Color3.fromRGB(250, 93, 86)
 	exit.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	exit.BorderSizePixel = 0
-	exit.Size = UDim2.fromOffset(8, 8)
 
 	local uICorner = Instance.new("UICorner")
 	uICorner.Name = "UICorner"
@@ -172,13 +183,12 @@ function MacLib:Window(Settings)
 	minimize.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	minimize.BorderSizePixel = 0
 	minimize.LayoutOrder = 1
-	minimize.Size = UDim2.fromOffset(8, 8)
-
+	
 	local uICorner1 = Instance.new("UICorner")
 	uICorner1.Name = "UICorner"
 	uICorner1.CornerRadius = UDim.new(1, 0)
 	uICorner1.Parent = minimize
-
+	
 	minimize.Parent = controls
 
 	local maximize = Instance.new("TextButton")
@@ -188,27 +198,50 @@ function MacLib:Window(Settings)
 	maximize.TextColor3 = Color3.fromRGB(0, 0, 0)
 	maximize.TextSize = 14
 	maximize.AutoButtonColor = false
-	maximize.BackgroundTransparency = 1
-	maximize.Active = false
 	maximize.BackgroundColor3 = Color3.fromRGB(119, 174, 94)
 	maximize.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	maximize.BorderSizePixel = 0
 	maximize.LayoutOrder = 1
-	maximize.Size = UDim2.fromOffset(7, 7)
 
 	local uICorner2 = Instance.new("UICorner")
 	uICorner2.Name = "UICorner"
 	uICorner2.CornerRadius = UDim.new(1, 0)
 	uICorner2.Parent = maximize
 
-	local baseUIStroke1 = Instance.new("UIStroke")
-	baseUIStroke1.Name = "BaseUIStroke"
-	baseUIStroke1.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-	baseUIStroke1.Color = Color3.fromRGB(255, 255, 255)
-	baseUIStroke1.Transparency = 0.9
-	baseUIStroke1.Parent = maximize
-
 	maximize.Parent = controls
+	
+	local function applyState(button, enabled)
+		local size = enabled and windowControlSettings.sizes.enabled or windowControlSettings.sizes.disabled
+		local transparency = enabled and windowControlSettings.transparencies.enabled or windowControlSettings.transparencies.disabled
+
+		button.Size = size
+		button.BackgroundTransparency = transparency
+		button.Active = enabled
+		button.Interactable = enabled
+
+		for _, child in ipairs(button:GetChildren()) do
+			if child:IsA("UIStroke") then
+				child.Transparency = transparency
+			end
+		end
+		if not enabled then
+			stroke:Clone().Parent = button
+		end
+	end
+
+	applyState(maximize, false)
+	
+	local controlsList = {exit, minimize}
+	for _, button in pairs(controlsList) do
+		local buttonName = button.Name
+		local isEnabled = true
+
+		if Settings.DisabledWindowControls and table.find(Settings.DisabledWindowControls, buttonName) then
+			isEnabled = false
+		end
+
+		applyState(button, isEnabled)
+	end
 
 	controls.Parent = windowControls
 
@@ -3130,6 +3163,7 @@ function MacLib:Demo()
 		Title = "MacLib Demo",
 		Subtitle = "This is a subtitle.",
 		Size = UDim2.fromOffset(868, 650),
+		DisabledWindowControls = {},
 		ShowUserInfo = true,
 		Keybind = Enum.KeyCode.RightControl,
 		AcrylicBlur = true,
