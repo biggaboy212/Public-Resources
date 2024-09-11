@@ -310,6 +310,7 @@ function MacLib:Window(Settings)
 	)
 	title.Text = Settings.Title
 	title.TextColor3 = Color3.fromRGB(255, 255, 255)
+	title.RichText = true
 	title.TextSize = 20
 	title.TextTransparency = 0.2
 	title.TextTruncate = Enum.TextTruncate.SplitWord
@@ -332,6 +333,7 @@ function MacLib:Window(Settings)
 	)
 	subtitle.RichText = true
 	subtitle.Text = Settings.Subtitle
+	subtitle.RichText = true
 	subtitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 	subtitle.TextSize = 12
 	subtitle.TextTransparency = 0.8
@@ -685,6 +687,7 @@ function MacLib:Window(Settings)
 	)
 	currentTab.RichText = true
 	currentTab.Text = "Tab"
+	currentTab.RichText = true
 	currentTab.TextColor3 = Color3.fromRGB(255, 255, 255)
 	currentTab.TextSize = 15
 	currentTab.TextTransparency = 0.5
@@ -1039,6 +1042,7 @@ function MacLib:Window(Settings)
 			Enum.FontStyle.Normal
 		)
 		settingName.Text = Settings.Name
+		settingName.RichText = true
 		settingName.TextColor3 = Color3.fromRGB(255, 255, 255)
 		settingName.TextSize = 13
 		settingName.TextTransparency = 0.5
@@ -1270,6 +1274,7 @@ function MacLib:Window(Settings)
 				Enum.FontStyle.Normal
 			)
 			tabSwitcherName.Text = Settings.Name
+			tabSwitcherName.RichText = true
 			tabSwitcherName.TextColor3 = Color3.fromRGB(255, 255, 255)
 			tabSwitcherName.TextSize = 16
 			tabSwitcherName.TextTransparency = 0.4
@@ -1433,6 +1438,7 @@ function MacLib:Window(Settings)
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
+					buttonInteract.RichText = true
 					buttonInteract.TextColor3 = Color3.fromRGB(255, 255, 255)
 					buttonInteract.TextSize = 13
 					buttonInteract.TextTransparency = 0.5
@@ -1524,6 +1530,7 @@ function MacLib:Window(Settings)
 						Enum.FontStyle.Normal
 					)
 					toggleName.Text = Settings.Name
+					toggleName.RichText = true
 					toggleName.TextColor3 = Color3.fromRGB(255, 255, 255)
 					toggleName.TextSize = 13
 					toggleName.TextTransparency = 0.5
@@ -1667,6 +1674,7 @@ function MacLib:Window(Settings)
 						Enum.FontStyle.Normal
 					)
 					sliderName.Text = Settings.Name
+					sliderName.RichText = true
 					sliderName.TextColor3 = Color3.fromRGB(255, 255, 255)
 					sliderName.TextSize = 13
 					sliderName.TextTransparency = 0.5
@@ -1913,6 +1921,7 @@ function MacLib:Window(Settings)
 						Enum.FontStyle.Normal
 					)
 					inputName.Text = Settings.Name
+					inputName.RichText = true
 					inputName.TextColor3 = Color3.fromRGB(255, 255, 255)
 					inputName.TextSize = 13
 					inputName.TextTransparency = 0.5
@@ -2064,6 +2073,7 @@ function MacLib:Window(Settings)
 						Enum.FontStyle.Normal
 					)
 					keybindName.Text = Settings.Name
+					keybindName.RichText = true
 					keybindName.TextColor3 = Color3.fromRGB(255, 255, 255)
 					keybindName.TextSize = 13
 					keybindName.TextTransparency = 0.5
@@ -2205,6 +2215,7 @@ function MacLib:Window(Settings)
 						Enum.FontStyle.Normal
 					)
 					dropdownName.Text = Settings.Name
+					dropdownName.RichText = true
 					dropdownName.TextColor3 = Color3.fromRGB(255, 255, 255)
 					dropdownName.TextSize = 13
 					dropdownName.TextTransparency = 0.5
@@ -2365,6 +2376,7 @@ function MacLib:Window(Settings)
 							Enum.FontStyle.Normal
 						)
 						optionName.Text = v
+						optionName.RichText = true
 						optionName.TextColor3 = Color3.fromRGB(255, 255, 255)
 						optionName.TextSize = 13
 						optionName.TextTransparency = 0.5
@@ -2852,6 +2864,7 @@ function MacLib:Window(Settings)
 			Enum.FontWeight.SemiBold,
 			Enum.FontStyle.Normal
 		)
+		notificationTitle.RichText = true
 		notificationTitle.Text = Settings.Title
 		notificationTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 		notificationTitle.TextSize = 13
@@ -2885,6 +2898,7 @@ function MacLib:Window(Settings)
 		notificationDescription.TextSize = 11
 		notificationDescription.TextTransparency = 0.5
 		notificationDescription.TextWrapped = true
+		notificationDescription.RichText = true
 		notificationDescription.TextXAlignment = Enum.TextXAlignment.Left
 		notificationDescription.TextYAlignment = Enum.TextYAlignment.Top
 		notificationDescription.AutomaticSize = Enum.AutomaticSize.XY
