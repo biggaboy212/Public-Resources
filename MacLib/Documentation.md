@@ -16,6 +16,7 @@ local Window = MacLib:Window({
   Title <string>
   Subtitle <string>
   Size <UDim2>
+  DisabledWindowControls <table: "Exit", "Minimize">
   ShowUserInfo <boolean>
   Keybind <enum>
   AcrylicBlur <boolean>
