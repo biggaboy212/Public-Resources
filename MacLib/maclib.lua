@@ -658,7 +658,7 @@ function MacLib:Window(Settings)
 	end
 
 	moveIcon.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 			onDragStart(input)
 		end
 	end)
