@@ -95,7 +95,8 @@ Section:Input({
   Name <string>
   Placeholder <string>
   AcceptedCharacters <string: "All", "Numeric", "Alphabetic">
-  Callback <function(): string>
+  Callback <function(): string> -- Called upon focus lost
+  onChanged <function(): string> -- Called upon text changed
 })
 ```
 
@@ -151,6 +152,7 @@ Section:Keybind({
   Name <string>
   Default <enum>
   Callback <function(): enum>
+  onBinded <function(): enum>
 })
 ```
 
