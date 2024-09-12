@@ -1540,6 +1540,9 @@ function MacLib:Window(Settings)
 					function ButtonFunctions:UpdateName(Name)
 						buttonInteract.Text = Name
 					end
+					function ButtonFunctions:SetVisibility(State)
+						button.Visible = State
+					end
 					return ButtonFunctions
 				end
 
@@ -1683,6 +1686,9 @@ function MacLib:Window(Settings)
 					end
 					function ToggleFunctions:UpdateName(Name)
 						toggleName.Text = Name
+					end
+					function ToggleFunctions:SetVisibility(State)
+						toggle.Visible = State
 					end
 					return ToggleFunctions
 				end
@@ -1925,6 +1931,9 @@ function MacLib:Window(Settings)
 					function SliderFunctions:UpdateName(Name)
 						sliderName = Name
 					end
+					function SliderFunctions:SetVisibility(State)
+						slider.Visible = State
+					end
 					function SliderFunctions:UpdateValue(Value)
 						SetValue(Value)
 					end
@@ -2074,6 +2083,9 @@ function MacLib:Window(Settings)
 					function InputFunctions:UpdateName(Name)
 						inputName.Text = Name
 					end
+					function InputFunctions:SetVisibility(State)
+						input.Visible = State
+					end
 					function InputFunctions:GetInput()
 						return InputBox.Text
 					end
@@ -2209,6 +2221,9 @@ function MacLib:Window(Settings)
 					end
 					function KeybindFunctions:UpdateName(Name)
 						keybindName = Name
+					end
+					function KeybindFunctions:SetVisibility(State)
+						keybind.Visible = State
 					end
 					return KeybindFunctions
 				end
@@ -2654,6 +2669,9 @@ function MacLib:Window(Settings)
 					function DropdownFunctions:UpdateName(New)
 						dropdownName.Text = New
 					end
+					function DropdownFunctions:SetVisibility(State)
+						dropdown.Visible = State
+					end
 					function DropdownFunctions:UpdateSelection(newSelection)
 						if type(newSelection) == "number" then
 							for option, data in pairs(OptionObjs) do
@@ -2715,6 +2733,9 @@ function MacLib:Window(Settings)
 					function HeaderFunctions:UpdateName(New)
 						headerText.Text = New
 					end
+					function HeaderFunctions:SetVisibility(State)
+						header.Visible = State
+					end
 					
 					return HeaderFunctions
 				end
@@ -2756,6 +2777,9 @@ function MacLib:Window(Settings)
 					
 					function LabelFunctions:UpdateName(New)
 						labelText.Text = New
+					end
+					function LabelFunctions:SetVisibility(State)
+						label.Visible = State
 					end
 					
 					return LabelFunctions
@@ -2827,6 +2851,9 @@ function MacLib:Window(Settings)
 					function ParagraphFunctions:UpdateBody(New)
 						paragraphBody.Text = New
 					end
+					function ParagraphFunctions:SetVisibility(State)
+						paragraph.Visible = State
+					end
 
 					return ParagraphFunctions
 				end
@@ -2868,6 +2895,9 @@ function MacLib:Window(Settings)
 					
 					function DividerFunctions:Remove()
 						divider:Destroy()
+					end
+					function DividerFunctions:SetVisibility(State)
+						divider.Visible = State
 					end
 					
 					return DividerFunctions
@@ -3433,7 +3463,6 @@ function MacLib:Demo()
 		Header = "Paragraph",
 		Body = "Paragraph body. Lorem ipsum odor amet, consectetuer adipiscing elit. Morbi tempus netus aliquet per velit est gravida."
 	})
-
 	Main:Select()
 end
 
