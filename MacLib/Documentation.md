@@ -172,7 +172,7 @@ Section:Dropdown({
   Required <boolean> -- Force the user to select at minimum one choice?
   Options <table>
   Default <number or table> -- If Multi is enabled, you must input a table of every option name that you want enabled. If Multi is disabled you must input the order in which the default option is at.
-  Callback <function(): string or table> -- If Multi is enabled it returns a table like such: {"Option 1" = true, "Option 2" = true}. If Multi is disabled it will return the name of the selected option.
+  Callback <function(): string or table> -- Multi Dropdowns return a table of the name of every selected option, Single Dropdowns return the name (no table) of the selected option
 })
 ```
 
