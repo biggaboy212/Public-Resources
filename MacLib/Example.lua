@@ -122,7 +122,7 @@ MainSection:Keybind({
 	end,
 })
 
-MainSection:Dropdown({
+local Dropdown = MainSection:Dropdown({
 	Name = "Dropdown",
 	Multi = false,
 	Required = true,
@@ -139,8 +139,9 @@ MainSection:Dropdown({
 	end,
 })
 
-MainSection:Dropdown({
+local MultiDropdown = MainSection:Dropdown({
 	Name = "Multi Dropdown",
+	Search = true,
 	Multi = true,
 	Required = false,
 	Options = {
@@ -157,6 +158,14 @@ MainSection:Dropdown({
 			table.insert(Values, Value)
 		end
 		print("Mutlidropdown changed:", table.concat(Values, ", "))
+	end,
+})
+
+MainSection:Button({
+	Name = "Update Selection",
+	Callback = function()
+		Dropdown:UpdateSelection(4)
+		MultiDropdown:UpdateSelection({"Option 2", "Option 5"})
 	end,
 })
 
