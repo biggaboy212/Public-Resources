@@ -1,6 +1,7 @@
 local MacLib = {}
 
 --// Services
+local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
 local ContentProvider = game:GetService("ContentProvider")
@@ -21,7 +22,7 @@ local tabIndex = 0
 
 --// Functions
 local function Tween(instance, tweeninfo, propertytable)
-	return game:GetService("TweenService"):Create(instance, tweeninfo, propertytable)
+	return TweenService:Create(instance, tweeninfo, propertytable)
 end
 
 --// Library Functions
@@ -827,7 +828,6 @@ function MacLib:Window(Settings)
 
 	local BlurTarget = base
 
-	local RunService = game:GetService('RunService')
 	local HS = game:GetService('HttpService')
 	local camera = workspace.CurrentCamera
 	local MTREL = "Glass"
@@ -1901,7 +1901,7 @@ function MacLib:Window(Settings)
 						end
 					end)
 
-					game:GetService("UserInputService").InputChanged:Connect(function(input)
+					UserInputService.InputChanged:Connect(function(input)
 						if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
 							SetValue(input)
 						end
@@ -2226,6 +2226,7 @@ function MacLib:Window(Settings)
 					dropdown.BorderSizePixel = 0
 					dropdown.Size = UDim2.new(1, 0, 0, 38)
 					dropdown.Parent = section
+					dropdown.ClipsDescendants = true
 
 					local interact = Instance.new("TextButton")
 					interact.Name = "Interact"
@@ -2296,6 +2297,7 @@ function MacLib:Window(Settings)
 					dropdownFrame.ClipsDescendants = true
 					dropdownFrame.Size = UDim2.fromScale(1, 1)
 					dropdownFrame.Visible = false
+					dropdownFrame.AutomaticSize = Enum.AutomaticSize.Y
 
 					local dropdownFrameUIPadding = Instance.new("UIPadding")
 					dropdownFrameUIPadding.Name = "DropdownFrameUIPadding"
@@ -2309,6 +2311,82 @@ function MacLib:Window(Settings)
 					dropdownFrameUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 					dropdownFrameUIListLayout.Parent = dropdownFrame
 					
+					local search = Instance.new("Frame")
+					search.Name = "Search"
+					search.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					search.BackgroundTransparency = 0.95
+					search.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					search.BorderSizePixel = 0
+					search.LayoutOrder = -1
+					search.Size = UDim2.new(1, 0, 0, 30)
+					search.Parent = dropdownFrame
+					search.Visible = Settings.Search
+
+					local sectionUICorner = Instance.new("UICorner")
+					sectionUICorner.Name = "SectionUICorner"
+					sectionUICorner.Parent = search
+
+					local searchIcon = Instance.new("ImageLabel")
+					searchIcon.Name = "SearchIcon"
+					searchIcon.Image = "rbxassetid://86737463322606"
+					searchIcon.ImageColor3 = Color3.fromRGB(180, 180, 180)
+					searchIcon.AnchorPoint = Vector2.new(0, 0.5)
+					searchIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					searchIcon.BackgroundTransparency = 1
+					searchIcon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					searchIcon.BorderSizePixel = 0
+					searchIcon.Position = UDim2.fromScale(0, 0.5)
+					searchIcon.Size = UDim2.fromOffset(12, 12)
+					searchIcon.Parent = search
+
+					local uIPadding = Instance.new("UIPadding")
+					uIPadding.Name = "UIPadding"
+					uIPadding.PaddingLeft = UDim.new(0, 15)
+					uIPadding.Parent = search
+
+					local searchBox = Instance.new("TextBox")
+					searchBox.Name = "SearchBox"
+					searchBox.CursorPosition = -1
+					searchBox.FontFace = Font.new(
+						"rbxassetid://12187365364",
+						Enum.FontWeight.Medium,
+						Enum.FontStyle.Normal
+					)
+					searchBox.PlaceholderColor3 = Color3.fromRGB(150, 150, 150)
+					searchBox.PlaceholderText = "Search..."
+					searchBox.Text = ""
+					searchBox.TextColor3 = Color3.fromRGB(200, 200, 200)
+					searchBox.TextSize = 14
+					searchBox.TextXAlignment = Enum.TextXAlignment.Left
+					searchBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					searchBox.BackgroundTransparency = 1
+					searchBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					searchBox.BorderSizePixel = 0
+					searchBox.Size = UDim2.fromScale(1, 1)
+					
+					local function findOption()
+						local searchTerm = searchBox.Text:lower()
+
+						for _, v in pairs(OptionObjs) do
+							local optionText = v.NameLabel.Text:lower()
+							local isVisible = string.find(optionText, searchTerm) ~= nil
+
+							if v.Button.Visible ~= isVisible then
+								v.Button.Visible = isVisible
+							end
+						end
+					end
+
+					searchBox:GetPropertyChangedSignal("Text"):Connect(findOption)
+
+
+					local uIPadding1 = Instance.new("UIPadding")
+					uIPadding1.Name = "UIPadding"
+					uIPadding1.PaddingLeft = UDim.new(0, 23)
+					uIPadding1.Parent = searchBox
+
+					searchBox.Parent = search
+					
 					local tweensettings = {
 						duration = 0.2,
 						easingStyle = Enum.EasingStyle.Quint,
@@ -2318,7 +2396,6 @@ function MacLib:Window(Settings)
 						checkSizeDecrease = -13,
 						waitTime = 1
 					}
-
 					
 					local function Toggle(optionName, State)
 						local option = OptionObjs[optionName]
@@ -2539,7 +2616,7 @@ function MacLib:Window(Settings)
 					local function CalculateDropdownSize()
 						local count = 0
 						for _,v in pairs(dropdownFrame:GetChildren()) do
-							if v:IsA("TextButton") then count += 1 end
+							if not v:IsA("UIComponent") and v.Visible then count += 1 end
 						end
 						local calculationVals = {
 							[1] = dropdown.AbsoluteSize.Y,
@@ -2573,8 +2650,22 @@ function MacLib:Window(Settings)
 					end
 
 					interact.MouseButton1Click:Connect(ToggleDropdown)
+					
 					function DropdownFunctions:UpdateName(New)
 						dropdownName.Text = New
+					end
+					function DropdownFunctions:UpdateSelection(newSelection)
+						if type(newSelection) == "number" then
+							for option, data in pairs(OptionObjs) do
+								local isSelected = data.Index == newSelection
+								Toggle(option, isSelected)
+							end
+						elseif type(newSelection) == "table" then
+							for option, data in pairs(OptionObjs) do
+								local isSelected = table.find(newSelection, option) ~= nil
+								Toggle(option, isSelected)
+							end
+						end
 					end
 
 					return DropdownFunctions
@@ -3281,7 +3372,7 @@ function MacLib:Demo()
 		end,
 	})
 
-	MainSection:Dropdown({
+	local Dropdown = MainSection:Dropdown({
 		Name = "Dropdown",
 		Multi = false,
 		Required = true,
@@ -3298,8 +3389,9 @@ function MacLib:Demo()
 		end,
 	})
 
-	MainSection:Dropdown({
+	local MultiDropdown = MainSection:Dropdown({
 		Name = "Multi Dropdown",
+		Search = true,
 		Multi = true,
 		Required = false,
 		Options = {
@@ -3316,6 +3408,14 @@ function MacLib:Demo()
 				table.insert(Values, Value)
 			end
 			print("Mutlidropdown changed:", table.concat(Values, ", "))
+		end,
+	})
+
+	MainSection:Button({
+		Name = "Update Selection",
+		Callback = function()
+			Dropdown:UpdateSelection(4)
+			MultiDropdown:UpdateSelection({"Option 2", "Option 5"})
 		end,
 	})
 	
