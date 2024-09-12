@@ -162,6 +162,7 @@ Section:Keybind({
 ```lua
 Section:Dropdown({
   Name <string>
+  Search <boolean> -- Enable searching?
   Multi <boolean> -- Allow multiple choices?
   Required <boolean> -- Force the user to select at minimum one choice?
   Options <table>
@@ -172,6 +173,7 @@ Section:Dropdown({
 
 ```lua
 :UpdateName(<string>)
+:UpdateSelection(<number or table>)
 ```
 ---
 
