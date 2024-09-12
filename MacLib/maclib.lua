@@ -2919,6 +2919,9 @@ function MacLib:Window(Settings)
 					function SpacerFunctions:Remove()
 						spacer:Destroy()
 					end
+					function SpacerFunctions:SetVisibility(State)
+						spacer.Visible = State
+					end
 
 					return SpacerFunctions
 				end
