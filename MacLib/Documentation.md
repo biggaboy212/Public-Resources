@@ -85,6 +85,7 @@ Section:Button({
 
 ```lua
 :UpdateName(<string>)
+:SetVisiblity(<boolean>)
 ```
 ---
 
@@ -100,6 +101,7 @@ Section:Input({
 
 ```lua
 :UpdateName(<string>)
+:SetVisiblity(<boolean>)
 :GetInput(: string)
 :UpdatePlaceholder(<string>)
 :UpdateText(<string>)
@@ -120,6 +122,7 @@ Section:Slider({
 
 ```lua
 :UpdateName(<string>)
+:SetVisiblity(<boolean>)
 :UpdateValue(<number>)
 :GetValue(: number)
 ```
@@ -136,6 +139,7 @@ Section:Toggle({
 
 ```lua
 :UpdateName(<string>)
+:SetVisiblity(<boolean>)
 :UpdateState(<boolean>)
 :GetState(: boolean)
 ```
@@ -152,6 +156,7 @@ Section:Keybind({
 
 ```lua
 :UpdateName(<string>)
+:SetVisiblity(<boolean>)
 :Unbind()
 :Bind(<enum>)
 :GetBind(: enum)
@@ -173,6 +178,7 @@ Section:Dropdown({
 
 ```lua
 :UpdateName(<string>)
+:SetVisiblity(<boolean>)
 :UpdateSelection(<number or table>)
 ```
 ---
@@ -186,6 +192,7 @@ Section:Header({
 
 ```lua
 :UpdateName(<string>)
+:SetVisiblity(<boolean>)
 ```
 ---
 
@@ -198,6 +205,7 @@ Section:Paragraph({
 ```
 
 ```lua
+:SetVisiblity(<boolean>)
 :UpdateHeader(<string>)
 :UpdateBody(<string>)
 ```
@@ -212,6 +220,7 @@ Section:Label({
 
 ```lua
 :UpdateName(<string>)
+:SetVisiblity(<boolean>)
 ```
 ---
 
@@ -222,6 +231,7 @@ Section:Divider()
 
 ```lua
 :Remove()
+:SetVisiblity(<boolean>)
 ```
 ---
 
@@ -232,6 +242,7 @@ Section:Spacer()
 
 ```lua
 :Remove()
+:SetVisiblity(<boolean>)
 ```
 ---
 
