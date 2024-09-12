@@ -87,6 +87,9 @@ MainSection:Input({
 			Description = "Successfully set input to " .. input
 		})
 	end,
+	onChanged = function(input)
+		print("Input is now ".. input)
+	end,
 })
 
 MainSection:Slider({
@@ -116,8 +119,15 @@ MainSection:Keybind({
 	Callback = function(binded)
 		DemoWindow:Notify({
 			Title = "Demo Window",
-			Description = "Successfully pressed keybind - "..tostring(binded.Name),
-			Lifetime = 5
+			Description = "Pressed keybind - "..tostring(binded.Name),
+			Lifetime = 3
+		})
+	end,
+	onBinded = function(bind)
+		DemoWindow:Notify({
+			Title = "Demo Window",
+			Description = "Successfully Binded Keybind to - "..tostring(bind.Name),
+			Lifetime = 3
 		})
 	end,
 })
