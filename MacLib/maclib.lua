@@ -1456,7 +1456,7 @@ function MacLib:Window(Settings)
 					local ButtonFunctions = {}
 					local button = Instance.new("Frame")
 					button.Name = "Button"
-					button.AutomaticSize = Enum.AutomaticSize.XY
+					button.AutomaticSize = Enum.AutomaticSize.Y
 					button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 					button.BackgroundTransparency = 1
 					button.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1550,7 +1550,7 @@ function MacLib:Window(Settings)
 					local ToggleFunctions = {}
 					local toggle = Instance.new("Frame")
 					toggle.Name = "Toggle"
-					toggle.AutomaticSize = Enum.AutomaticSize.XY
+					toggle.AutomaticSize = Enum.AutomaticSize.Y
 					toggle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 					toggle.BackgroundTransparency = 1
 					toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1697,7 +1697,7 @@ function MacLib:Window(Settings)
 					local SliderFunctions = {}
 					local slider = Instance.new("Frame")
 					slider.Name = "Slider"
-					slider.AutomaticSize = Enum.AutomaticSize.XY
+					slider.AutomaticSize = Enum.AutomaticSize.Y
 					slider.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 					slider.BackgroundTransparency = 1
 					slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1947,7 +1947,7 @@ function MacLib:Window(Settings)
 					local InputFunctions = {}
 					local input = Instance.new("Frame")
 					input.Name = "Input"
-					input.AutomaticSize = Enum.AutomaticSize.XY
+					input.AutomaticSize = Enum.AutomaticSize.Y
 					input.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 					input.BackgroundTransparency = 1
 					input.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2102,7 +2102,7 @@ function MacLib:Window(Settings)
 					local KeybindFunctions = {}
 					local keybind = Instance.new("Frame")
 					keybind.Name = "Keybind"
-					keybind.AutomaticSize = Enum.AutomaticSize.XY
+					keybind.AutomaticSize = Enum.AutomaticSize.Y
 					keybind.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 					keybind.BackgroundTransparency = 1
 					keybind.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2694,7 +2694,7 @@ function MacLib:Window(Settings)
 					
 					local header = Instance.new("Frame")
 					header.Name = "Header"
-					header.AutomaticSize = Enum.AutomaticSize.XY
+					header.AutomaticSize = Enum.AutomaticSize.Y
 					header.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 					header.BackgroundTransparency = 1
 					header.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2745,7 +2745,7 @@ function MacLib:Window(Settings)
 					
 					local label = Instance.new("Frame")
 					label.Name = "Label"
-					label.AutomaticSize = Enum.AutomaticSize.XY
+					label.AutomaticSize = Enum.AutomaticSize.Y
 					label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 					label.BackgroundTransparency = 1
 					label.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2790,7 +2790,7 @@ function MacLib:Window(Settings)
 
 					local paragraph = Instance.new("Frame")
 					paragraph.Name = "Paragraph"
-					paragraph.AutomaticSize = Enum.AutomaticSize.XY
+					paragraph.AutomaticSize = Enum.AutomaticSize.Y
 					paragraph.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 					paragraph.BackgroundTransparency = 1
 					paragraph.BorderColor3 = Color3.fromRGB(0, 0, 0)
