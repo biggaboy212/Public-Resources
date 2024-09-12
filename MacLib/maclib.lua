@@ -711,7 +711,6 @@ function MacLib:Window(Settings)
 		dragging_ = false
 	end)
 
-
 	local currentTab = Instance.new("TextLabel")
 	currentTab.Name = "CurrentTab"
 	currentTab.FontFace = Font.new(
@@ -2078,6 +2077,9 @@ function MacLib:Window(Settings)
 
 					InputBox:GetPropertyChangedSignal("Text"):Connect(function()
 						InputBox.Text = AcceptedCharacters(InputBox.Text)
+						if Settings.onChanged then
+							Settings.onChanged(InputBox.Text)
+						end
 					end)
 
 					function InputFunctions:UpdateName(Name)
@@ -2194,13 +2196,16 @@ function MacLib:Window(Settings)
 					binderBox.FocusLost:Connect(function()
 						focused = false
 					end)
-
+				
 					UserInputService.InputEnded:Connect(function(inp)
 						if macLib ~= nil then
 							if focused and inp.KeyCode.Name ~= "Unknown" then
 								binded = inp.KeyCode
 								binderBox.Text = inp.KeyCode.Name
 								binderBox:ReleaseFocus()
+								if Settings.onBinded then
+									Settings.onBinded(binded)
+								end
 							elseif inp.KeyCode == binded then
 								if Settings.Callback then
 									Settings.Callback(binded)
@@ -3376,6 +3381,9 @@ function MacLib:Demo()
 				Description = "Successfully set input to " .. input
 			})
 		end,
+		onChanged = function(input)
+			print("Input is now ".. input)
+		end,
 	})
 
 	MainSection:Slider({
@@ -3405,8 +3413,15 @@ function MacLib:Demo()
 		Callback = function(binded)
 			DemoWindow:Notify({
 				Title = "Demo Window",
-				Description = "Successfully pressed keybind - "..tostring(binded.Name),
-				Lifetime = 5
+				Description = "Pressed keybind - "..tostring(binded.Name),
+				Lifetime = 3
+			})
+		end,
+		onBinded = function(bind)
+			DemoWindow:Notify({
+				Title = "Demo Window",
+				Description = "Successfully Binded Keybind to - "..tostring(bind.Name),
+				Lifetime = 3
 			})
 		end,
 	})
