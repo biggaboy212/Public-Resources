@@ -3272,6 +3272,12 @@ function MacLib:Window(Settings)
 	function WindowFunctions:GetSize(Size)
 		return base.Size
 	end
+	function WindowFunctions:SetScale(Scale)
+		baseUIScale.Scale = Scale
+	end
+	function WindowFunctions:GetScale()
+		return baseUIScale.Scale
+	end
 
 	windowState = true
 
