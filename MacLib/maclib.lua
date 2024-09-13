@@ -1289,7 +1289,6 @@ function MacLib:Window(Settings)
 			tabSwitcher.TextColor3 = Color3.fromRGB(0, 0, 0)
 			tabSwitcher.TextSize = 14
 			tabSwitcher.AutoButtonColor = false
-			tabSwitcher.Modal = true
 			tabSwitcher.AnchorPoint = Vector2.new(0.5, 0)
 			tabSwitcher.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			tabSwitcher.BackgroundTransparency = 1
