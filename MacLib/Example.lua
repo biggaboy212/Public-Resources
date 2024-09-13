@@ -4,6 +4,7 @@ local DemoWindow = MacLib:Window({
 	Title = "MacLib Demo",
 	Subtitle = "This is a subtitle.",
 	Size = UDim2.fromOffset(868, 650),
+	DragStyle = 1,
 	DisabledWindowControls = {},
 	ShowUserInfo = true,
 	Keybind = Enum.KeyCode.RightControl,
