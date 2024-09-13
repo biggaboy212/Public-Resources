@@ -16,7 +16,7 @@ local Window = MacLib:Window({
   Title <string>
   Subtitle <string>
   Size <UDim2>
-  DragStyle <number> -- 1: Uses a move icon to drag, ideal for PC. 2: Uses the entire UI to drag, ideal for Mobile.
+  DragStyle <number: 1, 2> -- 1: Uses a move icon to drag, ideal for PC. 2: Uses the entire UI to drag, ideal for Mobile.
   DisabledWindowControls <table: "Exit", "Minimize">
   ShowUserInfo <boolean>
   Keybind <enum>
