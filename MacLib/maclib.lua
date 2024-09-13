@@ -20,6 +20,13 @@ local tabs = {}
 local currentTabInstance = nil
 local tabIndex = 0
 
+local assets = {
+	userInfoBlurred = "rbxassetid://18824089198",
+	toggleBackground = "rbxassetid://18772190202",
+	togglerHead = "rbxassetid://18772309008",
+	buttonImage = "rbxassetid://10709791437"
+}
+
 --// Functions
 local function Tween(instance, tweeninfo, propertytable)
 	return TweenService:Create(instance, tweeninfo, propertytable)
@@ -36,6 +43,7 @@ function MacLib:Window(Settings)
 
 	local macLib = Instance.new("ScreenGui")
 	macLib.Name = "MacLib"
+	macLib.ResetOnSpawn = false
 	macLib.DisplayOrder = 100
 	macLib.IgnoreGuiInset = true
 	macLib.ScreenInsets = Enum.ScreenInsets.None
@@ -3197,8 +3205,16 @@ function MacLib:Window(Settings)
 		acrylicBlur = State
 	end
 
-	local MenuKeybind = Settings.Keybind or Enum.KeyCode.RightControl
+	function WindowFunctions:GetState()
+		return windowState
+	end
 	
+	function WindowFunctions:Unload()
+		macLib:Destroy()
+	end
+	
+	local MenuKeybind = Settings.Keybind or Enum.KeyCode.RightControl
+
 	local function ToggleMenu()
 		local state = not WindowFunctions:GetState()
 		WindowFunctions:SetState(state)
@@ -3208,26 +3224,18 @@ function MacLib:Window(Settings)
 			Lifetime = 5
 		})
 	end
-	
+
 	UserInputService.InputEnded:Connect(function(inp, gpe)
 		if gpe then return end
 		if inp.KeyCode == MenuKeybind then
 			ToggleMenu()
 		end
 	end)
-	
+
 	minimize.MouseButton1Click:Connect(ToggleMenu)
 	exit.MouseButton1Click:Connect(function()
 		macLib:Destroy()
 	end)
-	
-	function WindowFunctions:Unload()
-		macLib:Destroy()
-	end
-
-	function WindowFunctions:GetState()
-		return windowState
-	end
 
 	function WindowFunctions:SetKeybind(Keycode)
 		MenuKeybind = Keycode
@@ -3287,7 +3295,14 @@ function MacLib:Window(Settings)
 	windowState = true
 
 	macLib.Enabled = false
+	
+	local assetList = {}
+	for _, assetId in pairs(assets) do
+		table.insert(assetList, assetId)
+	end
 	ContentProvider:PreloadAsync(macLib:GetDescendants())
+	ContentProvider:PreloadAsync(assetList)
+	
 	macLib.Enabled = true
 
 	return WindowFunctions
