@@ -651,6 +651,7 @@ function MacLib:Window(Settings)
 	moveIcon.Position = UDim2.fromScale(1, 0.5)
 	moveIcon.Size = UDim2.fromOffset(15, 15)
 	moveIcon.Parent = elements
+	moveIcon.Visible = not Settings.DragStyle or Settings.DragStyle == 1
 
 	local function ChangemoveIconState(State)
 		if State == "Default" then
@@ -701,23 +702,47 @@ function MacLib:Window(Settings)
 		end
 	end
 
-	moveIcon.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			onDragStart(input)
-		end
-	end)
+	if not Settings.DragStyle or Settings.DragStyle == 1 then
+		moveIcon.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				onDragStart(input)
+			end
+		end)
 
-	moveIcon.InputChanged:Connect(onDragUpdate)
+		moveIcon.InputChanged:Connect(onDragUpdate)
 
-	UserInputService.InputChanged:Connect(function(input)
-		if input == dragInput and dragging_ then
-			update(input)
-		end
-	end)
+		UserInputService.InputChanged:Connect(function(input)
+			if input == dragInput and dragging_ then
+				update(input)
+			end
+		end)
 
-	moveIcon.MouseButton1Up:Connect(function()
-		dragging_ = false
-	end)
+		moveIcon.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				dragging_ = false
+			end
+		end)
+	elseif Settings.DragStyle == 2 then
+		base.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				onDragStart(input)
+			end
+		end)
+
+		base.InputChanged:Connect(onDragUpdate)
+
+		UserInputService.InputChanged:Connect(function(input)
+			if input == dragInput and dragging_ then
+				update(input)
+			end
+		end)
+
+		base.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				dragging_ = false
+			end
+		end)
+	end
 
 	local currentTab = Instance.new("TextLabel")
 	currentTab.Name = "CurrentTab"
@@ -3279,12 +3304,14 @@ function MacLib:Window(Settings)
 	function WindowFunctions:GetUserInfoState(State)
 		return showUserInfo
 	end
+	
 	function WindowFunctions:SetSize(Size)
 		base.Size = Size
 	end
 	function WindowFunctions:GetSize(Size)
 		return base.Size
 	end
+	
 	function WindowFunctions:SetScale(Scale)
 		baseUIScale.Scale = Scale
 	end
@@ -3313,6 +3340,7 @@ function MacLib:Demo()
 		Title = "MacLib Demo",
 		Subtitle = "This is a subtitle.",
 		Size = UDim2.fromOffset(868, 650),
+		DragStyle = 1,
 		DisabledWindowControls = {},
 		ShowUserInfo = true,
 		Keybind = Enum.KeyCode.RightControl,
