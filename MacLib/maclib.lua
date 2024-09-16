@@ -3672,13 +3672,13 @@ function MacLib:Demo()
 				Title = "MacLib Demo",
 				Description = "Lorem ipsum odor amet, consectetuer adipiscing elit. Eros vestibulum aliquet mattis, ex platea nunc.",
 				Buttons = {
-					Confirm = {
+					{
 						Name = "Confirm",
 						Callback = function()
 							print("Confirmed!")
 						end,
 					},
-					Cancel = {
+					{
 						Name = "Cancel"
 					}
 				}
