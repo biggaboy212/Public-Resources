@@ -2654,9 +2654,12 @@ function MacLib:Window(Settings)
 									for _, opt in ipairs(Selected) do
 										Return[opt] = true
 									end
-									Settings.Callback(Return)
+									if Settings.Callback then
+										Settings.Callback(Return)
+									end
+									
 								else
-									if newSelected then
+									if newSelected and Settings.Callback then
 										Settings.Callback(Selected[1] or nil)
 									end
 								end
@@ -3176,7 +3179,9 @@ function MacLib:Window(Settings)
 		if interactable then
 			interactable.MouseButton1Click:Connect(function()
 				NotificationFunctions:Cancel()
-				task.spawn(Settings.Callback)
+				if Settings.Callback then
+					task.spawn(Settings.Callback)
+				end
 			end)
 		end
 	
@@ -3213,6 +3218,268 @@ function MacLib:Window(Settings)
 		end
 		
 		return NotificationFunctions
+	end
+	
+	function WindowFunctions:Dialog(Settings)
+		local DialogFunctions = {}
+		
+		local dialogCanvas = Instance.new("CanvasGroup")
+		dialogCanvas.Name = "DialogCanvas"
+		dialogCanvas.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		dialogCanvas.BackgroundTransparency = 1
+		dialogCanvas.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		dialogCanvas.BorderSizePixel = 0
+		dialogCanvas.Size = UDim2.fromScale(1, 1)
+		dialogCanvas.GroupTransparency = 1
+		dialogCanvas.Parent = base
+
+		local dialog = Instance.new("Frame")
+		dialog.Name = "Dialog"
+		dialog.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		dialog.BackgroundTransparency = 0.5
+		dialog.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		dialog.BorderSizePixel = 0
+		dialog.Size = UDim2.fromScale(1, 1)
+
+		local baseUICorner = Instance.new("UICorner")
+		baseUICorner.Name = "BaseUICorner"
+		baseUICorner.CornerRadius = UDim.new(0, 10)
+		baseUICorner.Parent = dialog
+
+		local prompt = Instance.new("Frame")
+		prompt.Name = "Prompt"
+		prompt.AnchorPoint = Vector2.new(0.5, 0.5)
+		prompt.AutomaticSize = Enum.AutomaticSize.Y
+		prompt.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+		prompt.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		prompt.BorderSizePixel = 0
+		prompt.Position = UDim2.fromScale(0.5, 0.5)
+		prompt.Size = UDim2.fromOffset(280, 0)
+
+		local globalSettingsUIStroke = Instance.new("UIStroke")
+		globalSettingsUIStroke.Name = "GlobalSettingsUIStroke"
+		globalSettingsUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		globalSettingsUIStroke.Color = Color3.fromRGB(255, 255, 255)
+		globalSettingsUIStroke.Transparency = 0.9
+		globalSettingsUIStroke.Parent = prompt
+
+		local globalSettingsUICorner = Instance.new("UICorner")
+		globalSettingsUICorner.Name = "GlobalSettingsUICorner"
+		globalSettingsUICorner.CornerRadius = UDim.new(0, 10)
+		globalSettingsUICorner.Parent = prompt
+
+		local globalSettingsUIPadding = Instance.new("UIPadding")
+		globalSettingsUIPadding.Name = "GlobalSettingsUIPadding"
+		globalSettingsUIPadding.PaddingBottom = UDim.new(0, 20)
+		globalSettingsUIPadding.PaddingLeft = UDim.new(0, 20)
+		globalSettingsUIPadding.PaddingRight = UDim.new(0, 20)
+		globalSettingsUIPadding.PaddingTop = UDim.new(0, 20)
+		globalSettingsUIPadding.Parent = prompt
+
+		local paragraph = Instance.new("Frame")
+		paragraph.Name = "Paragraph"
+		paragraph.AutomaticSize = Enum.AutomaticSize.Y
+		paragraph.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		paragraph.BackgroundTransparency = 1
+		paragraph.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		paragraph.BorderSizePixel = 0
+		paragraph.Size = UDim2.new(1, 0, 0, 38)
+
+		local paragraphHeader = Instance.new("TextLabel")
+		paragraphHeader.Name = "ParagraphHeader"
+		paragraphHeader.FontFace = Font.new(
+			"rbxassetid://12187365364",
+			Enum.FontWeight.SemiBold,
+			Enum.FontStyle.Normal
+		)
+		paragraphHeader.RichText = true
+		paragraphHeader.Text = Settings.Title
+		paragraphHeader.TextColor3 = Color3.fromRGB(255, 255, 255)
+		paragraphHeader.TextSize = 18
+		paragraphHeader.TextTransparency = 0.4
+		paragraphHeader.TextWrapped = true
+		paragraphHeader.AutomaticSize = Enum.AutomaticSize.Y
+		paragraphHeader.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		paragraphHeader.BackgroundTransparency = 1
+		paragraphHeader.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		paragraphHeader.BorderSizePixel = 0
+		paragraphHeader.Size = UDim2.fromScale(1, 0)
+		paragraphHeader.Parent = paragraph
+
+		local uIListLayout = Instance.new("UIListLayout")
+		uIListLayout.Name = "UIListLayout"
+		uIListLayout.Padding = UDim.new(0, 15)
+		uIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		uIListLayout.Parent = paragraph
+
+		local paragraphBody = Instance.new("TextLabel")
+		paragraphBody.Name = "ParagraphBody"
+		paragraphBody.FontFace = Font.new(
+			"rbxassetid://12187365364",
+			Enum.FontWeight.Medium,
+			Enum.FontStyle.Normal
+		)
+		paragraphBody.RichText = true
+		paragraphBody.Text = Settings.Description
+		paragraphBody.TextColor3 = Color3.fromRGB(255, 255, 255)
+		paragraphBody.TextSize = 14
+		paragraphBody.TextTransparency = 0.5
+		paragraphBody.TextWrapped = true
+		paragraphBody.AutomaticSize = Enum.AutomaticSize.Y
+		paragraphBody.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		paragraphBody.BackgroundTransparency = 1
+		paragraphBody.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		paragraphBody.BorderSizePixel = 0
+		paragraphBody.LayoutOrder = 1
+		paragraphBody.Size = UDim2.fromScale(1, 0)
+		paragraphBody.Parent = paragraph
+
+		paragraph.Parent = prompt
+
+		local interactions = Instance.new("Frame")
+		interactions.Name = "Interactions"
+		interactions.AutomaticSize = Enum.AutomaticSize.Y
+		interactions.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		interactions.BackgroundTransparency = 1
+		interactions.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		interactions.BorderSizePixel = 0
+		interactions.LayoutOrder = 1
+		interactions.Size = UDim2.fromScale(1, 0)
+
+		local uIListLayout1 = Instance.new("UIListLayout")
+		uIListLayout1.Name = "UIListLayout"
+		uIListLayout1.Padding = UDim.new(0, 10)
+		uIListLayout1.SortOrder = Enum.SortOrder.LayoutOrder
+		uIListLayout1.Parent = interactions
+
+		local uIPadding = Instance.new("UIPadding")
+		uIPadding.Name = "UIPadding"
+		uIPadding.PaddingTop = UDim.new(0, 20)
+		uIPadding.Parent = interactions
+
+		interactions.Parent = prompt
+
+		local uIListLayout2 = Instance.new("UIListLayout")
+		uIListLayout2.Name = "UIListLayout"
+		uIListLayout2.SortOrder = Enum.SortOrder.LayoutOrder
+		uIListLayout2.Parent = prompt
+
+		prompt.Parent = dialog
+
+		dialog.Parent = dialogCanvas
+		
+		local canvasIn = Tween(dialogCanvas, TweenInfo.new(0.15, Enum.EasingStyle.Quint), {
+			GroupTransparency = 0,
+		})
+		local canvasOut = Tween(dialogCanvas, TweenInfo.new(0.15, Enum.EasingStyle.Quint), {
+			GroupTransparency = 1,
+		})
+		
+		local function dialogIn()
+			canvasIn:Play()
+			canvasIn.Completed:Wait()
+			dialog.Parent = base
+		end
+		
+		local function dialogOut()
+			dialog.Parent = dialogCanvas
+
+			canvasOut:Play()
+			canvasOut.Completed:Wait()
+			dialogCanvas:Destroy()
+		end
+		
+		for _, v in pairs(Settings.Buttons) do
+			local button = Instance.new("TextButton")
+			button.Name = "Button"
+			button.FontFace = Font.new(
+				"rbxassetid://12187365364",
+				Enum.FontWeight.SemiBold,
+				Enum.FontStyle.Normal
+			)
+			button.Text = v.Name
+			button.TextColor3 = Color3.fromRGB(255, 255, 255)
+			button.TextSize = 15
+			button.TextTransparency = 0.5
+			button.TextTruncate = Enum.TextTruncate.AtEnd
+			button.AutoButtonColor = false
+			button.AutomaticSize = Enum.AutomaticSize.Y
+			button.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+			button.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			button.BorderSizePixel = 0
+			button.Size = UDim2.fromScale(1, 0)
+
+			local uIPadding1 = Instance.new("UIPadding")
+			uIPadding1.Name = "UIPadding"
+			uIPadding1.PaddingBottom = UDim.new(0, 9)
+			uIPadding1.PaddingLeft = UDim.new(0, 10)
+			uIPadding1.PaddingRight = UDim.new(0, 10)
+			uIPadding1.PaddingTop = UDim.new(0, 9)
+			uIPadding1.Parent = button
+
+			local baseUICorner1 = Instance.new("UICorner")
+			baseUICorner1.Name = "BaseUICorner"
+			baseUICorner1.CornerRadius = UDim.new(0, 10)
+			baseUICorner1.Parent = button
+
+			button.Parent = interactions
+			
+			local TweenSettings = {
+				DefaultTransparency = 0,
+				DefaultTransparency2 = 0.5,
+				HoverTransparency = 0.3,
+				HoverTransparency2 = 0.6,
+
+				EasingStyle = Enum.EasingStyle.Sine
+			}
+			
+			local function ChangeState(State)
+				if State == "Idle" then
+					Tween(button, TweenInfo.new(0.2, TweenSettings.EasingStyle), {
+						BackgroundTransparency = TweenSettings.DefaultTransparency,
+						TextTransparency = TweenSettings.DefaultTransparency2
+					}):Play()
+				elseif State == "Hover" then
+					Tween(button, TweenInfo.new(0.2, TweenSettings.EasingStyle), {
+						BackgroundTransparency = TweenSettings.HoverTransparency,
+						TextTransparency = TweenSettings.HoverTransparency2
+					}):Play()
+				end
+			end
+			
+			button.MouseButton1Click:Connect(function()
+				if dialogCanvas.GroupTransparency ~= 0 then return end
+				if v.Callback then
+					v.Callback()
+				end
+				
+				dialog.Parent = dialogCanvas
+				
+				dialogOut()
+			end)
+			
+			button.MouseEnter:Connect(function()
+				ChangeState("Hover")
+			end)
+			button.MouseLeave:Connect(function()
+				ChangeState("Idle")
+			end)
+		end
+		
+		dialogIn()
+		
+		function DialogFunctions:UpdateTitle(New)
+			paragraphHeader.Text = New
+		end
+		function DialogFunctions:UpdateDescription(New)
+			paragraphBody.Text = New
+		end
+		
+		function DialogFunctions:Cancel()
+			dialogOut()
+		end
+		
+		return DialogFunctions
 	end
 
 	function WindowFunctions:SetNotificationsState(State)
@@ -3401,14 +3668,20 @@ function MacLib:Demo()
 	MainSection:Button({
 		Name = "Button",
 		Callback = function()
-			DemoWindow:Notify({
+			DemoWindow:Dialog({
 				Title = "MacLib Demo",
-				Description = "Success!",
-				Lifetime = 6,
-				Style = "Confirm",
-				Callback = function()
-					print("Clicked Confirm!")
-				end,
+				Description = "Lorem ipsum odor amet, consectetuer adipiscing elit. Eros vestibulum aliquet mattis, ex platea nunc.",
+				Buttons = {
+					Confirm = {
+						Name = "Confirm",
+						Callback = function()
+							print("Confirmed!")
+						end,
+					},
+					Cancel = {
+						Name = "Cancel"
+					}
+				}
 			})
 		end,
 	})
