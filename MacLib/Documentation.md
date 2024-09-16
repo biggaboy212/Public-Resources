@@ -1,9 +1,54 @@
-# Terms
-- Acrylic Blur - UI Blur, do not use for maximum security.
-- Global Setting - An option that can be accessed from the 'Globe' icon in the title bar.
-- Tab Group - A group of tabs, the 'Tab Group' seperates different sections of tabs.
-- Section - A group of elements, this can be on either the left or right side of the window.
-- Callback - A function that is called upon interaction with an element. Usually this returns a new value.
+# Documentation Formatting
+
+- Each argument is listed with its **name** followed by its **type** in angle brackets (`<>`), indicating the kind of data it expects.
+
+  Example: 
+  ```lua
+  Title <string>
+  ```
+
+- A `...` before a `<table>` type means the function can take **multiple arguments** in a variable-length table.
+
+  Example:
+  ```lua
+  Tree <...table: FruitName, FruitColor> -- Accepts multiple Fruit definitions, each as a table with a Name and Color.
+  ```
+
+- A colon (`:`) after a **type** means those are the arguments that the type expects.
+
+  Example:
+  ```lua
+  PrintWhat <string: "Hello World", "Goodbye world ):"> -- Expects one of the two strings.
+  ```
+
+- A `():` after a **function type** indicates the **return type**.
+
+  Example:
+  ```lua
+  Callback <function(): string> -- The function returns a string when called.
+  ```
+
+- A `(): void` after a **function type** indicates it does not return anything.
+
+  Example:
+  ```lua
+   Callback <function(): void> -- The function called when the setting is toggled. Returns nothing.
+  ```
+
+- `<type or type>` means the argument can accept either type.
+
+  Example:
+  ```lua
+  Default <number or table> -- Accepts either a number or a table as the default value.
+  ```
+  
+- A `:` **before** a parameter type indicates a parameter is returned with this type.
+  
+  Example:
+  ```lua
+  :GetState(: boolean) -- Returns whether the window is currently visible or not.
+  ```
+
 # Use
 ## Loading MacLib
 ```lua
@@ -29,7 +74,7 @@ local Window = MacLib:Window({
 local Global_Setting = Window:GlobalSetting({
   Name <string>
   Default <boolean>
-  Callback <function>
+  Callback <function(): void>
 })
 ```
 ---
@@ -40,7 +85,22 @@ Window:Notify({
     Description <string>
     Lifetime <number>
     Style <string: "None", "Confirm", "Cancel"> -- The type of button that the user interacts with, input "None" for no interactable (or leave nil), input "Confirm" for a checkmark, and input "Cancel" for a crossmark.
-    Callback <function>
+    Callback <function(): void>
+})
+```
+
+```lua
+:UpdateTitle(<string>)
+:UpdateDescription(<string>)
+:Cancel()
+```
+---
+## Prompting a dialog
+```lua
+Window:Dialog({
+    Title <string>
+    Description <string>
+    Buttons <table: <...table: Name, Callback>>
 })
 ```
 
@@ -80,7 +140,7 @@ local Section = Main:Section({
 ```lua
 Section:Button({
   Name <string>
-  Callback <function>
+  Callback <function() void>
 })
 ```
 
