@@ -189,7 +189,7 @@ MainSection:Button({
 MainSection:Divider()
 
 MainSection:Header({
-	Name = "Header #2"
+	Text = "Header #2"
 })
 
 MainSection:Paragraph({
@@ -198,11 +198,11 @@ MainSection:Paragraph({
 })
 
 MainSection:Label({
-	Name = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
+	Text = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 })
 
 MainSection:SubLabel({
-	Name = "Sub-Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
+	Text = "Sub-Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 })
 
 Main:Select()
