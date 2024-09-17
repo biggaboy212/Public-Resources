@@ -244,6 +244,9 @@ Section:Dropdown({
 :SetVisiblity(<boolean>)
 :UpdateSelection(<number or table>)
 :InsertOptions(<table>)
+:RemoveOptions(<table>)
+:IsOption(<string: boolean>)
+:GetOptions(: table)
 :ClearOptions()
 ```
 ---
