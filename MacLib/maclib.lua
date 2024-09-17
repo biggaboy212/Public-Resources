@@ -2279,6 +2279,12 @@ function MacLib:Window(Settings)
 					dropdown.Size = UDim2.new(1, 0, 0, 38)
 					dropdown.Parent = section
 					dropdown.ClipsDescendants = true
+					
+					local dropdownUIPadding = Instance.new("UIPadding")
+					dropdownUIPadding.Name = "DropdownUIPadding"
+					dropdownUIPadding.PaddingLeft = UDim.new(0, 15)
+					dropdownUIPadding.PaddingRight = UDim.new(0, 15)
+					dropdownUIPadding.Parent = dropdown
 
 					local interact = Instance.new("TextButton")
 					interact.Name = "Interact"
@@ -2353,7 +2359,6 @@ function MacLib:Window(Settings)
 
 					local dropdownFrameUIPadding = Instance.new("UIPadding")
 					dropdownFrameUIPadding.Name = "DropdownFrameUIPadding"
-					dropdownFrameUIPadding.PaddingBottom = UDim.new(0, 8)
 					dropdownFrameUIPadding.PaddingTop = UDim.new(0, 38)
 					dropdownFrameUIPadding.Parent = dropdownFrame
 
@@ -2416,6 +2421,20 @@ function MacLib:Window(Settings)
 					searchBox.BorderSizePixel = 0
 					searchBox.Size = UDim2.fromScale(1, 1)
 					
+					local function CalculateDropdownSize()
+						local totalHeight = 0
+						local padding = dropdownFrameUIPadding.PaddingTop.Offset
+						local spacing = dropdownFrameUIListLayout.Padding.Offset * (#dropdownFrame:GetChildren() - 1)
+
+						for _, v in pairs(dropdownFrame:GetChildren()) do
+							if not v:IsA("UIComponent") and v.Visible then
+								totalHeight += v.AbsoluteSize.Y
+							end
+						end
+
+						return totalHeight + padding + spacing
+					end
+					
 					local function findOption()
 						local searchTerm = searchBox.Text:lower()
 
@@ -2427,10 +2446,11 @@ function MacLib:Window(Settings)
 								v.Button.Visible = isVisible
 							end
 						end
+						
+						dropdown.Size = UDim2.new(1, 0, 0, CalculateDropdownSize())
 					end
 
 					searchBox:GetPropertyChangedSignal("Text"):Connect(findOption)
-
 
 					local uIPadding1 = Instance.new("UIPadding")
 					uIPadding1.Name = "UIPadding"
@@ -2512,7 +2532,40 @@ function MacLib:Window(Settings)
 						end
 					end
 
-					for i, v in pairs(Settings.Options) do
+					local dropped = false
+					local db = false
+					
+					local function ToggleDropdown()
+						if db then return end
+						db = true
+						local defaultDropdownSize = 38
+						local isDropdownOpen = not dropped
+						local targetSize = isDropdownOpen and UDim2.new(1, 0, 0, CalculateDropdownSize()) or UDim2.new(1, 0, 0, defaultDropdownSize)
+
+						local tween = Tween(dropdown, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
+							Size = targetSize
+						})
+
+						tween:Play()
+
+						if isDropdownOpen then
+							dropdownFrame.Visible = true
+							tween.Completed:Connect(function()
+								db = false
+							end)
+						else
+							tween.Completed:Connect(function()
+								dropdownFrame.Visible = false
+								db = false
+							end)
+						end
+
+						dropped = isDropdownOpen
+					end
+
+					interact.MouseButton1Click:Connect(ToggleDropdown)
+					
+					local function addOption(i, v)
 						local option = Instance.new("TextButton")
 						option.Name = "Option"
 						option.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
@@ -2596,12 +2649,6 @@ function MacLib:Window(Settings)
 							Checkmark = checkmark
 						}
 
-						local dropdownUIPadding = Instance.new("UIPadding")
-						dropdownUIPadding.Name = "DropdownUIPadding"
-						dropdownUIPadding.PaddingLeft = UDim.new(0, 15)
-						dropdownUIPadding.PaddingRight = UDim.new(0, 15)
-						dropdownUIPadding.Parent = dropdown
-
 						local tweensettings = {
 							duration = 0.2,
 							easingStyle = Enum.EasingStyle.Quint,
@@ -2657,7 +2704,7 @@ function MacLib:Window(Settings)
 									if Settings.Callback then
 										Settings.Callback(Return)
 									end
-									
+
 								else
 									if newSelected and Settings.Callback then
 										Settings.Callback(Selected[1] or nil)
@@ -2665,46 +2712,15 @@ function MacLib:Window(Settings)
 								end
 							end)
 						end)
-					end
-
-
-					local function CalculateDropdownSize()
-						local count = 0
-						for _,v in pairs(dropdownFrame:GetChildren()) do
-							if not v:IsA("UIComponent") and v.Visible then count += 1 end
+						
+						if dropped then
+							dropdown.Size = UDim2.new(1, 0, 0, CalculateDropdownSize())
 						end
-						local calculationVals = {
-							[1] = dropdown.AbsoluteSize.Y,
-							[2] = dropdownFrameUIPadding.PaddingTop.Offset - dropdownFrameUIPadding.PaddingBottom.Offset,
-							[3] = 30 * count
-						}
-						return calculationVals[1] + calculationVals[2] + calculationVals[3]
 					end
 
-					local dropped = false
-					local function ToggleDropdown()
-						local defaultDropdownSize = 38
-						local isDropdownOpen = not dropped
-						local targetSize = isDropdownOpen and UDim2.new(1, 0, 0, CalculateDropdownSize()) or UDim2.new(1, 0, 0, defaultDropdownSize)
-
-						local tween = Tween(dropdown, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
-							Size = targetSize
-						})
-
-						tween:Play()
-
-						if isDropdownOpen then
-							dropdownFrame.Visible = true
-						else
-							tween.Completed:Connect(function()
-								dropdownFrame.Visible = false
-							end)
-						end
-
-						dropped = isDropdownOpen
+					for i, v in pairs(Settings.Options) do
+						addOption(i, v)
 					end
-
-					interact.MouseButton1Click:Connect(ToggleDropdown)
 					
 					function DropdownFunctions:UpdateName(New)
 						dropdownName.Text = New
@@ -2723,6 +2739,23 @@ function MacLib:Window(Settings)
 								local isSelected = table.find(newSelection, option) ~= nil
 								Toggle(option, isSelected)
 							end
+						end
+					end
+					function DropdownFunctions:InsertOptions(newOptions)
+						Settings.Options = newOptions
+						for i, v in pairs(newOptions) do
+							addOption(i, v)
+						end
+					end
+					function DropdownFunctions:ClearOptions()
+						for _, optionData in pairs(OptionObjs) do
+							optionData.Button:Destroy()
+						end
+						OptionObjs = {}
+						Selected = {}
+						
+						if dropped then
+							dropdown.Size = UDim2.new(1, 0, 0, CalculateDropdownSize())
 						end
 					end
 
@@ -3787,7 +3820,7 @@ function MacLib:Demo()
 			MultiDropdown:UpdateSelection({"Option 2", "Option 5"})
 		end,
 	})
-	
+
 	MainSection:Divider()
 	
 	MainSection:Header({
