@@ -66,14 +66,20 @@ MainSection:Header({
 MainSection:Button({
 	Name = "Button",
 	Callback = function()
-		DemoWindow:Notify({
+		DemoWindow:Dialog({
 			Title = "MacLib Demo",
-			Description = "Success!",
-			Lifetime = 6,
-			Style = "Confirm",
-			Callback = function()
-				print("Clicked Confirm!")
-			end,
+			Description = "Lorem ipsum odor amet, consectetuer adipiscing elit. Eros vestibulum aliquet mattis, ex platea nunc.",
+			Buttons = {
+				{
+					Name = "Confirm",
+					Callback = function()
+						print("Confirmed!")
+					end,
+				},
+				{
+					Name = "Cancel"
+				}
+			}
 		})
 	end,
 })
@@ -186,13 +192,17 @@ MainSection:Header({
 	Name = "Header #2"
 })
 
+MainSection:Paragraph({
+	Header = "Paragraph",
+	Body = "Paragraph body. Lorem ipsum odor amet, consectetuer adipiscing elit. Morbi tempus netus aliquet per velit est gravida."
+})
+
 MainSection:Label({
 	Name = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 })
 
-MainSection:Paragraph({
-	Header = "Paragraph",
-	Body = "Paragraph body. Lorem ipsum odor amet, consectetuer adipiscing elit. Morbi tempus netus aliquet per velit est gravida."
+MainSection:SubLabel({
+	Name = "Sub-Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 })
 
 Main:Select()
