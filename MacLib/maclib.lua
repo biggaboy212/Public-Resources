@@ -2760,6 +2760,40 @@ function MacLib:Window(Settings)
 							dropdown.Size = UDim2.new(1, 0, 0, CalculateDropdownSize())
 						end
 					end
+					function DropdownFunctions:GetOptions()
+						local optionsStatus = {}
+
+						for option, data in pairs(OptionObjs) do
+							local isSelected = table.find(Selected, option) and true or false
+							optionsStatus[option] = isSelected
+						end
+
+						return optionsStatus
+					end
+					function DropdownFunctions:RemoveOptions(remove)
+						for _, optionName in ipairs(remove) do
+							local optionData = OptionObjs[optionName]
+
+							if optionData then
+								for i = #Selected, 1, -1 do
+									if Selected[i] == optionName then
+										table.remove(Selected, i)
+									end
+								end
+
+								optionData.Button:Destroy()
+
+								OptionObjs[optionName] = nil
+							end
+						end
+						
+						if dropped then
+							dropdown.Size = UDim2.new(1, 0, 0, CalculateDropdownSize())
+						end
+					end
+					function DropdownFunctions:IsOption(optionName)
+						return OptionObjs[optionName] ~= nil
+					end
 
 					return DropdownFunctions
 				end
