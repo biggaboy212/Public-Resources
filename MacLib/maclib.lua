@@ -501,6 +501,7 @@ function MacLib:Window(Settings)
 	displayName.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	displayName.BorderSizePixel = 0
 	displayName.Parent = userAndDisplayFrame
+	displayName.Size = UDim2.fromScale(1,0)
 
 	local userAndDisplayFrameUIPadding = Instance.new("UIPadding")
 	userAndDisplayFrameUIPadding.Name = "UserAndDisplayFrameUIPadding"
@@ -535,6 +536,7 @@ function MacLib:Window(Settings)
 	username.BorderSizePixel = 0
 	username.LayoutOrder = 1
 	username.Parent = userAndDisplayFrame
+	username.Size = UDim2.fromScale(1,0)
 
 	userAndDisplayFrame.Parent = informationGroup
 
@@ -2789,7 +2791,7 @@ function MacLib:Window(Settings)
 						Enum.FontStyle.Normal
 					)
 					headerText.RichText = true
-					headerText.Text = Settings.Name
+					headerText.Text = Settings.Text or Settings.Name
 					headerText.TextColor3 = Color3.fromRGB(255, 255, 255)
 					headerText.TextSize = 16
 					headerText.TextTransparency = 0.4
@@ -2834,7 +2836,7 @@ function MacLib:Window(Settings)
 						Enum.FontStyle.Normal
 					)
 					labelText.RichText = true
-					labelText.Text = Settings.Name
+					labelText.Text = Settings.Text or Settings.Name -- Settings.Name Deprecated
 					labelText.TextColor3 = Color3.fromRGB(255, 255, 255)
 					labelText.TextSize = 13
 					labelText.TextTransparency = 0.5
@@ -2856,6 +2858,51 @@ function MacLib:Window(Settings)
 					end
 					
 					return LabelFunctions
+				end
+				
+				function SectionFunctions:SubLabel(Settings)
+					local SubLabelFunctions = {}
+
+					local subLabel = Instance.new("Frame")
+					subLabel.Name = "SubLabel"
+					subLabel.AutomaticSize = Enum.AutomaticSize.Y
+					subLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+					subLabel.BackgroundTransparency = 1
+					subLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					subLabel.BorderSizePixel = 0
+					subLabel.Size = UDim2.new(1, 0, 0, 0)
+					subLabel.Parent = section
+
+					local subLabelText = Instance.new("TextLabel")
+					subLabelText.Name = "SubLabelText"
+					subLabelText.FontFace = Font.new(
+						"rbxassetid://12187365364",
+						Enum.FontWeight.Medium,
+						Enum.FontStyle.Normal
+					)
+					subLabelText.RichText = true
+					subLabelText.Text = Settings.Text or Settings.Name -- Settings.Name Deprecated
+					subLabelText.TextColor3 = Color3.fromRGB(255, 255, 255)
+					subLabelText.TextSize = 11
+					subLabelText.TextTransparency = 0.7
+					subLabelText.TextWrapped = true
+					subLabelText.TextXAlignment = Enum.TextXAlignment.Left
+					subLabelText.AutomaticSize = Enum.AutomaticSize.Y
+					subLabelText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					subLabelText.BackgroundTransparency = 1
+					subLabelText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					subLabelText.BorderSizePixel = 0
+					subLabelText.Size = UDim2.fromScale(1, 1)
+					subLabelText.Parent = subLabel
+
+					function SubLabelFunctions:UpdateName(New)
+						subLabelText.Text = New
+					end
+					function SubLabelFunctions:SetVisibility(State)
+						subLabel.Visible = State
+					end
+
+					return SubLabelFunctions
 				end
 				
 				function SectionFunctions:Paragraph(Settings)
@@ -3824,17 +3871,22 @@ function MacLib:Demo()
 	MainSection:Divider()
 	
 	MainSection:Header({
-		Name = "Header #2"
-	})
-	
-	MainSection:Label({
-		Name = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
+		Text = "Header #2"
 	})
 	
 	MainSection:Paragraph({
 		Header = "Paragraph",
 		Body = "Paragraph body. Lorem ipsum odor amet, consectetuer adipiscing elit. Morbi tempus netus aliquet per velit est gravida."
 	})
+	
+	MainSection:Label({
+		Text = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
+	})
+	
+	MainSection:SubLabel({
+		Text = "Sub-Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
+	})
+	
 	Main:Select()
 end
 
