@@ -251,7 +251,7 @@ Section:Dropdown({
 ### Header
 ```lua
 Section:Header({
-  Name <string>
+  Text <string>
 })
 ```
 
@@ -279,7 +279,20 @@ Section:Paragraph({
 ### Label
 ```lua
 Section:Label({
-  Name <string>
+  Text <string>
+})
+```
+
+```lua
+:UpdateName(<string>)
+:SetVisiblity(<boolean>)
+```
+---
+
+### Sub-Label
+```lua
+Section:SubLabel({
+  Text <string>
 })
 ```
 
