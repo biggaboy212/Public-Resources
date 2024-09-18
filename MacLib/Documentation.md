@@ -14,7 +14,7 @@
   Tree <...table: FruitName, FruitColor> -- Accepts multiple Fruit definitions, each as a table with a Name and Color.
   ```
 
-- A colon (`:`) after a **type** means those are the arguments that the type expects.
+- A colon (`:`) inside of a **type** means those are the arguments that the type expects.
 
   Example:
   ```lua
@@ -32,7 +32,7 @@
 
   Example:
   ```lua
-   Callback <function(): void> -- The function called when the setting is toggled. Returns nothing.
+   Callback <function(): void> -- The function returns nothing when called.
   ```
 
 - `<type or type>` means the argument can accept either type.
@@ -41,11 +41,14 @@
   ```lua
   Default <number or table> -- Accepts either a number or a table as the default value.
   ```
-  
-- A `:` **before** a parameter type indicates a parameter is returned with this type.
+
+  - A `:` followed by a type indicates a return value and it's type.
   
   Example:
   ```lua
+  :GetFruitSize(<string>: number) -- Returns the size of the specified fruit.
+  ```
+    ```lua
   :GetState(: boolean) -- Returns whether the window is currently visible or not.
   ```
 
@@ -245,7 +248,7 @@ Section:Dropdown({
 :UpdateSelection(<number or table>)
 :InsertOptions(<table>)
 :RemoveOptions(<table>)
-:IsOption(<string: boolean>)
+:IsOption(<string>: boolean)
 :GetOptions(: table) -- Returns a table of every option and if its true or false (Example: {"Option 1" = true, "Option 2" = false, "Option 3" = false} etc..)
 :ClearOptions()
 ```
