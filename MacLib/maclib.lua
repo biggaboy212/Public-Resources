@@ -654,6 +654,21 @@ function MacLib:Window(Settings)
 	moveIcon.Size = UDim2.fromOffset(15, 15)
 	moveIcon.Parent = elements
 	moveIcon.Visible = not Settings.DragStyle or Settings.DragStyle == 1
+	
+	local interact = Instance.new("TextButton")
+	interact.Name = "Interact"
+	interact.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
+	interact.Text = ""
+	interact.TextColor3 = Color3.fromRGB(0, 0, 0)
+	interact.TextSize = 14
+	interact.AnchorPoint = Vector2.new(0.5, 0.5)
+	interact.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	interact.BackgroundTransparency = 1
+	interact.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	interact.BorderSizePixel = 0
+	interact.Position = UDim2.fromScale(0.5, 0.5)
+	interact.Size = UDim2.fromOffset(30, 30)
+	interact.Parent = moveIcon
 
 	local function ChangemoveIconState(State)
 		if State == "Default" then
@@ -667,10 +682,10 @@ function MacLib:Window(Settings)
 		end
 	end
 
-	moveIcon.MouseEnter:Connect(function()
+	interact.MouseEnter:Connect(function()
 		ChangemoveIconState("Hover")
 	end)
-	moveIcon.MouseLeave:Connect(function()
+	interact.MouseLeave:Connect(function()
 		ChangemoveIconState("Default")
 	end)
 
@@ -705,13 +720,13 @@ function MacLib:Window(Settings)
 	end
 
 	if not Settings.DragStyle or Settings.DragStyle == 1 then
-		moveIcon.InputBegan:Connect(function(input)
+		interact.InputBegan:Connect(function(input)
 			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 				onDragStart(input)
 			end
 		end)
 
-		moveIcon.InputChanged:Connect(onDragUpdate)
+		interact.InputChanged:Connect(onDragUpdate)
 
 		UserInputService.InputChanged:Connect(function(input)
 			if input == dragInput and dragging_ then
@@ -719,7 +734,7 @@ function MacLib:Window(Settings)
 			end
 		end)
 
-		moveIcon.InputEnded:Connect(function(input)
+		interact.InputEnded:Connect(function(input)
 			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 				dragging_ = false
 			end
@@ -1321,16 +1336,18 @@ function MacLib:Window(Settings)
 			tabSwitcherUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 			tabSwitcherUIListLayout.Parent = tabSwitcher
 
-			local tabImage = Instance.new("ImageLabel")
-			tabImage.Name = "TabImage"
-			tabImage.Image = Settings.Image
-			tabImage.ImageTransparency = 0.4
-			tabImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			tabImage.BackgroundTransparency = 1
-			tabImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			tabImage.BorderSizePixel = 0
-			tabImage.Size = UDim2.fromOffset(16, 16)
-			tabImage.Parent = tabSwitcher
+			if Settings.Image then
+				local tabImage = Instance.new("ImageLabel")
+				tabImage.Name = "TabImage"
+				tabImage.Image = Settings.Image
+				tabImage.ImageTransparency = 0.4
+				tabImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				tabImage.BackgroundTransparency = 1
+				tabImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				tabImage.BorderSizePixel = 0
+				tabImage.Size = UDim2.fromOffset(16, 16)
+				tabImage.Parent = tabSwitcher
+			end
 
 			local tabSwitcherName = Instance.new("TextLabel")
 			tabSwitcherName.Name = "TabSwitcherName"
@@ -1354,6 +1371,7 @@ function MacLib:Window(Settings)
 			tabSwitcherName.BorderSizePixel = 0
 			tabSwitcherName.Size = UDim2.fromScale(1, 0)
 			tabSwitcherName.Parent = tabSwitcher
+			tabSwitcherName.LayoutOrder = 1
 
 			local tabSwitcherUIPadding = Instance.new("UIPadding")
 			tabSwitcherUIPadding.Name = "TabSwitcherUIPadding"
@@ -3607,7 +3625,6 @@ function MacLib:Window(Settings)
 	function WindowFunctions:SetState(State)
 		windowState = State
 		base.Visible = State
-		acrylicBlur = State
 	end
 
 	function WindowFunctions:GetState()
@@ -3716,7 +3733,7 @@ function MacLib:Window(Settings)
 end
 
 function MacLib:Demo()
-	local DemoWindow = MacLib:Window({
+	local Window = MacLib:Window({
 		Title = "MacLib Demo",
 		Subtitle = "This is a subtitle.",
 		Size = UDim2.fromOffset(868, 650),
@@ -3727,62 +3744,65 @@ function MacLib:Demo()
 		AcrylicBlur = true,
 	})
 
-	local UIBlurToggle = DemoWindow:GlobalSetting({
-		Name = "UI Blur",
-		Default = DemoWindow:GetAcrylicBlurState(),
-		Callback = function(bool)
-			DemoWindow:SetAcrylicBlurState(bool)
-			DemoWindow:Notify({
-				Title = "MacLib Demo",
-				Description = (bool and "Enabled" or "Disabled") .. " UI Blur",
-				Lifetime = 5
-			})
-		end,
-	})
-	local NotificationToggler = DemoWindow:GlobalSetting({
-		Name = "Notifications",
-		Default = DemoWindow:GetNotificationsState(),
-		Callback = function(bool)
-			DemoWindow:SetNotificationsState(bool)
-			DemoWindow:Notify({
-				Title = "MacLib Demo",
-				Description = (bool and "Enabled" or "Disabled") .. " Notifications",
-				Lifetime = 5
-			})
-		end,
-	})
-	local ShowUserInfo = DemoWindow:GlobalSetting({
-		Name = "Show User Info",
-		Default = DemoWindow:GetUserInfoState(),
-		Callback = function(bool)
-			DemoWindow:SetUserInfoState(bool)
-			DemoWindow:Notify({
-				Title = "MacLib Demo",
-				Description = (bool and "Showing" or "Redacted") .. " User Info",
-				Lifetime = 5
-			})
-		end,
-	})
-
-	local TabGroup = DemoWindow:TabGroup()
-
-	local Main = TabGroup:Tab({
-		Name = "Demo",
-		Image = "rbxassetid://18821914323"
-	})
-
-	local MainSection = Main:Section({
-		Side = "Left"
-	})
+	local globalSettings = {
+		UIBlurToggle = Window:GlobalSetting({
+			Name = "UI Blur",
+			Default = Window:GetAcrylicBlurState(),
+			Callback = function(bool)
+				Window:SetAcrylicBlurState(bool)
+				Window:Notify({
+					Title = "MacLib Demo",
+					Description = (bool and "Enabled" or "Disabled") .. " UI Blur",
+					Lifetime = 5
+				})
+			end,
+		}),
+		NotificationToggler = Window:GlobalSetting({
+			Name = "Notifications",
+			Default = Window:GetNotificationsState(),
+			Callback = function(bool)
+				Window:SetNotificationsState(bool)
+				Window:Notify({
+					Title = "MacLib Demo",
+					Description = (bool and "Enabled" or "Disabled") .. " Notifications",
+					Lifetime = 5
+				})
+			end,
+		}),
+		ShowUserInfo = Window:GlobalSetting({
+			Name = "Show User Info",
+			Default = Window:GetUserInfoState(),
+			Callback = function(bool)
+				Window:SetUserInfoState(bool)
+				Window:Notify({
+					Title = "MacLib Demo",
+					Description = (bool and "Showing" or "Redacted") .. " User Info",
+					Lifetime = 5
+				})
+			end,
+		})
+	}
 	
-	MainSection:Header({
+	local tabGroups = {
+		TabGroup1 = Window:TabGroup()
+	}
+
+	local tabs = {
+		Main = tabGroups.TabGroup1:Tab({ Name = "Demo", Image = "rbxassetid://18821914323" })
+	}
+	
+	local sections = {
+		MainSection1 = tabs.Main:Section({ Side = "Left" })
+	}
+
+	sections.MainSection1:Header({
 		Name = "Header #1"
 	})
 
-	MainSection:Button({
+	sections.MainSection1:Button({
 		Name = "Button",
 		Callback = function()
-			DemoWindow:Dialog({
+			Window:Dialog({
 				Title = "MacLib Demo",
 				Description = "Lorem ipsum odor amet, consectetuer adipiscing elit. Eros vestibulum aliquet mattis, ex platea nunc.",
 				Buttons = {
@@ -3800,12 +3820,12 @@ function MacLib:Demo()
 		end,
 	})
 
-	MainSection:Input({
+	sections.MainSection1:Input({
 		Name = "Input",
 		Placeholder = "Input",
 		AcceptedCharacters = "All",
 		Callback = function(input)
-			DemoWindow:Notify({
+			Window:Notify({
 				Title = "MacLib Demo",
 				Description = "Successfully set input to " .. input
 			})
@@ -3815,7 +3835,7 @@ function MacLib:Demo()
 		end,
 	})
 
-	MainSection:Slider({
+	sections.MainSection1:Slider({
 		Name = "Slider",
 		Default = 50,
 		Minimum = 0,
@@ -3826,28 +3846,28 @@ function MacLib:Demo()
 		end,
 	})
 
-	MainSection:Toggle({
+	sections.MainSection1:Toggle({
 		Name = "Toggle",
 		Default = false,
 		Callback = function(value)
-			DemoWindow:Notify({
+			Window:Notify({
 				Title = "MacLib Demo",
 				Description = (value and "Enabled " or "Disabled ") .. "Toggle"
 			})
 		end,
 	})
 
-	MainSection:Keybind({
+	sections.MainSection1:Keybind({
 		Name = "Keybind",
 		Callback = function(binded)
-			DemoWindow:Notify({
+			Window:Notify({
 				Title = "Demo Window",
 				Description = "Pressed keybind - "..tostring(binded.Name),
 				Lifetime = 3
 			})
 		end,
 		onBinded = function(bind)
-			DemoWindow:Notify({
+			Window:Notify({
 				Title = "Demo Window",
 				Description = "Successfully Binded Keybind to - "..tostring(bind.Name),
 				Lifetime = 3
@@ -3855,7 +3875,7 @@ function MacLib:Demo()
 		end,
 	})
 
-	local Dropdown = MainSection:Dropdown({
+	local Dropdown = sections.MainSection1:Dropdown({
 		Name = "Dropdown",
 		Multi = false,
 		Required = true,
@@ -3872,7 +3892,7 @@ function MacLib:Demo()
 		end,
 	})
 
-	local MultiDropdown = MainSection:Dropdown({
+	local MultiDropdown = sections.MainSection1:Dropdown({
 		Name = "Multi Dropdown",
 		Search = true,
 		Multi = true,
@@ -3894,7 +3914,7 @@ function MacLib:Demo()
 		end,
 	})
 
-	MainSection:Button({
+	sections.MainSection1:Button({
 		Name = "Update Selection",
 		Callback = function()
 			Dropdown:UpdateSelection(4)
@@ -3902,26 +3922,26 @@ function MacLib:Demo()
 		end,
 	})
 
-	MainSection:Divider()
-	
-	MainSection:Header({
+	sections.MainSection1:Divider()
+
+	sections.MainSection1:Header({
 		Text = "Header #2"
 	})
-	
-	MainSection:Paragraph({
+
+	sections.MainSection1:Paragraph({
 		Header = "Paragraph",
 		Body = "Paragraph body. Lorem ipsum odor amet, consectetuer adipiscing elit. Morbi tempus netus aliquet per velit est gravida."
 	})
-	
-	MainSection:Label({
+
+	sections.MainSection1:Label({
 		Text = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 	})
-	
-	MainSection:SubLabel({
+
+	sections.MainSection1:SubLabel({
 		Text = "Sub-Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 	})
-	
-	Main:Select()
+
+	tabs.Main:Select()
 end
 
 return MacLib
