@@ -129,7 +129,7 @@ local Tab = TabGroup:Tab({
 ---
 ## Adding Sections
 ```lua
-local Section = Main:Section({
+local Section = Tab:Section({
   Side <string: "Left", "Right">
 })
 ```
