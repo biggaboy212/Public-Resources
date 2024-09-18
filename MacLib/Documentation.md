@@ -42,7 +42,7 @@
   Default <number or table> -- Accepts either a number or a table as the default value.
   ```
 
-  - A `:` followed by a type indicates a return value and it's type.
+- A `:` followed by a type indicates a return value and it's type.
   
   Example:
   ```lua
