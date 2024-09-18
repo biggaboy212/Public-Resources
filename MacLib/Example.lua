@@ -1,6 +1,6 @@
 local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/biggaboy212/Public-Resources/main/MacLib/maclib.lua"))()
 
-local DemoWindow = MacLib:Window({
+local Window = MacLib:Window({
 	Title = "MacLib Demo",
 	Subtitle = "This is a subtitle.",
 	Size = UDim2.fromOffset(868, 650),
@@ -11,62 +11,65 @@ local DemoWindow = MacLib:Window({
 	AcrylicBlur = true,
 })
 
-local UIBlurToggle = DemoWindow:GlobalSetting({
-	Name = "UI Blur",
-	Default = DemoWindow:GetAcrylicBlurState(),
-	Callback = function(bool)
-		DemoWindow:SetAcrylicBlurState(bool)
-		DemoWindow:Notify({
-			Title = "MacLib Demo",
-			Description = (bool and "Enabled" or "Disabled") .. " UI Blur",
-			Lifetime = 5
-		})
-	end,
-})
-local NotificationToggler = DemoWindow:GlobalSetting({
-	Name = "Notifications",
-	Default = DemoWindow:GetNotificationsState(),
-	Callback = function(bool)
-		DemoWindow:SetNotificationsState(bool)
-		DemoWindow:Notify({
-			Title = "MacLib Demo",
-			Description = (bool and "Enabled" or "Disabled") .. " Notifications",
-			Lifetime = 5
-		})
-	end,
-})
-local ShowUserInfo = DemoWindow:GlobalSetting({
-	Name = "Show User Info",
-	Default = DemoWindow:GetUserInfoState(),
-	Callback = function(bool)
-		DemoWindow:SetUserInfoState(bool)
-		DemoWindow:Notify({
-			Title = "MacLib Demo",
-			Description = (bool and "Showing" or "Redacted") .. " User Info",
-			Lifetime = 5
-		})
-	end,
-})
+local globalSettings = {
+	UIBlurToggle = Window:GlobalSetting({
+		Name = "UI Blur",
+		Default = Window:GetAcrylicBlurState(),
+		Callback = function(bool)
+			Window:SetAcrylicBlurState(bool)
+			Window:Notify({
+				Title = "MacLib Demo",
+				Description = (bool and "Enabled" or "Disabled") .. " UI Blur",
+				Lifetime = 5
+			})
+		end,
+	}),
+	NotificationToggler = Window:GlobalSetting({
+		Name = "Notifications",
+		Default = Window:GetNotificationsState(),
+		Callback = function(bool)
+			Window:SetNotificationsState(bool)
+			Window:Notify({
+				Title = "MacLib Demo",
+				Description = (bool and "Enabled" or "Disabled") .. " Notifications",
+				Lifetime = 5
+			})
+		end,
+	}),
+	ShowUserInfo = Window:GlobalSetting({
+		Name = "Show User Info",
+		Default = Window:GetUserInfoState(),
+		Callback = function(bool)
+			Window:SetUserInfoState(bool)
+			Window:Notify({
+				Title = "MacLib Demo",
+				Description = (bool and "Showing" or "Redacted") .. " User Info",
+				Lifetime = 5
+			})
+		end,
+	})
+}
 
-local TabGroup = DemoWindow:TabGroup()
+local tabGroups = {
+	TabGroup1 = Window:TabGroup()
+}
 
-local Main = TabGroup:Tab({
-	Name = "Demo",
-	Image = "rbxassetid://18821914323"
-})
+local tabs = {
+	Main = tabGroups.TabGroup1:Tab({ Name = "Demo", Image = "rbxassetid://18821914323" })
+}
 
-local MainSection = Main:Section({
-	Side = "Left"
-})
+local sections = {
+	MainSection1 = tabs.Main:Section({ Side = "Left" })
+}
 
-MainSection:Header({
+sections.MainSection1:Header({
 	Name = "Header #1"
 })
 
-MainSection:Button({
+sections.MainSection1:Button({
 	Name = "Button",
 	Callback = function()
-		DemoWindow:Dialog({
+		Window:Dialog({
 			Title = "MacLib Demo",
 			Description = "Lorem ipsum odor amet, consectetuer adipiscing elit. Eros vestibulum aliquet mattis, ex platea nunc.",
 			Buttons = {
@@ -84,12 +87,12 @@ MainSection:Button({
 	end,
 })
 
-MainSection:Input({
+sections.MainSection1:Input({
 	Name = "Input",
 	Placeholder = "Input",
 	AcceptedCharacters = "All",
 	Callback = function(input)
-		DemoWindow:Notify({
+		Window:Notify({
 			Title = "MacLib Demo",
 			Description = "Successfully set input to " .. input
 		})
@@ -99,7 +102,7 @@ MainSection:Input({
 	end,
 })
 
-MainSection:Slider({
+sections.MainSection1:Slider({
 	Name = "Slider",
 	Default = 50,
 	Minimum = 0,
@@ -110,28 +113,28 @@ MainSection:Slider({
 	end,
 })
 
-MainSection:Toggle({
+sections.MainSection1:Toggle({
 	Name = "Toggle",
 	Default = false,
 	Callback = function(value)
-		DemoWindow:Notify({
+		Window:Notify({
 			Title = "MacLib Demo",
 			Description = (value and "Enabled " or "Disabled ") .. "Toggle"
 		})
 	end,
 })
 
-MainSection:Keybind({
+sections.MainSection1:Keybind({
 	Name = "Keybind",
 	Callback = function(binded)
-		DemoWindow:Notify({
+		Window:Notify({
 			Title = "Demo Window",
 			Description = "Pressed keybind - "..tostring(binded.Name),
 			Lifetime = 3
 		})
 	end,
 	onBinded = function(bind)
-		DemoWindow:Notify({
+		Window:Notify({
 			Title = "Demo Window",
 			Description = "Successfully Binded Keybind to - "..tostring(bind.Name),
 			Lifetime = 3
@@ -139,7 +142,7 @@ MainSection:Keybind({
 	end,
 })
 
-local Dropdown = MainSection:Dropdown({
+local Dropdown = sections.MainSection1:Dropdown({
 	Name = "Dropdown",
 	Multi = false,
 	Required = true,
@@ -156,7 +159,7 @@ local Dropdown = MainSection:Dropdown({
 	end,
 })
 
-local MultiDropdown = MainSection:Dropdown({
+local MultiDropdown = sections.MainSection1:Dropdown({
 	Name = "Multi Dropdown",
 	Search = true,
 	Multi = true,
@@ -178,7 +181,7 @@ local MultiDropdown = MainSection:Dropdown({
 	end,
 })
 
-MainSection:Button({
+sections.MainSection1:Button({
 	Name = "Update Selection",
 	Callback = function()
 		Dropdown:UpdateSelection(4)
@@ -186,23 +189,23 @@ MainSection:Button({
 	end,
 })
 
-MainSection:Divider()
+sections.MainSection1:Divider()
 
-MainSection:Header({
+sections.MainSection1:Header({
 	Text = "Header #2"
 })
 
-MainSection:Paragraph({
+sections.MainSection1:Paragraph({
 	Header = "Paragraph",
 	Body = "Paragraph body. Lorem ipsum odor amet, consectetuer adipiscing elit. Morbi tempus netus aliquet per velit est gravida."
 })
 
-MainSection:Label({
+sections.MainSection1:Label({
 	Text = "Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 })
 
-MainSection:SubLabel({
+sections.MainSection1:SubLabel({
 	Text = "Sub-Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 })
 
-Main:Select()
+tabs.Main:Select()
