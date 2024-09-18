@@ -353,6 +353,6 @@ Section:Spacer()
 :SetSize(<UDim2>) -- Sets the UI size
 :GetSize(: UDim2) -- Returns the current UI Size
 
-:SetScale(<number) -- Sets the scale of the UI, 1 is the regular scale, 2 is twice the scale, you get it. ( This uses the UIScale instance, which has several engine bugs and can cause visual issues with certain elements.)
+:SetScale(<number>) -- Sets the scale of the UI, 1 is the regular scale, 1.5 is one and a half scale, 2 is twice the scale, you get it. ( This uses the UIScale instance, which has several engine bugs and can cause visual issues with certain elements.)
 :GetScale(: number) -- Returns the current scale of the UI
 ```
