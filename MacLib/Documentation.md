@@ -170,6 +170,8 @@ Section:Input({
 :GetInput(: string)
 :UpdatePlaceholder(<string>)
 :UpdateText(<string>)
+
+.Text : string
 ```
 ---
 
@@ -190,6 +192,8 @@ Section:Slider({
 :SetVisiblity(<boolean>)
 :UpdateValue(<number>)
 :GetValue(: number)
+
+.Value : number
 ```
 ---
 
@@ -207,6 +211,8 @@ Section:Toggle({
 :SetVisiblity(<boolean>)
 :UpdateState(<boolean>)
 :GetState(: boolean)
+
+.State : boolean
 ```
 ---
 
@@ -226,6 +232,8 @@ Section:Keybind({
 :Unbind()
 :Bind(<enum>)
 :GetBind(: enum)
+
+.Bind : enum
 ```
 ---
 
@@ -251,6 +259,8 @@ Section:Dropdown({
 :IsOption(<string>: boolean)
 :GetOptions(: table) -- Returns a table of every option and if its true or false (Example: {"Option 1" = true, "Option 2" = false, "Option 3" = false} etc..)
 :ClearOptions()
+
+.Value : string or table
 ```
 ---
 
@@ -338,6 +348,7 @@ Section:Spacer()
 ### Window
 ```lua
 :Unload() -- Destroy the window
+.onUnloaded(function(): void) -- Called before the window is unloaded / closed
 
 :SetState(<boolean>) -- Set window visibility
 :GetState(: boolean) -- Get window visibility
