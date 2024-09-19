@@ -1707,6 +1707,8 @@ function MacLib:Window(Settings)
 								Position = TweenSettings.DisabledPosition
 							}):Play()
 						end
+						
+						ToggleFunctions.State = State
 					end
 
 					local togglebool = Settings.Default
@@ -1922,6 +1924,8 @@ function MacLib:Window(Settings)
 								end
 							end)
 						end
+						
+						SliderFunctions.Value = finalValue
 					end
 
 					SetValue(Settings.Default, true)
@@ -1988,7 +1992,7 @@ function MacLib:Window(Settings)
 					function SliderFunctions:UpdateValue(Value)
 						SetValue(Value)
 					end
-					function SliderFunctions:GetState()
+					function SliderFunctions:GetValue()
 						return finalValue
 					end
 					return SliderFunctions
@@ -2132,6 +2136,7 @@ function MacLib:Window(Settings)
 						if Settings.onChanged then
 							Settings.onChanged(InputBox.Text)
 						end
+						InputFunctions.Text = InputBox.Text
 					end)
 
 					function InputFunctions:UpdateName(Name)
@@ -2253,6 +2258,7 @@ function MacLib:Window(Settings)
 						if macLib ~= nil then
 							if focused and inp.KeyCode.Name ~= "Unknown" then
 								binded = inp.KeyCode
+								KeybindFunctions.Bind = binded
 								binderBox.Text = inp.KeyCode.Name
 								binderBox:ReleaseFocus()
 								if Settings.onBinded then
@@ -2380,6 +2386,7 @@ function MacLib:Window(Settings)
 					local dropdownFrameUIPadding = Instance.new("UIPadding")
 					dropdownFrameUIPadding.Name = "DropdownFrameUIPadding"
 					dropdownFrameUIPadding.PaddingTop = UDim.new(0, 38)
+					dropdownFrameUIPadding.PaddingBottom = UDim.new(0, 10)
 					dropdownFrameUIPadding.Parent = dropdownFrame
 
 					local dropdownFrameUIListLayout = Instance.new("UIListLayout")
@@ -2443,18 +2450,21 @@ function MacLib:Window(Settings)
 					
 					local function CalculateDropdownSize()
 						local totalHeight = 0
-						local padding = dropdownFrameUIPadding.PaddingTop.Offset
-						local spacing = dropdownFrameUIListLayout.Padding.Offset * (#dropdownFrame:GetChildren() - 1)
+						local visibleChildrenCount = 0
+						local padding = dropdownFrameUIPadding.PaddingTop.Offset + dropdownFrameUIPadding.PaddingBottom.Offset
 
 						for _, v in pairs(dropdownFrame:GetChildren()) do
 							if not v:IsA("UIComponent") and v.Visible then
 								totalHeight += v.AbsoluteSize.Y
+								visibleChildrenCount += 1
 							end
 						end
 
-						return totalHeight + padding + spacing
+						local spacing = dropdownFrameUIListLayout.Padding.Offset * (visibleChildrenCount - 1)
+
+						return totalHeight + spacing + padding
 					end
-					
+
 					local function findOption()
 						local searchTerm = searchBox.Text:lower()
 
@@ -2466,7 +2476,7 @@ function MacLib:Window(Settings)
 								v.Button.Visible = isVisible
 							end
 						end
-						
+
 						dropdown.Size = UDim2.new(1, 0, 0, CalculateDropdownSize())
 					end
 
@@ -2501,6 +2511,7 @@ function MacLib:Window(Settings)
 							if Settings.Multi then
 								if not table.find(Selected, optionName) then
 									table.insert(Selected, optionName)
+									DropdownFunctions.Value = Selected
 								end
 							else
 								for name, opt in pairs(OptionObjs) do
@@ -2515,6 +2526,7 @@ function MacLib:Window(Settings)
 									end
 								end
 								Selected = {optionName}
+								DropdownFunctions.Value = Selected[1]
 							end
 							Tween(checkmark, TweenInfo.new(tweensettings.duration, tweensettings.easingStyle), {
 								Size = UDim2.new(checkmark.Size.X.Scale, tweensettings.checkSizeIncrease, checkmark.Size.Y.Scale, checkmark.Size.Y.Offset)
@@ -2788,6 +2800,7 @@ function MacLib:Window(Settings)
 
 						return optionsStatus
 					end
+					
 					function DropdownFunctions:RemoveOptions(remove)
 						for _, optionName in ipairs(remove) do
 							local optionData = OptionObjs[optionName]
@@ -3631,10 +3644,19 @@ function MacLib:Window(Settings)
 		return windowState
 	end
 	
+	local onUnloadCallback
+
 	function WindowFunctions:Unload()
+		if onUnloadCallback then
+			onUnloadCallback()  
+		end
 		macLib:Destroy()
 	end
-	
+
+	function WindowFunctions.onUnloaded(callback)
+		onUnloadCallback = callback
+	end
+
 	local MenuKeybind = Settings.Keybind or Enum.KeyCode.RightControl
 
 	local function ToggleMenu()
@@ -3656,7 +3678,7 @@ function MacLib:Window(Settings)
 
 	minimize.MouseButton1Click:Connect(ToggleMenu)
 	exit.MouseButton1Click:Connect(function()
-		macLib:Destroy()
+		WindowFunctions:Unload()
 	end)
 
 	function WindowFunctions:SetKeybind(Keycode)
@@ -3874,18 +3896,19 @@ function MacLib:Demo()
 			})
 		end,
 	})
+	
+	local optionTable = {}
+	
+	for i = 1,10 do
+		local formatted = "Option ".. tostring(i)
+		table.insert(optionTable, formatted)
+	end
 
 	local Dropdown = sections.MainSection1:Dropdown({
 		Name = "Dropdown",
 		Multi = false,
 		Required = true,
-		Options = {
-			"Option 1",
-			"Option 2",
-			"Option 3",
-			"Option 4",
-			"Option 5",
-		},
+		Options = optionTable,
 		Default = 1,
 		Callback = function(Value)
 			print("Dropdown changed: ".. Value)
@@ -3897,13 +3920,7 @@ function MacLib:Demo()
 		Search = true,
 		Multi = true,
 		Required = false,
-		Options = {
-			"Option 1",
-			"Option 2",
-			"Option 3",
-			"Option 4",
-			"Option 5",
-		},
+		Options = optionTable,
 		Default = {"Option 1", "Option 3"},
 		Callback = function(Value)
 			local Values = {}
@@ -3940,6 +3957,10 @@ function MacLib:Demo()
 	sections.MainSection1:SubLabel({
 		Text = "Sub-Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 	})
+	
+	Window.onUnloaded(function()
+		print("Unloaded!")
+	end)
 
 	tabs.Main:Select()
 end
