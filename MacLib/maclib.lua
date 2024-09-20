@@ -21,10 +21,12 @@ local currentTabInstance = nil
 local tabIndex = 0
 
 local assets = {
+	interFont = "rbxassetid://12187365364",
 	userInfoBlurred = "rbxassetid://18824089198",
 	toggleBackground = "rbxassetid://18772190202",
 	togglerHead = "rbxassetid://18772309008",
-	buttonImage = "rbxassetid://10709791437"
+	buttonImage = "rbxassetid://10709791437",
+	searchIcon = "rbxassetid://86737463322606"
 }
 
 --// Functions
@@ -346,7 +348,7 @@ function MacLib:Window(Settings)
 	local title = Instance.new("TextLabel")
 	title.Name = "Title"
 	title.FontFace = Font.new(
-		"rbxassetid://12187365364",
+		assets.interFont,
 		Enum.FontWeight.SemiBold,
 		Enum.FontStyle.Normal
 	)
@@ -369,7 +371,7 @@ function MacLib:Window(Settings)
 	local subtitle = Instance.new("TextLabel")
 	subtitle.Name = "Subtitle"
 	subtitle.FontFace = Font.new(
-		"rbxassetid://12187365364",
+		assets.interFont,
 		Enum.FontWeight.Medium,
 		Enum.FontStyle.Normal
 	)
@@ -378,7 +380,7 @@ function MacLib:Window(Settings)
 	subtitle.RichText = true
 	subtitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 	subtitle.TextSize = 12
-	subtitle.TextTransparency = 0.8
+	subtitle.TextTransparency = 0.7
 	subtitle.TextTruncate = Enum.TextTruncate.SplitWord
 	subtitle.TextXAlignment = Enum.TextXAlignment.Left
 	subtitle.TextYAlignment = Enum.TextYAlignment.Top
@@ -484,7 +486,7 @@ function MacLib:Window(Settings)
 	local displayName = Instance.new("TextLabel")
 	displayName.Name = "DisplayName"
 	displayName.FontFace = Font.new(
-		"rbxassetid://12187365364",
+		assets.interFont,
 		Enum.FontWeight.SemiBold,
 		Enum.FontStyle.Normal
 	)
@@ -518,7 +520,7 @@ function MacLib:Window(Settings)
 	local username = Instance.new("TextLabel")
 	username.Name = "Username"
 	username.FontFace = Font.new(
-		"rbxassetid://12187365364",
+		assets.interFont,
 		Enum.FontWeight.SemiBold,
 		Enum.FontStyle.Normal
 	)
@@ -764,7 +766,7 @@ function MacLib:Window(Settings)
 	local currentTab = Instance.new("TextLabel")
 	currentTab.Name = "CurrentTab"
 	currentTab.FontFace = Font.new(
-		"rbxassetid://12187365364",
+		assets.interFont,
 		Enum.FontWeight.SemiBold,
 		Enum.FontStyle.Normal
 	)
@@ -1119,7 +1121,7 @@ function MacLib:Window(Settings)
 		local settingName = Instance.new("TextLabel")
 		settingName.Name = "SettingName"
 		settingName.FontFace = Font.new(
-			"rbxassetid://12187365364",
+			assets.interFont,
 			Enum.FontWeight.Medium,
 			Enum.FontStyle.Normal
 		)
@@ -1152,7 +1154,7 @@ function MacLib:Window(Settings)
 		local checkmark = Instance.new("TextLabel")
 		checkmark.Name = "Checkmark"
 		checkmark.FontFace = Font.new(
-			"rbxassetid://12187365364",
+			assets.interFont,
 			Enum.FontWeight.Medium,
 			Enum.FontStyle.Normal
 		)
@@ -1352,7 +1354,7 @@ function MacLib:Window(Settings)
 			local tabSwitcherName = Instance.new("TextLabel")
 			tabSwitcherName.Name = "TabSwitcherName"
 			tabSwitcherName.FontFace = Font.new(
-				"rbxassetid://12187365364",
+				assets.interFont,
 				Enum.FontWeight.SemiBold,
 				Enum.FontStyle.Normal
 			)
@@ -1518,7 +1520,7 @@ function MacLib:Window(Settings)
 					local buttonInteract = Instance.new("TextButton")
 					buttonInteract.Name = "ButtonInteract"
 					buttonInteract.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -1538,7 +1540,7 @@ function MacLib:Window(Settings)
 
 					local buttonImage = Instance.new("ImageLabel")
 					buttonImage.Name = "ButtonImage"
-					buttonImage.Image = "rbxassetid://10709791437"
+					buttonImage.Image = assets.buttonImage
 					buttonImage.ImageTransparency = 0.5
 					buttonImage.AnchorPoint = Vector2.new(1, 0.5)
 					buttonImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1612,7 +1614,7 @@ function MacLib:Window(Settings)
 					local toggleName = Instance.new("TextLabel")
 					toggleName.Name = "ToggleName"
 					toggleName.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -1636,7 +1638,7 @@ function MacLib:Window(Settings)
 
 					local toggle1 = Instance.new("ImageButton")
 					toggle1.Name = "Toggle"
-					toggle1.Image = "rbxassetid://18772190202"
+					toggle1.Image = assets.toggleBackground
 					toggle1.ImageColor3 = Color3.fromRGB(61, 61, 61)
 					toggle1.AutoButtonColor = false
 					toggle1.AnchorPoint = Vector2.new(1, 0.5)
@@ -1761,7 +1763,7 @@ function MacLib:Window(Settings)
 					local sliderName = Instance.new("TextLabel")
 					sliderName.Name = "SliderName"
 					sliderName.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -1795,7 +1797,7 @@ function MacLib:Window(Settings)
 					local sliderValue = Instance.new("TextBox")
 					sliderValue.Name = "SliderValue"
 					sliderValue.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2013,7 +2015,7 @@ function MacLib:Window(Settings)
 					local inputName = Instance.new("TextLabel")
 					inputName.Name = "InputName"
 					inputName.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2037,7 +2039,7 @@ function MacLib:Window(Settings)
 					local inputBox = Instance.new("TextBox")
 					inputBox.Name = "InputBox"
 					inputBox.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2172,7 +2174,7 @@ function MacLib:Window(Settings)
 					local keybindName = Instance.new("TextLabel")
 					keybindName.Name = "KeybindName"
 					keybindName.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2197,7 +2199,7 @@ function MacLib:Window(Settings)
 					binderBox.Name = "BinderBox"
 					binderBox.CursorPosition = -1
 					binderBox.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2328,7 +2330,7 @@ function MacLib:Window(Settings)
 					local dropdownName = Instance.new("TextLabel")
 					dropdownName.Name = "DropdownName"
 					dropdownName.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2412,7 +2414,7 @@ function MacLib:Window(Settings)
 
 					local searchIcon = Instance.new("ImageLabel")
 					searchIcon.Name = "SearchIcon"
-					searchIcon.Image = "rbxassetid://86737463322606"
+					searchIcon.Image = assets.searchIcon
 					searchIcon.ImageColor3 = Color3.fromRGB(180, 180, 180)
 					searchIcon.AnchorPoint = Vector2.new(0, 0.5)
 					searchIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2432,7 +2434,7 @@ function MacLib:Window(Settings)
 					searchBox.Name = "SearchBox"
 					searchBox.CursorPosition = -1
 					searchBox.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2618,7 +2620,7 @@ function MacLib:Window(Settings)
 						local optionName = Instance.new("TextLabel")
 						optionName.Name = "OptionName"
 						optionName.FontFace = Font.new(
-							"rbxassetid://12187365364",
+							assets.interFont,
 							Enum.FontWeight.Medium,
 							Enum.FontStyle.Normal
 						)
@@ -2650,7 +2652,7 @@ function MacLib:Window(Settings)
 						local checkmark = Instance.new("TextLabel")
 						checkmark.Name = "Checkmark"
 						checkmark.FontFace = Font.new(
-							"rbxassetid://12187365364",
+							assets.interFont,
 							Enum.FontWeight.Medium,
 							Enum.FontStyle.Normal
 						)
@@ -2851,7 +2853,7 @@ function MacLib:Window(Settings)
 					local headerText = Instance.new("TextLabel")
 					headerText.Name = "HeaderText"
 					headerText.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.SemiBold,
 						Enum.FontStyle.Normal
 					)
@@ -2896,7 +2898,7 @@ function MacLib:Window(Settings)
 					local labelText = Instance.new("TextLabel")
 					labelText.Name = "LabelText"
 					labelText.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2941,7 +2943,7 @@ function MacLib:Window(Settings)
 					local subLabelText = Instance.new("TextLabel")
 					subLabelText.Name = "SubLabelText"
 					subLabelText.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -2986,7 +2988,7 @@ function MacLib:Window(Settings)
 					local paragraphHeader = Instance.new("TextLabel")
 					paragraphHeader.Name = "ParagraphHeader"
 					paragraphHeader.FontFace = Font.new(
-						"rbxassetid://12187365364",
+						assets.interFont,
 						Enum.FontWeight.Medium,
 						Enum.FontStyle.Normal
 					)
@@ -3013,7 +3015,7 @@ function MacLib:Window(Settings)
 
 					local paragraphBody = Instance.new("TextLabel")
 					paragraphBody.Name = "ParagraphBody"
-					paragraphBody.FontFace = Font.new("rbxassetid://12187365364")
+					paragraphBody.FontFace = Font.new(assets.interFont)
 					paragraphBody.RichText = true
 					paragraphBody.Text = Settings.Body
 					paragraphBody.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -3169,7 +3171,7 @@ function MacLib:Window(Settings)
 		notification.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		notification.BorderSizePixel = 0
 		notification.Position = UDim2.fromScale(0.5, 0.5)
-		notification.Size = UDim2.fromOffset(250, 0)
+		notification.Size = UDim2.fromOffset(Settings.SizeX or 250, 0)
 		
 		notification.Parent = notifications
 
@@ -3202,7 +3204,7 @@ function MacLib:Window(Settings)
 		local notificationTitle = Instance.new("TextLabel")
 		notificationTitle.Name = "NotificationTitle"
 		notificationTitle.FontFace = Font.new(
-			"rbxassetid://12187365364",
+			assets.interFont,
 			Enum.FontWeight.SemiBold,
 			Enum.FontStyle.Normal
 		)
@@ -3231,7 +3233,7 @@ function MacLib:Window(Settings)
 		local notificationDescription = Instance.new("TextLabel")
 		notificationDescription.Name = "NotificationDescription"
 		notificationDescription.FontFace = Font.new(
-			"rbxassetid://12187365364",
+			assets.interFont,
 			Enum.FontWeight.Medium,
 			Enum.FontStyle.Normal
 		)
@@ -3279,7 +3281,7 @@ function MacLib:Window(Settings)
 
 		local interactable = Instance.new("TextButton")
 		interactable.Name = "Interactable"
-		interactable.FontFace = Font.new("rbxassetid://12187365364")
+		interactable.FontFace = Font.new(assets.interFont)
 		interactable.Text = "✓"
 		interactable.TextColor3 = Color3.fromRGB(255, 255, 255)
 		interactable.TextSize = 17
@@ -3305,7 +3307,7 @@ function MacLib:Window(Settings)
 		
 		local tweens = {
 			In = Tween(notificationUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
-				Scale = 1
+				Scale = Settings.Scale or 1
 			}),
 			Out = Tween(notificationUIScale, TweenInfo.new(0.2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
 				Scale = 0
@@ -3351,6 +3353,11 @@ function MacLib:Window(Settings)
 		
 		function NotificationFunctions:UpdateDescription(New)
 			notificationDescription.Text = New
+		end
+		
+		function NotificationFunctions:Resize(X)
+			local targ = X or 250
+			notification.Size = UDim2.fromOffset(targ, 0)
 		end
 		
 		function NotificationFunctions:Cancel()
@@ -3433,7 +3440,7 @@ function MacLib:Window(Settings)
 		local paragraphHeader = Instance.new("TextLabel")
 		paragraphHeader.Name = "ParagraphHeader"
 		paragraphHeader.FontFace = Font.new(
-			"rbxassetid://12187365364",
+			assets.interFont,
 			Enum.FontWeight.SemiBold,
 			Enum.FontStyle.Normal
 		)
@@ -3460,7 +3467,7 @@ function MacLib:Window(Settings)
 		local paragraphBody = Instance.new("TextLabel")
 		paragraphBody.Name = "ParagraphBody"
 		paragraphBody.FontFace = Font.new(
-			"rbxassetid://12187365364",
+			assets.interFont,
 			Enum.FontWeight.Medium,
 			Enum.FontStyle.Normal
 		)
@@ -3538,7 +3545,7 @@ function MacLib:Window(Settings)
 			local button = Instance.new("TextButton")
 			button.Name = "Button"
 			button.FontFace = Font.new(
-				"rbxassetid://12187365364",
+				assets.interFont,
 				Enum.FontWeight.SemiBold,
 				Enum.FontStyle.Normal
 			)
@@ -3700,7 +3707,7 @@ function MacLib:Window(Settings)
 			username.Text = "@"..LocalPlayer.Name
 			displayName.Text = LocalPlayer.DisplayName
 		else
-			headshot.Image = "rbxassetid://18824089198"
+			headshot.Image = assets.userInfoBlurred
 			local nameLength = #LocalPlayer.Name
 			local displayNameLength = #LocalPlayer.DisplayName
 			username.Text = "@"..string.rep(".", nameLength)
@@ -3738,18 +3745,16 @@ function MacLib:Window(Settings)
 		return baseUIScale.Scale
 	end
 
-	windowState = true
-
 	macLib.Enabled = false
 	
 	local assetList = {}
 	for _, assetId in pairs(assets) do
 		table.insert(assetList, assetId)
 	end
-	ContentProvider:PreloadAsync(macLib:GetDescendants())
-	ContentProvider:PreloadAsync(assetList)
 	
+	ContentProvider:PreloadAsync(assetList)
 	macLib.Enabled = true
+	windowState = true
 
 	return WindowFunctions
 end
