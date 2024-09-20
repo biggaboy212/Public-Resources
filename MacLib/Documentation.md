@@ -97,6 +97,7 @@ Window:Notify({
 ```lua
 :UpdateTitle(<string>)
 :UpdateDescription(<string>)
+:Resize(<number>) -- Only X, Y is automatically determined by the content size
 :Cancel()
 ```
 ---
