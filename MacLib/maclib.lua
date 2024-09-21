@@ -4088,6 +4088,13 @@ function MacLib:Window(Settings)
 					
 					updateFromSettings()
 					
+					function ColorpickerFunctions:UpdateName(New)
+						colorpickerName.Text = New
+					end
+					function ColorpickerFunctions:SetVisibility(State)
+						colorpicker.Visible = State
+					end
+			
 					function ColorpickerFunctions:SetColor(color3)
 						ColorpickerFunctions.Color = color3
 						colorC.BackgroundColor3 = color3
