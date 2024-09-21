@@ -142,17 +142,35 @@ sections.MainSection1:Keybind({
 	end,
 })
 
+sections.MainSection1:Colorpicker({
+	Name = "Colorpicker",
+	Default = Color3.fromRGB(0,255,255),
+	Callback = function(color)
+		print("Color: ", color)
+	end,
+})
+
+sections.MainSection1:Colorpicker({
+	Name = "Transparency Colorpicker",
+	Default = Color3.fromRGB(255,0,0),
+	Alpha = 0.5,
+	Callback = function(color, alpha)
+		print("Color: ", color, " Alpha: ", alpha)
+	end,
+})
+
+local optionTable = {}
+
+for i = 1,10 do
+	local formatted = "Option ".. tostring(i)
+	table.insert(optionTable, formatted)
+end
+
 local Dropdown = sections.MainSection1:Dropdown({
 	Name = "Dropdown",
 	Multi = false,
 	Required = true,
-	Options = {
-		"Option 1",
-		"Option 2",
-		"Option 3",
-		"Option 4",
-		"Option 5",
-	},
+	Options = optionTable,
 	Default = 1,
 	Callback = function(Value)
 		print("Dropdown changed: ".. Value)
@@ -164,13 +182,7 @@ local MultiDropdown = sections.MainSection1:Dropdown({
 	Search = true,
 	Multi = true,
 	Required = false,
-	Options = {
-		"Option 1",
-		"Option 2",
-		"Option 3",
-		"Option 4",
-		"Option 5",
-	},
+	Options = optionTable,
 	Default = {"Option 1", "Option 3"},
 	Callback = function(Value)
 		local Values = {}
@@ -207,5 +219,9 @@ sections.MainSection1:Label({
 sections.MainSection1:SubLabel({
 	Text = "Sub-Label. Lorem ipsum odor amet, consectetuer adipiscing elit."
 })
+
+Window.onUnloaded(function()
+	print("Unloaded!")
+end)
 
 tabs.Main:Select()
