@@ -2859,6 +2859,7 @@ function MacLib:Window(Settings)
 					colorpickerName.TextColor3 = Color3.fromRGB(255, 255, 255)
 					colorpickerName.TextSize = 13
 					colorpickerName.TextTransparency = 0.5
+					colorpickerName.RichText = true
 					colorpickerName.TextTruncate = Enum.TextTruncate.AtEnd
 					colorpickerName.TextXAlignment = Enum.TextXAlignment.Left
 					colorpickerName.TextYAlignment = Enum.TextYAlignment.Top
