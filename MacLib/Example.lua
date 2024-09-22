@@ -144,18 +144,42 @@ sections.MainSection1:Keybind({
 
 sections.MainSection1:Colorpicker({
 	Name = "Colorpicker",
-	Default = Color3.fromRGB(0,255,255),
+	Default = Color3.fromRGB(0, 255, 255),
 	Callback = function(color)
 		print("Color: ", color)
 	end,
 })
 
-sections.MainSection1:Colorpicker({
+local alphaColorPicker = sections.MainSection1:Colorpicker({
 	Name = "Transparency Colorpicker",
 	Default = Color3.fromRGB(255,0,0),
-	Alpha = 0.5,
+	Alpha = 0,
 	Callback = function(color, alpha)
 		print("Color: ", color, " Alpha: ", alpha)
+	end,
+})
+
+local rainbowActive
+local rainbowConnection
+local hue = 0
+
+sections.MainSection1:Toggle({
+	Name = "Rainbow",
+	Default = false,
+	Callback = function(value)
+		rainbowActive = value
+		if rainbowActive then
+			rainbowConnection = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
+				hue = (hue + deltaTime * 0.1) % 1
+				local newColor = Color3.fromHSV(hue, 1, 1)
+				alphaColorPicker:SetColor(newColor)
+			end)
+		else
+			if rainbowConnection then
+				rainbowConnection:Disconnect()
+				rainbowConnection = nil
+			end
+		end
 	end,
 })
 
