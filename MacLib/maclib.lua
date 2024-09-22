@@ -2920,17 +2920,6 @@ function MacLib:Window(Settings)
 					uICorner1.Parent = colorCbg
 
 					colorCbg.Parent = colorpicker
-					local ColorPickerCanvas = Instance.new("CanvasGroup")
-					ColorPickerCanvas.Name = "ColorPickerCanvas"
-					ColorPickerCanvas.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					ColorPickerCanvas.BackgroundTransparency = 1
-					ColorPickerCanvas.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					ColorPickerCanvas.BorderSizePixel = 0
-					ColorPickerCanvas.Size = UDim2.fromScale(1, 1)
-					ColorPickerCanvas.ZIndex = 5
-					ColorPickerCanvas.GroupTransparency = 1
-					ColorPickerCanvas.Parent = base
-					ColorPickerCanvas.Visible = false
 
 					local colorPicker = Instance.new("Frame")
 					colorPicker.Name = "ColorPicker"
@@ -2939,6 +2928,7 @@ function MacLib:Window(Settings)
 					colorPicker.BorderColor3 = Color3.fromRGB(0, 0, 0)
 					colorPicker.BorderSizePixel = 0
 					colorPicker.Size = UDim2.fromScale(1, 1)
+					colorPicker.Visible = false
 					
 					local baseUICorner = Instance.new("UICorner")
 					baseUICorner.Name = "BaseUICorner"
@@ -3817,7 +3807,7 @@ function MacLib:Window(Settings)
 
 					prompt.Parent = colorPicker
 
-					colorPicker.Parent = ColorPickerCanvas
+					colorPicker.Parent = base
 					
 					local fromHSV, fromRGB, v2, udim2 = Color3.fromHSV, Color3.fromRGB, Vector2.new, UDim2.new
 
@@ -4045,28 +4035,50 @@ function MacLib:Window(Settings)
 						onFocusEnter(modifierInputs.Alpha)
 					end)
 					
-					local canvasIn = Tween(ColorPickerCanvas, TweenInfo.new(0.1, Enum.EasingStyle.Sine), {
-						GroupTransparency = 0,
-					})
-					local canvasOut = Tween(ColorPickerCanvas, TweenInfo.new(0.1, Enum.EasingStyle.Sine), {
-						GroupTransparency = 1,
-					})
+					local function makeCanvas()
+						local ColorPickerCanvas = Instance.new("CanvasGroup")
+						ColorPickerCanvas.Name = "ColorPickerCanvas"
+						ColorPickerCanvas.BackgroundTransparency = 1
+						ColorPickerCanvas.BorderSizePixel = 0
+						ColorPickerCanvas.Size = UDim2.fromScale(1, 1)
+						ColorPickerCanvas.ZIndex = 5
+						ColorPickerCanvas.GroupTransparency = 1
+						ColorPickerCanvas.Parent = base
+						ColorPickerCanvas.Visible = false
+						return ColorPickerCanvas
+					end
+
+					local function transition(isIn)
+						local canvas = makeCanvas()
+						local tweenTransparency = isIn and 0 or 1
+						local stateTransparency = isIn and 1 or 0
+						local tweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Sine)
+						local canvasTween = Tween(canvas, tweenInfo, { GroupTransparency = tweenTransparency })
+
+						colorPicker.Visible = true
+						colorPicker.Parent = canvas
+						canvas.Visible = true
+						canvas.GroupTransparency = stateTransparency
+						canvasTween:Play()
+						canvasTween.Completed:Wait()
+
+						if not isIn then
+							colorPicker.Visible = false
+							canvas.Visible = false
+						end
+
+						colorPicker.Parent = base
+						canvas:Destroy()
+					end
 
 					local function colorpickerIn()
-						ColorPickerCanvas.Visible = true
-						canvasIn:Play()
-						canvasIn.Completed:Wait()
-						colorPicker.Parent = base
+						transition(true)
 					end
 
 					local function colorpickerOut()
-						colorPicker.Parent = ColorPickerCanvas
-
-						canvasOut:Play()
-						canvasOut.Completed:Wait()
-						ColorPickerCanvas.Visible = false
+						transition(false)
 					end
-					
+
 					interact.MouseButton1Click:Connect(colorpickerIn)
 					
 					cancel.MouseButton1Click:Connect(colorpickerOut)
