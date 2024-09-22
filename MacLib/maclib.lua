@@ -4014,7 +4014,6 @@ function MacLib:Window(Settings)
 					end)
 
 					local function onFocusEnter(instance)
-						if not instance.UserInputState then return end
 						local placeholder = instance.Text
 						instance.Text = ""
 						instance.PlaceholderText = placeholder
@@ -5192,7 +5191,7 @@ function MacLib:Demo()
 	sections.MainSection1:Colorpicker({
 		Name = "Transparency Colorpicker",
 		Default = Color3.fromRGB(255,0,0),
-		Alpha = 0.5,
+		Alpha = 0,
 		Callback = function(color, alpha)
 			print("Color: ", color, " Alpha: ", alpha)
 		end,
