@@ -3970,6 +3970,9 @@ function MacLib:Window(Settings)
 						modifierInputs.Hex.Text = hexColor
 
 						hue, saturation, value = Color3.fromRGB(r, g, b):ToHSV()
+						
+						color1.BackgroundColor3 = ColorpickerFunctions.Color
+						color1.BackgroundTransparency = isAlpha and ColorpickerFunctions.Alpha or 0
 
 						colour.BackgroundColor3 = Color3.fromRGB(r,g,b)
 						colour.BackgroundTransparency = isAlpha and ColorpickerFunctions.Alpha or 0
@@ -4098,7 +4101,24 @@ function MacLib:Window(Settings)
 					function ColorpickerFunctions:SetColor(color3)
 						ColorpickerFunctions.Color = color3
 						colorC.BackgroundColor3 = color3
-						updateFromSettings()
+						
+						local r = math.floor(ColorpickerFunctions.Color.R * 255 + 0.5)
+						local g = math.floor(ColorpickerFunctions.Color.G * 255 + 0.5)
+						local b = math.floor(ColorpickerFunctions.Color.B * 255 + 0.5)
+						modifierInputs.Red.Text = r
+						modifierInputs.Green.Text = g
+						modifierInputs.Blue.Text = b
+
+						local hexColor = string.format("#%02X%02X%02X", r,g,b)
+						modifierInputs.Hex.Text = hexColor
+
+						hue, saturation, value = Color3.fromRGB(r, g, b):ToHSV()
+
+						color1.BackgroundColor3 = ColorpickerFunctions.Color
+						colour.BackgroundColor3 = Color3.fromRGB(r,g,b)
+
+						UpdateSlideFromValue(value)
+						UpdateRingFromHSV(hue, saturation)
 					end
 					
 					function ColorpickerFunctions:SetAlpha(alpha)
@@ -5180,21 +5200,45 @@ function MacLib:Demo()
 			})
 		end,
 	})
-	
+
 	sections.MainSection1:Colorpicker({
 		Name = "Colorpicker",
-		Default = Color3.fromRGB(0,255,255),
+		Default = Color3.fromRGB(0, 255, 255),
 		Callback = function(color)
 			print("Color: ", color)
 		end,
 	})
-	
-	sections.MainSection1:Colorpicker({
+
+	local alphaColorPicker = sections.MainSection1:Colorpicker({
 		Name = "Transparency Colorpicker",
 		Default = Color3.fromRGB(255,0,0),
 		Alpha = 0,
 		Callback = function(color, alpha)
 			print("Color: ", color, " Alpha: ", alpha)
+		end,
+	})
+	
+	local rainbowActive
+	local rainbowConnection
+	local hue = 0
+
+	sections.MainSection1:Toggle({
+		Name = "Rainbow",
+		Default = false,
+		Callback = function(value)
+			rainbowActive = value
+			if rainbowActive then
+				rainbowConnection = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
+					hue = (hue + deltaTime * 0.1) % 1
+					local newColor = Color3.fromHSV(hue, 1, 1)
+					alphaColorPicker:SetColor(newColor)
+				end)
+			else
+				if rainbowConnection then
+					rainbowConnection:Disconnect()
+					rainbowConnection = nil
+				end
+			end
 		end,
 	})
 	
