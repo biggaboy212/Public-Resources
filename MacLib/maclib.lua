@@ -1,3 +1,8 @@
+--[[
+!! OUTDATED REPOSITORY !! Please use the new repository:
+https://github.com/biggaboy212/Maclib/tree/main
+]]
+
 local MacLib = {}
 
 --// Services
