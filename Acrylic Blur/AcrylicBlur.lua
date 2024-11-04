@@ -1,4 +1,4 @@
---// Modified by biggaboy212
+--// Not original source / Modified by biggaboy212
 --// Add under any frame to apply
 
 --// User Graphics quality must be greater than or equal to 8 (Depending on your system possibly 7)
