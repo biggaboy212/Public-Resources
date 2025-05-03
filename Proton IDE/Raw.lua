@@ -5191,7 +5191,8 @@ local function C_8()
 	--// Initialization
 	ChangeConnectionState(-3)
 
-	Gui.Parent = (RunService:IsStudio() and game.Players.LocalPlayer.PlayerGui) or game:GetService("CoreGui")
+	Gui.Parent = (RunService:IsStudio() and game.Players.LocalPlayer.PlayerGui) or (gethui and gethui()) or game:GetService("CoreGui")
+	Gui.OnTopOfCoreBlur = true
 	Gui.Enabled = false
 	WriteModule:WriteLine(ConsoleLines, "[SYSTEM] PRELOADING ASSETS")
 
